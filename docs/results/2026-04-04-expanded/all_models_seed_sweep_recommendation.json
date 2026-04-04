@@ -1,0 +1,38 @@
+[
+  {
+    "dataset": "houston_pooled_pairwise",
+    "model_family": "tabular",
+    "model_name": "hgbt",
+    "f1_mean": 0.8285714285714286,
+    "f1_std": 0.0,
+    "ece_mean": 0.022859754716981127,
+    "ece_std": 0.0,
+    "f1_tolerance": 0.01,
+    "candidate_count": 1,
+    "selection_rule": "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std"
+  },
+  {
+    "dataset": "nola_pooled_pairwise",
+    "model_family": "tabular",
+    "model_name": "hgbt",
+    "f1_mean": 0.6015037593984962,
+    "f1_std": 0.0,
+    "ece_mean": 0.023666900072939458,
+    "ece_std": 0.0,
+    "f1_tolerance": 0.01,
+    "candidate_count": 1,
+    "selection_rule": "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std"
+  },
+  {
+    "dataset": "seattle_pooled_pairwise",
+    "model_family": "tabular",
+    "model_name": "logreg",
+    "f1_mean": 0.8214285714285714,
+    "f1_std": 0.0,
+    "ece_mean": 0.04816747268408552,
+    "ece_std": 0.0,
+    "f1_tolerance": 0.01,
+    "candidate_count": 3,
+    "selection_rule": "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std"
+  }
+]

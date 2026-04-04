@@ -1,0 +1,4 @@
+candidate_count,dataset,ece_mean,ece_std,f1_mean,f1_std,f1_tolerance,model_family,model_name,selection_rule
+1,houston_pooled_pairwise,0.022859754716981127,0.0,0.8285714285714286,0.0,0.01,tabular,hgbt,max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std
+1,nola_pooled_pairwise,0.023666900072939458,0.0,0.6015037593984962,0.0,0.01,tabular,hgbt,max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std
+3,seattle_pooled_pairwise,0.04816747268408552,0.0,0.8214285714285714,0.0,0.01,tabular,logreg,max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std

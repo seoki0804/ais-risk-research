@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "output_root": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded",
+  "regions": [
+    "houston",
+    "nola",
+    "seattle"
+  ],
+  "seeds": [
+    41,
+    42,
+    43
+  ],
+  "include_regional_cnn": true,
+  "split_strategy": "own_ship",
+  "auto_adjust_split_for_support": true,
+  "min_positive_support": 10,
+  "recommendation_f1_tolerance": 0.01,
+  "run_count": 9,
+  "raw_row_count": 90,
+  "aggregate_row_count": 30,
+  "winner_row_count": 9,
+  "winner_summary_row_count": 5,
+  "recommendation_row_count": 3,
+  "run_manifest_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_run_manifest.json",
+  "raw_rows_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_raw_rows.csv",
+  "aggregate_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_aggregate.csv",
+  "winner_rows_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_winner_rows.csv",
+  "winner_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_winner_summary.csv",
+  "recommendation_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_recommendation.csv",
+  "recommendation_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_recommendation.json",
+  "recommendation_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_recommendation.md",
+  "summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_summary.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_summary.json"
+}
