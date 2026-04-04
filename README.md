@@ -323,6 +323,16 @@ examples/export_github_results_bundle_2026-04-04_expanded.sh
 examples/export_github_results_bundle_2026-04-04_expanded_10seed.sh
 ```
 
+10-seed 결과의 심사관 관점 품질 감사 리포트 생성:
+
+```bash
+examples/run_reviewer_quality_audit_2026-04-04_10seed.sh
+```
+
+산출물:
+- `docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.md`
+- `docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.json`
+
 확장 번들 매니페스트는 다음을 포함합니다.
 - 복사된 산출물 SHA256/파일크기
 - 입력 데이터 CSV SHA256

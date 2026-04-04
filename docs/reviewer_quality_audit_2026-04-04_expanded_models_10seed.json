@@ -1,0 +1,100 @@
+{
+  "status": "completed",
+  "recommendation_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv",
+  "aggregate_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv",
+  "winner_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_winner_summary.csv",
+  "out_of_time_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check.csv",
+  "transfer_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv",
+  "reliability_region_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv",
+  "taxonomy_region_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv",
+  "recommendation_count": 3,
+  "calibration_gate_enabled_for_all": true,
+  "calibration_gate_threshold": 0.1,
+  "oot_negative_regions": [
+    {
+      "region": "houston",
+      "model_name": "hgbt",
+      "delta_f1": -0.10129870129870133,
+      "delta_ece": 0.0011807038688774543
+    },
+    {
+      "region": "seattle",
+      "model_name": "extra_trees",
+      "delta_f1": -0.009936766034326916,
+      "delta_ece": 0.00879789717183508
+    }
+  ],
+  "transfer_negative_pairs": [
+    {
+      "source_region": "houston",
+      "target_region": "nola",
+      "model_name": "hgbt",
+      "delta_f1": -0.13834951456310685
+    },
+    {
+      "source_region": "houston",
+      "target_region": "seattle",
+      "model_name": "hgbt",
+      "delta_f1": -0.20069204152249132
+    },
+    {
+      "source_region": "seattle",
+      "target_region": "houston",
+      "model_name": "extra_trees",
+      "delta_f1": -0.030882352941176472
+    }
+  ],
+  "high_variance_candidates": [
+    {
+      "dataset": "houston_pooled_pairwise",
+      "model_name": "cnn_weighted_temp",
+      "f1_std": 0.032895745677278,
+      "ece_mean": 0.161975529009434
+    },
+    {
+      "dataset": "houston_pooled_pairwise",
+      "model_name": "cnn_focal",
+      "f1_std": 0.032801170394491146,
+      "ece_mean": 0.22046056249999998
+    },
+    {
+      "dataset": "houston_pooled_pairwise",
+      "model_name": "torch_mlp",
+      "f1_std": 0.040984701146504314,
+      "ece_mean": 0.1902213570754717
+    },
+    {
+      "dataset": "nola_pooled_pairwise",
+      "model_name": "cnn_weighted",
+      "f1_std": 0.0611341707078008,
+      "ece_mean": 0.11064500087527351
+    },
+    {
+      "dataset": "nola_pooled_pairwise",
+      "model_name": "torch_mlp",
+      "f1_std": 0.04749294236482505,
+      "ece_mean": 0.2015402146608315
+    }
+  ],
+  "positive_support_by_region": {
+    "houston": 400,
+    "nola": 500,
+    "seattle": 590
+  },
+  "fp_fn_by_region": {
+    "houston": {
+      "fp": 1,
+      "fn": 11
+    },
+    "nola": {
+      "fp": 43,
+      "fn": 10
+    },
+    "seattle": {
+      "fp": 5,
+      "fn": 15
+    }
+  },
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.json",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.md"
+}

@@ -1,5 +1,7 @@
 # Reviewer Quality Audit (Expanded Models, 2026-04-04)
 
+> Superseded by 10-seed audit: `docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.md`.
+
 ## Scope
 
 - Run set:
