@@ -333,6 +333,17 @@ examples/run_reviewer_quality_audit_2026-04-04_10seed.sh
 - `docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.md`
 - `docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.json`
 
+추천 모델과 최상위 대안 모델 간 통계 비교(bootstrap CI + paired sign-test):
+
+```bash
+examples/run_significance_report_2026-04-04_10seed.sh
+```
+
+산출물:
+- `docs/significance_report_2026-04-04_expanded_models_10seed.csv`
+- `docs/significance_report_2026-04-04_expanded_models_10seed.md`
+- `docs/significance_report_2026-04-04_expanded_models_10seed.json`
+
 확장 번들 매니페스트는 다음을 포함합니다.
 - 복사된 산출물 SHA256/파일크기
 - 입력 데이터 CSV SHA256
