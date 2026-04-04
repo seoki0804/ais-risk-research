@@ -1,0 +1,10 @@
+dataset,model_family,model_name,total_seeds,win_rate,wins
+houston_pooled_pairwise,regional_raster_cnn,cnn_focal_temp,10,0.1,1
+houston_pooled_pairwise,regional_raster_cnn,cnn_weighted,10,0.1,1
+houston_pooled_pairwise,regional_raster_cnn,cnn_weighted_temp,10,0.1,1
+houston_pooled_pairwise,tabular,hgbt,10,0.7,7
+nola_pooled_pairwise,regional_raster_cnn,cnn_weighted,10,0.1,1
+nola_pooled_pairwise,tabular,hgbt,10,0.9,9
+seattle_pooled_pairwise,regional_raster_cnn,cnn_focal,10,0.2,2
+seattle_pooled_pairwise,tabular,extra_trees,10,0.4,4
+seattle_pooled_pairwise,tabular,logreg,10,0.4,4

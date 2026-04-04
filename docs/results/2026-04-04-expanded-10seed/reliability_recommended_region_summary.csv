@@ -1,0 +1,4 @@
+region,dataset,model_name,seed_runs,sample_count,positive_rate,ece,brier_score,figure_path
+houston,houston_pooled_pairwise,hgbt,10,4240,0.09433962264150944,0.022859754716981193,0.023845302256353767,/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/houston_recommended_reliability.png
+nola,nola_pooled_pairwise,hgbt,10,13710,0.03646973012399708,0.023666900072939465,0.02622324953422479,/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/nola_recommended_reliability.png
+seattle,seattle_pooled_pairwise,extra_trees,10,4210,0.14014251781472684,0.028175486223278014,0.03674179397108565,/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/seattle_recommended_reliability.png

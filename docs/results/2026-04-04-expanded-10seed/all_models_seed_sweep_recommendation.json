@@ -1,0 +1,53 @@
+[
+  {
+    "dataset": "houston_pooled_pairwise",
+    "model_family": "tabular",
+    "model_name": "hgbt",
+    "f1_mean": 0.8285714285714286,
+    "f1_std": 0.0,
+    "ece_mean": 0.022859754716981127,
+    "ece_std": 0.0,
+    "f1_tolerance": 0.01,
+    "candidate_count": 3,
+    "ece_gate_enabled": true,
+    "ece_gate_max": 0.1,
+    "ece_gate_pass_count": 1,
+    "ece_gate_pass_total_count": 4,
+    "gate_status": "pass_within_f1_band",
+    "selection_rule": "ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std"
+  },
+  {
+    "dataset": "nola_pooled_pairwise",
+    "model_family": "tabular",
+    "model_name": "hgbt",
+    "f1_mean": 0.6015037593984962,
+    "f1_std": 0.0,
+    "ece_mean": 0.023666900072939458,
+    "ece_std": 0.0,
+    "f1_tolerance": 0.01,
+    "candidate_count": 1,
+    "ece_gate_enabled": true,
+    "ece_gate_max": 0.1,
+    "ece_gate_pass_count": 1,
+    "ece_gate_pass_total_count": 6,
+    "gate_status": "pass_within_f1_band",
+    "selection_rule": "ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std"
+  },
+  {
+    "dataset": "seattle_pooled_pairwise",
+    "model_family": "tabular",
+    "model_name": "extra_trees",
+    "f1_mean": 0.8173697467009166,
+    "f1_std": 0.026131429561191927,
+    "ece_mean": 0.030037007363420427,
+    "ece_std": 0.0017085635258633697,
+    "f1_tolerance": 0.01,
+    "candidate_count": 2,
+    "ece_gate_enabled": true,
+    "ece_gate_max": 0.1,
+    "ece_gate_pass_count": 2,
+    "ece_gate_pass_total_count": 4,
+    "gate_status": "pass_within_f1_band",
+    "selection_rule": "ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std"
+  }
+]

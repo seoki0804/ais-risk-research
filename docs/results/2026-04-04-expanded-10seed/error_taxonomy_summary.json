@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "seed": 42,
+  "region_count": 3,
+  "summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv",
+  "taxonomy_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_details.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_summary.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_summary.json"
+}

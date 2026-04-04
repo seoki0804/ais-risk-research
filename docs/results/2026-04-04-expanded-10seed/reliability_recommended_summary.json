@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "region_count": 3,
+  "num_bins": 10,
+  "region_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv",
+  "region_bins_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_bins.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_summary.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_summary.json"
+}

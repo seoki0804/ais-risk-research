@@ -253,6 +253,12 @@ PYTHONPATH=src python -m ais_risk.all_models_seed_sweep_cli \
 examples/run_all_models_seed_sweep_10seed_2026-04-04.sh
 ```
 
+10-seed 추천을 기준으로 out-of-time/transfer/reliability/taxonomy를 한 번에 갱신하려면:
+
+```bash
+examples/run_external_validity_checks_2026-04-04_10seed.sh
+```
+
 추천 모델의 out-of-time(timestamp split) 점검:
 
 ```bash
@@ -309,6 +315,12 @@ examples/export_github_results_bundle_2026-04-04.sh
 
 ```bash
 examples/export_github_results_bundle_2026-04-04_expanded.sh
+```
+
+10-seed 기준 최종 번들은:
+
+```bash
+examples/export_github_results_bundle_2026-04-04_expanded_10seed.sh
 ```
 
 확장 번들 매니페스트는 다음을 포함합니다.

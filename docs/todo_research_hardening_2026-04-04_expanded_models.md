@@ -10,7 +10,7 @@
   - cross-region transfer recommendation check
   - support-aware split auto-adjust
 - Remaining:
-  - 10-seed full sweep 실행 및 최종 수치 교체
+  - none (core hardening track completed)
 
 ## Action Items
 
@@ -47,12 +47,12 @@
    - Task:
      - increase seed count from `3` to `>=10` for final submission numbers.
      - export confidence intervals from aggregate table.
-   - Status: `PARTIAL`
+   - Status: `DONE`
    - Progress:
      - aggregate now includes `CI95` columns (`f1_ci95`, `auroc_ci95`, `ece_ci95`, `brier_ci95`).
      - 10-seed runner added: `examples/run_all_models_seed_sweep_10seed_2026-04-04.sh`.
-   - Remaining:
-     - execute 10-seed full run and replace current 3-seed submission numbers.
+     - 10-seed run completed: `outputs/2026-04-04_all_models_seed_sweep_10seed`.
+     - external-validity 10-seed package completed: `docs/results/2026-04-04-expanded-10seed`.
 
 5. `P2` Publish reliability diagrams for final candidates.
    - Why: calibration quality is central to risk-map trust.

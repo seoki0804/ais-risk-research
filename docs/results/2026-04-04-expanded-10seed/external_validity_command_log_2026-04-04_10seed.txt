@@ -1,0 +1,29 @@
+=== out_of_time_eval_cli ===
+timestamp_utc=2026-04-04T21:26:00Z
+command=env PYTHONPATH=src python -m ais_risk.out_of_time_eval_cli --input-dir /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --baseline-leaderboard-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded/all_models_multiarea_leaderboard.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check_summary.json
+results_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check.csv
+results_md=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check.md
+=== transfer_recommendation_eval_cli ===
+timestamp_utc=2026-04-04T21:26:19Z
+command=env PYTHONPATH=src python -m ais_risk.transfer_recommendation_eval_cli --input-dir /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check_summary.json
+results_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv
+results_md=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.md
+=== reliability_report_cli ===
+timestamp_utc=2026-04-04T21:26:30Z
+command=env PYTHONPATH=src python -m ais_risk.reliability_report_cli --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --run-manifest-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_run_manifest.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_summary.md
+region_summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv
+region_bins_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_bins.csv
+=== error_taxonomy_report_cli ===
+timestamp_utc=2026-04-04T21:26:37Z
+command=env PYTHONPATH=src python -m ais_risk.error_taxonomy_report_cli --input-dir /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix --regions houston\,nola\,seattle --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --run-manifest-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_run_manifest.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed --seed 42 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_summary.md
+summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv
+taxonomy_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_details.csv
+=== export_github_results_bundle_2026-04-04_expanded_10seed.sh ===
+timestamp_utc=2026-04-04T21:26:42Z
+command=env COMMAND_LOG_PATH=/Users/seoki/Desktop/research/outputs/2026-04-04_external_validity_command_log_10seed.txt INPUT_DATA_DIR=/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix bash examples/export_github_results_bundle_2026-04-04_expanded_10seed.sh 

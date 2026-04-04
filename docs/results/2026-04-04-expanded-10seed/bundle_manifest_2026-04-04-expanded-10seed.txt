@@ -1,0 +1,46 @@
+bundle_date=2026-04-04-expanded-10seed
+generated_at_utc=2026-04-04T21:26:46Z
+bundle_dir=/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed
+git_available=True
+git_commit=b917e84a49dc983559cef0e3ee201745815bad71
+git_dirty=True
+source_dirs=
+  - multiarea=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded | exists=True
+  - out_of_time=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed | exists=True
+  - reliability=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed | exists=True
+  - seed_sweep=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed | exists=True
+  - taxonomy=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed | exists=True
+  - transfer=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed | exists=True
+input_files=
+  - /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv | sha256=af8c59b513925ee1f7e55369fb6f7674379470b83a181adf8d1fbe2d4027b89f | bytes=815
+  - /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_run_manifest.csv | sha256=a047155e94086ec1969f2597b6ac8316ddc2d84541935b2f300630578870b50f | bytes=13129
+  - /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/houston_pooled_pairwise.csv | sha256=547f6204753b3d06613a72a54789134f6d6bd429941aee1a78dd534354f3dd2a | bytes=590355
+  - /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/nola_pooled_pairwise.csv | sha256=4532813ca4b17e4b38100c6db9c2cce39bdb6a2235a476e556d104e279c38d0d | bytes=819908
+  - /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/seattle_pooled_pairwise.csv | sha256=e903ec523bc7b66957749c2d9aa780006770a3305c1ef17535666982aea6f10f | bytes=422268
+command_logs=
+  - /Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_command_log_2026-04-04_10seed.txt | sha256=34f93e5e150cf02ca9d1ba6e26f44ecf2a3052d2ba13f7e32e1c3097f5f7191a | bytes=4348
+copied_files=
+  - all_models_multiarea_leaderboard.csv | sha256=917b7bae505c89aa61fdb7fb02aec4ac5c3d9d8e5b5ec30e784f0c25ad00968a | bytes=16959
+  - all_models_multiarea_leaderboard.md | sha256=690c71e8fa39b9bc5e8e3cc1b828149550fd3839f7340d3bfe152f36bc0757f3 | bytes=3507
+  - all_models_seed_sweep_summary.md | sha256=6940da1912beb32d2ac4f4ed66975cd550fa6a88824be088ba32f089bfaad159 | bytes=7510
+  - all_models_seed_sweep_summary.json | sha256=4ea9e0525ebe8e58e40fb839b35eb68dcf8252ac648d74abef6547dc0d3afa44 | bytes=2111
+  - all_models_seed_sweep_aggregate.csv | sha256=a2221edb6641ac940d1e4bdd5b24afac1907ae8f622272911a09132caecbe67b | bytes=9831
+  - all_models_seed_sweep_winner_summary.csv | sha256=dbc45212fc369444a2318a02a78b1d9ba57c893d1c7e75a781bacdcee154eb3c | bytes=589
+  - all_models_seed_sweep_recommendation.csv | sha256=af8c59b513925ee1f7e55369fb6f7674379470b83a181adf8d1fbe2d4027b89f | bytes=815
+  - all_models_seed_sweep_recommendation.json | sha256=0ab1ea1ec08e849d8708bc70563d88e0103b16e8a33bd70c464cf579f42b6bfa | bytes=1619
+  - all_models_seed_sweep_recommendation.md | sha256=dce3182ac7f81670b45269bcf2597377c3e68f67087e27491084b92c4e7e19d4 | bytes=485
+  - out_of_time_recommendation_check.csv | sha256=60aa1ac0d427af5b0130e4bc91d825ca32aed6a010ca8d544e1df65bcc4c2986 | bytes=1949
+  - out_of_time_recommendation_check.md | sha256=394981c9de6bdf351da6b11178632f914fb671d99bf9376dade99d64dbae52fa | bytes=1484
+  - transfer_recommendation_check.csv | sha256=d120dc565eebd76acc5b08e2a5d68d99d143efef6d4e9e5452e17cba51e6d551 | bytes=3964
+  - transfer_recommendation_check.md | sha256=ffde0179b51d9deaa140a95df5088227b4088bdc7898769644b0ab6ce0df72ed | bytes=1505
+  - reliability_recommended_region_summary.csv | sha256=cca50043316fd8944a4c4fcc60fe48dcc1883224182af387937d3d6bdeac400f | bytes=746
+  - reliability_recommended_bins.csv | sha256=5bc3aabc80e5fd76b46d47f196c2e0b4dce260c2e810dbe961ef1c9ef11f9ab0 | bytes=3086
+  - reliability_recommended_summary.md | sha256=487d5b1c4a6dcbf73d02feba498cb0df63149563a6a0c14fc285ccba3e8d89ed | bytes=1643
+  - reliability_recommended_summary.json | sha256=3a4d1a6be3c003036a27df21b690d8cfbaedf2986eb97a67660ad7bf1068f98b | bytes=625
+  - houston_recommended_reliability.png | sha256=ead1598f2d12faf6f4dbdc94b5e7a9b316b6816b46be0ee2026a2461c7a8de1e | bytes=80173
+  - nola_recommended_reliability.png | sha256=328c1f9ce8ea73f6d7edbe1e17fe9cba244248aa20e87784b3ad0626f3e51298 | bytes=89088
+  - seattle_recommended_reliability.png | sha256=81574520ccde4d60df5056c82286c3a174442040f064fdb8da57d42b9ba5652b | bytes=87836
+  - error_taxonomy_region_summary.csv | sha256=cc914c90d596c3d5cb274ecc3df6b64573584dd4995a09e0be5552fbcadf704d | bytes=881
+  - error_taxonomy_details.csv | sha256=da3c787d4b31bbb1da1a950306219528d670b63126f3472690a42f1a6e7d6a68 | bytes=6504
+  - error_taxonomy_summary.md | sha256=35c1444a3db6448c6fa629b3afac018a55d45e26898560c22734c0a8ab87706b | bytes=2695
+  - error_taxonomy_summary.json | sha256=d2463b52c49bdbd4718a79ebb7fcf796b9d119e28adfc46b5b41501f8b8e077b | bytes=562

@@ -1,13 +1,11 @@
-# Results Bundle (2026-04-04 Expanded Models)
+# Results Bundle (2026-04-04 Expanded Models, 10-Seed)
 
-> Note: this bundle is the 3-seed version. The final submission-grade update is in `docs/results/2026-04-04-expanded-10seed`.
-
-This bundle captures the expanded all-model run that adds `random_forest` and `extra_trees` to the tabular family and re-runs:
+This bundle captures the 10-seed expanded all-model run and its downstream checks:
 
 - Multi-area leaderboard (`Houston/NOLA/Seattle`, own-ship split, support-aware auto-adjust)
-- Seed sweep aggregation (`seeds=41,42,43`)
+- Seed sweep aggregation (`seeds=41..50`)
   - includes mean/std and CI95 columns in aggregate table
-- Recommendation outputs with F1-tolerance + ECE tie-break rule
+- Recommendation outputs with F1-tolerance + ECE hard-gate rule (`ECE<=0.10`)
 - Out-of-time(timestamp split) check for the final recommended model per region
 - Cross-region transfer check for source-region recommended models
 - Reliability diagrams and bin tables for final recommended models
@@ -32,23 +30,22 @@ This bundle captures the expanded all-model run that adds `random_forest` and `e
 - `error_taxonomy_region_summary.csv`
 - `error_taxonomy_details.csv`
 - `error_taxonomy_summary.md/.json`
-- `external_validity_command_log_2026-04-04.txt`
-- `bundle_manifest_2026-04-04-expanded.txt`
-- `bundle_manifest_2026-04-04-expanded.json`
+- `external_validity_command_log_2026-04-04_10seed.txt`
+- `bundle_manifest_2026-04-04-expanded-10seed.txt`
+- `bundle_manifest_2026-04-04-expanded-10seed.json`
 
 ## Quick Takeaway
 
-- Recommended per region remains:
+- Recommended per region (10-seed):
   - Houston: `hgbt`
   - NOLA: `hgbt`
-  - Seattle: `logreg`
-- Added tree ensembles improve some regional scores but do not change the final recommendation under the current calibration-aware rule.
-- Out-of-time check shows mixed drift:
-  - Houston/Seattle F1 decrease
-  - NOLA F1 increase
-  - Seattle ECE increase to `0.0858` (still below gate `0.10`)
-- Cross-region transfer check confirms substantial domain shift in 일부 방향(음수 ΔF1), therefore region-aware 운영이 여전히 필요.
-- Reliability summary (`seed=41,42,43` aggregate):
+  - Seattle: `extra_trees`
+- Compared to 3-seed recommendation, Seattle changed `logreg -> extra_trees`.
+- Out-of-time check:
+  - Houston: F1 decrease (`-0.1013`)
+  - NOLA: F1 increase (`+0.2318`)
+  - Seattle(extra_trees): small F1 decrease (`-0.0099`) and ECE increase (`+0.0088`, still below `0.10`)
+- Reliability summary:
   - Houston(hgbt) ECE `0.0229`
   - NOLA(hgbt) ECE `0.0237`
-  - Seattle(logreg) ECE `0.0482`
+  - Seattle(extra_trees) ECE `0.0282`
