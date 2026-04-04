@@ -1,0 +1,234 @@
+{
+  "bundle_date": "2026-04-04-expanded",
+  "generated_at_utc": "2026-04-04T21:09:00Z",
+  "bundle_dir": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded",
+  "git": {
+    "available": true,
+    "commit": "a3983a7415e15bb4338e9fb5107ea3d2a25f1aa8",
+    "dirty": true
+  },
+  "source_dirs": [
+    {
+      "label": "multiarea",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded",
+      "exists": true
+    },
+    {
+      "label": "out_of_time",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check",
+      "exists": true
+    },
+    {
+      "label": "reliability",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report",
+      "exists": true
+    },
+    {
+      "label": "seed_sweep",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded",
+      "exists": true
+    },
+    {
+      "label": "taxonomy",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy",
+      "exists": true
+    },
+    {
+      "label": "transfer",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check",
+      "exists": true
+    }
+  ],
+  "input_files": [
+    {
+      "label": "all_models_seed_sweep_recommendation.csv",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_recommendation.csv",
+      "exists": true,
+      "bytes": 774,
+      "sha256": "59b275ae96ebd6fb85451afe91049637a1a59073d1d5052d565c92ff3e96bc5b"
+    },
+    {
+      "label": "all_models_seed_sweep_run_manifest.csv",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_run_manifest.csv",
+      "exists": true,
+      "bytes": 4072,
+      "sha256": "6ff075818d75eb9cb68bdea62a253cf06e6acb981df6da6f9e69dd7690acd1c2"
+    },
+    {
+      "label": "houston_pooled_pairwise.csv",
+      "path": "/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/houston_pooled_pairwise.csv",
+      "exists": true,
+      "bytes": 590355,
+      "sha256": "547f6204753b3d06613a72a54789134f6d6bd429941aee1a78dd534354f3dd2a"
+    },
+    {
+      "label": "nola_pooled_pairwise.csv",
+      "path": "/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/nola_pooled_pairwise.csv",
+      "exists": true,
+      "bytes": 819908,
+      "sha256": "4532813ca4b17e4b38100c6db9c2cce39bdb6a2235a476e556d104e279c38d0d"
+    },
+    {
+      "label": "seattle_pooled_pairwise.csv",
+      "path": "/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/seattle_pooled_pairwise.csv",
+      "exists": true,
+      "bytes": 422268,
+      "sha256": "e903ec523bc7b66957749c2d9aa780006770a3305c1ef17535666982aea6f10f"
+    }
+  ],
+  "command_logs": [
+    {
+      "label": "external_validity_command_log_2026-04-04.txt",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/external_validity_command_log_2026-04-04.txt",
+      "exists": true,
+      "bytes": 4213,
+      "sha256": "fa7cb926dd4176d7ac1ef154efdba767196f0731923f751b17b09ad1797fe4d4"
+    }
+  ],
+  "copied_files": [
+    {
+      "name": "all_models_multiarea_leaderboard.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_multiarea_leaderboard.csv",
+      "bytes": 16959,
+      "sha256": "917b7bae505c89aa61fdb7fb02aec4ac5c3d9d8e5b5ec30e784f0c25ad00968a"
+    },
+    {
+      "name": "all_models_multiarea_leaderboard.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_multiarea_leaderboard.md",
+      "bytes": 3507,
+      "sha256": "690c71e8fa39b9bc5e8e3cc1b828149550fd3839f7340d3bfe152f36bc0757f3"
+    },
+    {
+      "name": "all_models_seed_sweep_summary.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_seed_sweep_summary.md",
+      "bytes": 7141,
+      "sha256": "d345370983c31faa3b6e99df074711521ae8d795be97d745be4376386f99e0ad"
+    },
+    {
+      "name": "all_models_seed_sweep_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_seed_sweep_summary.json",
+      "bytes": 2074,
+      "sha256": "bebf51ea5aa08794e6d47670ce3784907e518422bd4fc879c7fb3f69b04087b8"
+    },
+    {
+      "name": "all_models_seed_sweep_aggregate.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_seed_sweep_aggregate.csv",
+      "bytes": 9835,
+      "sha256": "69ae4aef5d228b50ef887ae082ec476c31bddf39e1a38f9e3f1738022a3de777"
+    },
+    {
+      "name": "all_models_seed_sweep_winner_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_seed_sweep_winner_summary.csv",
+      "bytes": 387,
+      "sha256": "8997b452f93f2ac31563daaa79e2b788018c41f34bb898663cb61e951756e922"
+    },
+    {
+      "name": "all_models_seed_sweep_recommendation.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_seed_sweep_recommendation.csv",
+      "bytes": 774,
+      "sha256": "59b275ae96ebd6fb85451afe91049637a1a59073d1d5052d565c92ff3e96bc5b"
+    },
+    {
+      "name": "all_models_seed_sweep_recommendation.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_seed_sweep_recommendation.json",
+      "bytes": 1578,
+      "sha256": "2301e0b405f5246eb23c13ba98cf48bdd540ce13d2b62bce401306e2e8454c03"
+    },
+    {
+      "name": "all_models_seed_sweep_recommendation.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/all_models_seed_sweep_recommendation.md",
+      "bytes": 480,
+      "sha256": "263aae4c11190f998b7bc52908846c8644a9522d9a557440a2614cb8dbf6aa37"
+    },
+    {
+      "name": "out_of_time_recommendation_check.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/out_of_time_recommendation_check.csv",
+      "bytes": 1902,
+      "sha256": "05b4f80fdc693ed0acabb3299e3422d1b097181b25085d088c877e67964fbc47"
+    },
+    {
+      "name": "out_of_time_recommendation_check.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/out_of_time_recommendation_check.md",
+      "bytes": 1460,
+      "sha256": "90c1e8a1231bbecbc2063ba2b7a33e97ce4ae4482b3c966595be263dd175c078"
+    },
+    {
+      "name": "transfer_recommendation_check.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/transfer_recommendation_check.csv",
+      "bytes": 3824,
+      "sha256": "55b47c02369c2c2103d50bba4206d363e8d2b4d20593e4dc9c12e1a6ddfc001c"
+    },
+    {
+      "name": "transfer_recommendation_check.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/transfer_recommendation_check.md",
+      "bytes": 1478,
+      "sha256": "0d020f0a18054541bdee2b0a9c7addea9dca0eee5742bb5d0986a7d658d3724a"
+    },
+    {
+      "name": "reliability_recommended_region_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/reliability_recommended_region_summary.csv",
+      "bytes": 716,
+      "sha256": "fc42ffae2f99b4c0725a8557dbda92497c2d26464f3622976dfc926a88d14894"
+    },
+    {
+      "name": "reliability_recommended_bins.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/reliability_recommended_bins.csv",
+      "bytes": 2814,
+      "sha256": "844e9cf4477dc258584d6cde1aceaf2d4f4602fb4828dbeffc188a4f7ed69de5"
+    },
+    {
+      "name": "reliability_recommended_summary.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/reliability_recommended_summary.md",
+      "bytes": 1589,
+      "sha256": "af908cf4a16bff8ec97cb04292779d834d13a0524f97ab7f5ace835a6fc494e1"
+    },
+    {
+      "name": "reliability_recommended_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/reliability_recommended_summary.json",
+      "bytes": 597,
+      "sha256": "4b53d6e75e4e11d52d4657041f5b53fcafe0b165d83e54761ae481ac29e2fa8e"
+    },
+    {
+      "name": "houston_recommended_reliability.png",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/houston_recommended_reliability.png",
+      "bytes": 76284,
+      "sha256": "5442f24045b91d76bbb995f72bdd3301bd985d1b5383d33aae0e189d8c6a5466"
+    },
+    {
+      "name": "nola_recommended_reliability.png",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/nola_recommended_reliability.png",
+      "bytes": 80969,
+      "sha256": "cb3c3e9fe322df5f60cf0d50620f1190d16672f10abb14e2d096e4e4e7150518"
+    },
+    {
+      "name": "seattle_recommended_reliability.png",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/seattle_recommended_reliability.png",
+      "bytes": 76271,
+      "sha256": "48b5b6116fd577478e9eb58cb0e07e8d383bf3fbad17b2c1731223e995756a13"
+    },
+    {
+      "name": "error_taxonomy_region_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/error_taxonomy_region_summary.csv",
+      "bytes": 883,
+      "sha256": "f32e7b026695d9e8551059cd078aa471b8f286c9ed36cabfeee571e5c486b5dd"
+    },
+    {
+      "name": "error_taxonomy_details.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/error_taxonomy_details.csv",
+      "bytes": 6672,
+      "sha256": "a4293d2a0297425493dd6c5c7e9e5d9732425d477716b6556b960590201fd237"
+    },
+    {
+      "name": "error_taxonomy_summary.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/error_taxonomy_summary.md",
+      "bytes": 2668,
+      "sha256": "0bd3c312ee1d215e88b445a1144bf211f54bcac52b861cd66ff260f97f1bff4f"
+    },
+    {
+      "name": "error_taxonomy_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded/error_taxonomy_summary.json",
+      "bytes": 534,
+      "sha256": "5facf3291cea93960ac62b5ec7ea604b68d654cb3aff648577d5dceff5388ffc"
+    }
+  ]
+}

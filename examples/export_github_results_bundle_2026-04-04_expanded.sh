@@ -3,12 +3,16 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DEST_DIR="${DEST_DIR:-${ROOT}/docs/results/2026-04-04-expanded}"
+INPUT_DATA_DIR="${INPUT_DATA_DIR:-${ROOT}/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix}"
+COMMAND_LOG_PATH="${COMMAND_LOG_PATH:-}"
+MANIFEST_DATE_TAG="2026-04-04-expanded"
 
 MULTI_DIR="${ROOT}/outputs/2026-04-04_all_models_multiarea_expanded"
 SWEEP_DIR="${ROOT}/outputs/2026-04-04_all_models_seed_sweep_expanded"
 OOT_DIR="${ROOT}/outputs/2026-04-04_out_of_time_check"
 TRANSFER_DIR="${ROOT}/outputs/2026-04-04_transfer_check"
 RELIABILITY_DIR="${ROOT}/outputs/2026-04-04_reliability_report"
+TAXONOMY_DIR="${ROOT}/outputs/2026-04-04_error_taxonomy"
 
 mkdir -p "${DEST_DIR}"
 
@@ -33,6 +37,10 @@ required_files=(
   "${RELIABILITY_DIR}/houston_recommended_reliability.png"
   "${RELIABILITY_DIR}/nola_recommended_reliability.png"
   "${RELIABILITY_DIR}/seattle_recommended_reliability.png"
+  "${TAXONOMY_DIR}/error_taxonomy_region_summary.csv"
+  "${TAXONOMY_DIR}/error_taxonomy_details.csv"
+  "${TAXONOMY_DIR}/error_taxonomy_summary.md"
+  "${TAXONOMY_DIR}/error_taxonomy_summary.json"
 )
 
 for file_path in "${required_files[@]}"; do
@@ -46,19 +54,63 @@ for file_path in "${required_files[@]}"; do
   cp "${file_path}" "${DEST_DIR}/"
 done
 
-MANIFEST_PATH="${DEST_DIR}/bundle_manifest_2026-04-04-expanded.txt"
-{
-  echo "bundle_date=2026-04-04-expanded"
-  echo "source_multiarea_dir=${MULTI_DIR}"
-  echo "source_seed_sweep_dir=${SWEEP_DIR}"
-  echo "source_out_of_time_dir=${OOT_DIR}"
-  echo "source_transfer_dir=${TRANSFER_DIR}"
-  echo "source_reliability_dir=${RELIABILITY_DIR}"
-  echo "copied_files="
-  for file_path in "${required_files[@]}"; do
-    echo "  - $(basename "${file_path}")"
-  done
-} > "${MANIFEST_PATH}"
+command_logs_for_manifest=()
+if [[ -n "${COMMAND_LOG_PATH}" ]]; then
+  if [[ ! -f "${COMMAND_LOG_PATH}" ]]; then
+    echo "missing command log file: ${COMMAND_LOG_PATH}" >&2
+    exit 1
+  fi
+  command_log_bundle_name="external_validity_command_log_2026-04-04.txt"
+  cp "${COMMAND_LOG_PATH}" "${DEST_DIR}/${command_log_bundle_name}"
+  command_logs_for_manifest+=("${DEST_DIR}/${command_log_bundle_name}")
+fi
+
+input_files=(
+  "${SWEEP_DIR}/all_models_seed_sweep_recommendation.csv"
+  "${SWEEP_DIR}/all_models_seed_sweep_run_manifest.csv"
+  "${INPUT_DATA_DIR}/houston_pooled_pairwise.csv"
+  "${INPUT_DATA_DIR}/nola_pooled_pairwise.csv"
+  "${INPUT_DATA_DIR}/seattle_pooled_pairwise.csv"
+)
+
+for file_path in "${input_files[@]}"; do
+  if [[ ! -f "${file_path}" ]]; then
+    echo "missing reproducibility input file: ${file_path}" >&2
+    exit 1
+  fi
+done
+
+manifest_args=(
+  --bundle-date "${MANIFEST_DATE_TAG}"
+  --bundle-dir "${DEST_DIR}"
+  --source-dir "multiarea=${MULTI_DIR}"
+  --source-dir "seed_sweep=${SWEEP_DIR}"
+  --source-dir "out_of_time=${OOT_DIR}"
+  --source-dir "transfer=${TRANSFER_DIR}"
+  --source-dir "reliability=${RELIABILITY_DIR}"
+  --source-dir "taxonomy=${TAXONOMY_DIR}"
+  --manifest-txt "${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.txt"
+  --manifest-json "${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.json"
+)
+
+for file_path in "${required_files[@]}"; do
+  manifest_args+=(--copied-file "$(basename "${file_path}")")
+done
+for file_path in "${input_files[@]}"; do
+  manifest_args+=(--input-file "${file_path}")
+done
+for file_path in "${command_logs_for_manifest[@]}"; do
+  manifest_args+=(--command-log "${file_path}")
+done
+
+(
+  cd "${ROOT}"
+  PYTHONPATH=src python -m ais_risk.bundle_manifest_cli "${manifest_args[@]}"
+)
+
+MANIFEST_PATH="${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.txt"
+MANIFEST_JSON_PATH="${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.json"
 
 echo "exported_dir=${DEST_DIR}"
 echo "manifest=${MANIFEST_PATH}"
+echo "manifest_json=${MANIFEST_JSON_PATH}"

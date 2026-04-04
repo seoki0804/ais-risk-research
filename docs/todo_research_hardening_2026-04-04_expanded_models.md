@@ -10,9 +10,7 @@
   - cross-region transfer recommendation check
   - support-aware split auto-adjust
 - Remaining:
-  - reviewer-grade uncertainty and failure analysis packaging
-  - reliability diagrams / error taxonomy
-  - publication packet automation hardening
+  - 10-seed full sweep 실행 및 최종 수치 교체
 
 ## Action Items
 
@@ -59,30 +57,38 @@
 5. `P2` Publish reliability diagrams for final candidates.
    - Why: calibration quality is central to risk-map trust.
    - Task:
-     - generate reliability plots for chosen model per region.
-     - include pre/post temperature scaling curves when applicable.
-   - Done when:
-     - figure set contains region-wise reliability diagrams and ECE values.
+   - generate reliability plots for chosen model per region.
+   - include pre/post temperature scaling curves when applicable.
+   - Status: `DONE`
+   - Evidence:
+     - `reliability_recommended_region_summary.csv`
+     - `reliability_recommended_bins.csv`
+     - `houston_recommended_reliability.png`
+     - `nola_recommended_reliability.png`
+     - `seattle_recommended_reliability.png`
+     - `reliability_recommended_summary.md/.json`
 
 6. `P2` Build error taxonomy appendix.
    - Why: qualitative failure interpretation is required for strong rebuttal readiness.
    - Task:
-     - stratify FP/FN by encounter type, vessel type, distance/tcpa buckets.
-     - extract representative failure cases with row-level traces.
-   - Done when:
-     - appendix table has recurring failure classes and mitigation notes.
+   - stratify FP/FN by encounter type, vessel type, distance/tcpa buckets.
+   - extract representative failure cases with row-level traces.
+   - Status: `DONE`
+   - Evidence:
+     - `error_taxonomy_region_summary.csv`
+     - `error_taxonomy_details.csv`
+     - `error_taxonomy_summary.md/.json`
 
 7. `P3` Standardize publication packet generation.
    - Why: reproducibility and traceability for GitHub + manuscript sync.
    - Task:
      - add one script that creates final `docs/results/<date>` bundle from latest run root.
      - include manifest with input hashes and command logs.
-   - Status: `PARTIAL`
+   - Status: `DONE`
    - Progress:
-     - bundle export script includes seed-sweep + OOT + transfer artifacts.
+     - bundle export script includes seed-sweep + OOT + transfer + reliability + taxonomy artifacts.
      - one-shot external validity runner exists.
-   - Remaining:
-     - add input hash / command provenance to manifest for strict reproducibility audits.
+     - manifest now includes copied-file SHA256, input-data SHA256, command-log SHA256, and git commit/dirty state.
 
 ## Suggested Execution Order
 

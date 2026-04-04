@@ -9,6 +9,8 @@ This bundle captures the expanded all-model run that adds `random_forest` and `e
 - Out-of-time(timestamp split) check for the final recommended model per region
 - Cross-region transfer check for source-region recommended models
 - Reliability diagrams and bin tables for final recommended models
+- FP/FN error taxonomy summary/detail for final recommended models
+- Reproducibility manifest with SHA256/input-hash/command-log provenance
 
 ## Key Files
 
@@ -25,7 +27,12 @@ This bundle captures the expanded all-model run that adds `random_forest` and `e
 - `houston_recommended_reliability.png`
 - `nola_recommended_reliability.png`
 - `seattle_recommended_reliability.png`
+- `error_taxonomy_region_summary.csv`
+- `error_taxonomy_details.csv`
+- `error_taxonomy_summary.md/.json`
+- `external_validity_command_log_2026-04-04.txt`
 - `bundle_manifest_2026-04-04-expanded.txt`
+- `bundle_manifest_2026-04-04-expanded.json`
 
 ## Quick Takeaway
 

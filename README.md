@@ -281,13 +281,22 @@ out-of-time + transfer + 번들 갱신을 한 번에 실행:
 examples/run_external_validity_checks_2026-04-04.sh
 ```
 
-위 스크립트는 reliability report까지 함께 생성/번들링합니다.
+위 스크립트는 reliability/taxonomy report까지 함께 생성/번들링하며,
+`outputs/2026-04-04_external_validity_command_log.txt`에 실행 커맨드 로그를 남깁니다.
 
 추천 모델 리라이어빌리티 다이어그램 생성:
 
 ```bash
 PYTHONPATH=src python -m ais_risk.reliability_report_cli \
   --output-root outputs/2026-04-04_reliability_report
+```
+
+추천 모델 FP/FN taxonomy 리포트 생성:
+
+```bash
+PYTHONPATH=src python -m ais_risk.error_taxonomy_report_cli \
+  --output-root outputs/2026-04-04_error_taxonomy \
+  --seed 42
 ```
 
 GitHub 업로드용 경량 결과 번들 추출:
@@ -301,6 +310,12 @@ examples/export_github_results_bundle_2026-04-04.sh
 ```bash
 examples/export_github_results_bundle_2026-04-04_expanded.sh
 ```
+
+확장 번들 매니페스트는 다음을 포함합니다.
+- 복사된 산출물 SHA256/파일크기
+- 입력 데이터 CSV SHA256
+- 실행 커맨드 로그 SHA256(`external_validity_command_log_2026-04-04.txt`)
+- git commit/dirty 상태
 
 ## 저장소 구조
 

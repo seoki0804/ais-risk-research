@@ -1,0 +1,4 @@
+region,dataset,model_name,seed,sample_count,positive_count,negative_count,tp,fp,tn,fn,fp_rate,fn_rate,predictions_csv_path
+houston,houston_pooled_pairwise,hgbt,42,424,40,384,29,1,383,11,0.0026041666666666665,0.275,/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/houston/seed_42/houston_pooled_pairwise_tabular_all_models_test_predictions.csv
+nola,nola_pooled_pairwise,hgbt,42,1371,50,1321,40,43,1278,10,0.03255109765329296,0.2,/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/nola/seed_42/nola_pooled_pairwise_tabular_all_models_test_predictions.csv
+seattle,seattle_pooled_pairwise,logreg,42,421,59,362,46,7,355,13,0.019337016574585635,0.22033898305084745,/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded/seattle/seed_42/seattle_pooled_pairwise_tabular_all_models_test_predictions.csv
