@@ -1,13 +1,23 @@
 {
   "bundle_date": "2026-04-04-expanded-10seed",
-  "generated_at_utc": "2026-04-04T21:59:00Z",
+  "generated_at_utc": "2026-04-04T22:08:22Z",
   "bundle_dir": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed",
   "git": {
     "available": true,
-    "commit": "e3716db6832eda9c6de1cc9384f86dc03aa28c45",
+    "commit": "8f646f198ac990f7a5432c9fe46b4b95f3464cf6",
     "dirty": true
   },
   "source_dirs": [
+    {
+      "label": "la_lb_2024_pool",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled",
+      "exists": true
+    },
+    {
+      "label": "la_lb_transfer",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer",
+      "exists": true
+    },
     {
       "label": "multiarea",
       "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded",
@@ -86,8 +96,8 @@
       "label": "external_validity_command_log_2026-04-04_10seed.txt",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_command_log_2026-04-04_10seed.txt",
       "exists": true,
-      "bytes": 5137,
-      "sha256": "1b3af39505f6b6d9f342b96e105fae3153834cc9c9030600e4b1434dbeb25a7d"
+      "bytes": 9269,
+      "sha256": "5849d4603f64ee4d7728913d185032070e3eb3d7145f10d32c02fbcdcaa8378f"
     }
   ],
   "copied_files": [
@@ -238,26 +248,44 @@
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md",
-      "bytes": 3166,
-      "sha256": "9ed35495aa3bab82c148b689d49643c0ec142883d6bed87a586bbfbc89ec6f0c"
+      "bytes": 4044,
+      "sha256": "ea0aef56d2804bb70009d0bbdb946ffa638db1bc21a0a540e51bd1c19430ad1f"
     },
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json",
-      "bytes": 2739,
-      "sha256": "abf112c58bd2784a4fcd32d2e42b8da7c4b74b65b2dfdbe9dd50e5c7b5e28cbb"
+      "bytes": 3310,
+      "sha256": "7a304d80b6cd9d431d04ef9d173da125848d456c514a30af3c299298bfbf9ad6"
     },
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv",
-      "bytes": 5114,
-      "sha256": "9412ed32026e1da712dc00ed262887ac36ea40b2472023f558584f561dd5ee34"
+      "bytes": 7277,
+      "sha256": "5c085d26babffc7fbfcc581418d25e8b7335f78ab0252dc3483a43e148f7d699"
     },
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
-      "bytes": 778,
-      "sha256": "1a6ba8897fbcd9b60418cb5859e8a1d06c1773860e48ac4fa3dd49a25e7fb19c"
+      "bytes": 831,
+      "sha256": "574e09ebdb6a83396b30589b1e73b1216c77530274113c5950f0d16ef0eef00d"
+    },
+    {
+      "name": "la_long_beach_2024_pooled_pairwise_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/la_long_beach_2024_pooled_pairwise_summary.json",
+      "bytes": 1567,
+      "sha256": "4a0ed3e9c146b95d6a04d0f872cd6db43600edd1528214e27adfe59ad457a8f7"
+    },
+    {
+      "name": "la_long_beach_2023_to_2024_transfer_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/la_long_beach_2023_to_2024_transfer_summary.json",
+      "bytes": 4756,
+      "sha256": "c5909c0a2f1255a30cfefb55b22211f6a2b2d5905d307881f55fbdd563e9fe54"
+    },
+    {
+      "name": "la_long_beach_2024_to_2023_transfer_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/la_long_beach_2024_to_2023_transfer_summary.json",
+      "bytes": 4757,
+      "sha256": "872616de879ccf9578bf2b51c53447c1f50f2b5a232eaa6990793d6be659dee6"
     }
   ]
 }

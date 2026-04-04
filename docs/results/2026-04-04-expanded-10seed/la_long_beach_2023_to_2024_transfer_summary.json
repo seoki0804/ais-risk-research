@@ -1,0 +1,121 @@
+{
+  "train_input_path": "/Users/seoki/Desktop/research/outputs/2026-03-17_r13_true_new_area_la_long_beach_pooled/la_long_beach_pooled_pairwise.csv",
+  "target_input_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled/la_long_beach_2024_pooled_pairwise.csv",
+  "source_row_count": 853,
+  "source_positive_rate": 0.10668229777256741,
+  "target_row_count": 494,
+  "target_positive_rate": 0.05465587044534413,
+  "source_timestamp_count": 629,
+  "target_timestamp_count": 327,
+  "source_own_ship_count": 8,
+  "target_own_ship_count": 7,
+  "split": {
+    "strategy": "own_ship",
+    "train_rows": 506,
+    "val_rows": 184,
+    "test_rows": 163,
+    "train_own_ships": 4,
+    "val_own_ships": 1,
+    "test_own_ships": 3,
+    "train_timestamps": 375,
+    "val_timestamps": 148,
+    "test_timestamps": 132
+  },
+  "models": {
+    "hgbt": {
+      "status": "completed",
+      "threshold": 0.8,
+      "elapsed_seconds": 0.5575952078215778,
+      "source_test": {
+        "threshold": 0.8,
+        "auroc": 0.98125,
+        "auprc": 0.5694444444444444,
+        "accuracy": 0.9693251533742331,
+        "precision": 0.375,
+        "recall": 1.0,
+        "f1": 0.5454545454545454,
+        "positive_rate_predicted": 0.049079754601226995,
+        "elapsed_seconds": 0.5541543327271938
+      },
+      "target_transfer": {
+        "threshold": 0.8,
+        "auroc": 0.9636767388373384,
+        "auprc": 0.7518630214037327,
+        "accuracy": 0.9635627530364372,
+        "precision": 0.6451612903225806,
+        "recall": 0.7407407407407407,
+        "f1": 0.6896551724137931,
+        "positive_rate_predicted": 0.06275303643724696
+      }
+    },
+    "logreg": {
+      "status": "completed",
+      "threshold": 0.05,
+      "elapsed_seconds": 0.07598354062065482,
+      "source_test": {
+        "threshold": 0.05,
+        "auroc": 0.9854166666666667,
+        "auprc": 0.7666666666666666,
+        "accuracy": 0.8220858895705522,
+        "precision": 0.09375,
+        "recall": 1.0,
+        "f1": 0.17142857142857143,
+        "positive_rate_predicted": 0.19631901840490798,
+        "top_positive_features": [
+          {
+            "feature": "rule_component_dcpa",
+            "coefficient": 1.4440396276289953
+          },
+          {
+            "feature": "rule_component_distance",
+            "coefficient": 1.4050873660767451
+          },
+          {
+            "feature": "rule_score",
+            "coefficient": 1.2339987547900257
+          },
+          {
+            "feature": "rule_component_tcpa",
+            "coefficient": 1.0717992177240023
+          },
+          {
+            "feature": "course_difference_deg",
+            "coefficient": 1.0376337398807816
+          },
+          {
+            "feature": "own_vessel_type=cargo",
+            "coefficient": 0.7932720866160364
+          },
+          {
+            "feature": "own_vessel_type=tug",
+            "coefficient": 0.709166861126933
+          },
+          {
+            "feature": "pair_interp_flag=1_1",
+            "coefficient": 0.5207621553872013
+          }
+        ],
+        "elapsed_seconds": 0.07214845763519406
+      },
+      "target_transfer": {
+        "threshold": 0.05,
+        "auroc": 0.9440082480767705,
+        "auprc": 0.6547923483711534,
+        "accuracy": 0.819838056680162,
+        "precision": 0.22321428571428573,
+        "recall": 0.9259259259259259,
+        "f1": 0.3597122302158273,
+        "positive_rate_predicted": 0.22672064777327935
+      }
+    }
+  },
+  "random_seed": 42,
+  "transfer_elapsed_seconds": 0.6474718749523163,
+  "source_summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_source_summary.json",
+  "source_summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_source_summary.md",
+  "source_test_predictions_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_source_test_predictions.csv",
+  "source_val_predictions_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_source_val_predictions.csv",
+  "target_predictions_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_target_predictions.csv",
+  "transfer_summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_transfer_summary.json",
+  "transfer_summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_transfer_summary.md"
+}

@@ -39,6 +39,8 @@ DETAIL_FIELDS = [
 SUMMARY_FIELDS = [
     "true_area_row_count",
     "true_area_region_count",
+    "true_area_split_count",
+    "true_area_supported_split_count",
     "true_area_low_support_count",
     "low_support_region_splits",
     "own_ship_hgbt_f1_mean",
@@ -48,6 +50,7 @@ SUMMARY_FIELDS = [
     "timestamp_hgbt_f1_min",
     "timestamp_hgbt_f1_max",
     "transfer_row_count",
+    "transfer_region_count",
     "transfer_negative_delta_count",
     "negative_transfer_pairs",
     "transfer_delta_f1_mean",
@@ -115,6 +118,13 @@ def _direction_region(direction: str) -> str:
     return direction
 
 
+def _scope_from_pairwise_summary_path(path: Path) -> str:
+    value = path.as_posix().lower()
+    if "cross_year_2024" in value:
+        return "cross_year_2024_unseen_region"
+    return "pooled_true_new_area"
+
+
 def _maybe_mean(values: list[float]) -> float | None:
     if not values:
         return None
@@ -144,12 +154,16 @@ def run_unseen_area_evidence_report(
     true_area_paths = [Path(path).resolve() for path in true_area_pairwise_summary_json_paths]
     transfer_paths = [Path(path).resolve() for path in transfer_summary_json_paths]
     detail_rows: list[dict[str, Any]] = []
+    missing_true_area_paths: list[str] = []
+    missing_transfer_paths: list[str] = []
 
     for pairwise_summary_path in true_area_paths:
         if not pairwise_summary_path.exists():
+            missing_true_area_paths.append(str(pairwise_summary_path))
             continue
         region = _region_from_pairwise_summary(pairwise_summary_path)
         region_dir = pairwise_summary_path.parent
+        scope = _scope_from_pairwise_summary_path(pairwise_summary_path)
 
         for split in ["own_ship", "timestamp"]:
             summary_path = region_dir / f"{region}_pooled_{split}_summary.json"
@@ -174,7 +188,7 @@ def run_unseen_area_evidence_report(
                 {
                     "evidence_type": "true_unseen_area",
                     "region": region,
-                    "scope": "pooled_true_new_area",
+                    "scope": scope,
                     "split": split,
                     "direction": "",
                     "row_count": int(_safe_float(summary_payload.get("row_count")) or 0),
@@ -203,6 +217,7 @@ def run_unseen_area_evidence_report(
 
     for transfer_summary_path in transfer_paths:
         if not transfer_summary_path.exists():
+            missing_transfer_paths.append(str(transfer_summary_path))
             continue
         payload = _load_json(transfer_summary_path)
         direction = transfer_summary_path.stem.replace("_transfer_summary", "")
@@ -303,6 +318,8 @@ def run_unseen_area_evidence_report(
     summary_row = {
         "true_area_row_count": len(true_rows),
         "true_area_region_count": len({str(row.get("region", "")) for row in true_rows}),
+        "true_area_split_count": len(true_rows),
+        "true_area_supported_split_count": len([row for row in true_rows if str(row.get("test_positive_support_flag")) == "ok"]),
         "true_area_low_support_count": len(low_support_rows),
         "low_support_region_splits": ",".join(low_support_labels),
         "own_ship_hgbt_f1_mean": _maybe_mean(own_ship_values),
@@ -312,6 +329,7 @@ def run_unseen_area_evidence_report(
         "timestamp_hgbt_f1_min": _maybe_min(timestamp_values),
         "timestamp_hgbt_f1_max": _maybe_max(timestamp_values),
         "transfer_row_count": len(transfer_rows),
+        "transfer_region_count": len({str(row.get("region", "")) for row in transfer_rows}),
         "transfer_negative_delta_count": len(negative_transfer_rows),
         "negative_transfer_pairs": ",".join(negative_transfer_labels),
         "transfer_delta_f1_mean": _maybe_mean(transfer_delta_values),
@@ -334,6 +352,10 @@ def run_unseen_area_evidence_report(
         lines.append(f"- true_area_pairwise_summary: `{path}`")
     for path in transfer_paths:
         lines.append(f"- transfer_summary: `{path}`")
+    if missing_true_area_paths:
+        lines.append(f"- missing_true_area_summaries: `{len(missing_true_area_paths)}`")
+    if missing_transfer_paths:
+        lines.append(f"- missing_transfer_summaries: `{len(missing_transfer_paths)}`")
 
     lines.extend(
         [
@@ -404,6 +426,9 @@ def run_unseen_area_evidence_report(
                 f"- transfer negative-ΔF1 pairs: `{len(negative_transfer_rows)}/{len(transfer_rows)}` "
                 f"({', '.join(negative_transfer_labels) if negative_transfer_labels else 'none'})"
             ),
+            (
+                f"- transfer harbor coverage (regions): `{int(summary_row['transfer_region_count'])}`"
+            ),
             "",
             "## Outputs",
             "",
@@ -426,6 +451,8 @@ def run_unseen_area_evidence_report(
         "transfer_row_count": len(transfer_rows),
         "true_area_low_support_count": len(low_support_rows),
         "transfer_negative_delta_count": len(negative_transfer_rows),
+        "missing_true_area_summary_paths": missing_true_area_paths,
+        "missing_transfer_summary_paths": missing_transfer_paths,
         "detail_csv_path": str(detail_csv_path),
         "summary_csv_path": str(summary_csv_path),
         "summary_md_path": str(summary_md_path),

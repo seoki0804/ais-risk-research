@@ -34,6 +34,9 @@ This bundle captures the 10-seed expanded all-model run and its downstream check
 - `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md/.json`
 - `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv`
 - `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
+- `(optional) la_long_beach_2024_pooled_pairwise_summary.json`
+- `(optional) la_long_beach_2023_to_2024_transfer_summary.json`
+- `(optional) la_long_beach_2024_to_2023_transfer_summary.json`
 - `external_validity_command_log_2026-04-04_10seed.txt`
 - `bundle_manifest_2026-04-04-expanded-10seed.txt`
 - `bundle_manifest_2026-04-04-expanded-10seed.json`

@@ -68,13 +68,15 @@ Calibration gate enabled for all regions: `True` (threshold=`0.1000`)
 ## True Unseen-Area Addendum
 
 - source: `/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
+- supported true-area splits: `3/8`
 - low-support true-area splits: `5` (la_long_beach:own_ship,ny_nj:own_ship,ny_nj:timestamp,savannah:own_ship,savannah:timestamp)
-- own_ship hgbt F1 range: `0.0000 - 0.5333`
-- transfer negative-ΔF1 pairs: `1/4`
+- own_ship hgbt F1 range: `0.0000 - 0.6667`
+- transfer negative-ΔF1 pairs: `1/6`
+- transfer harbor coverage: `3` regions
 
 ## Priority TODO (Examiner View)
 
-1. Increase low-support true-area splits and add one more independent harbor before final camera-ready claim locking.
+1. Raise positive support for remaining low-support true-area splits (priority: Savannah, LA/LB own-ship) while keeping current multi-harbor transfer evidence.
 2. Lock one operator cost profile per region and freeze threshold policy text in manuscript.
 3. Integrate significance appendix link and one-line interpretation into main result table caption.
 

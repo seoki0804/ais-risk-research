@@ -8,10 +8,13 @@
 - true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r5_true_new_area_ny_nj_pooled/ny_nj_pooled_pairwise_summary.json`
 - true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r13_true_new_area_la_long_beach_pooled/la_long_beach_pooled_pairwise_summary.json`
 - true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r24_true_new_area_savannah_pooled/savannah_pooled_pairwise_summary.json`
+- true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r35_cross_year_2024_ny_nj_pooled/ny_nj_2024_pooled_pairwise_summary.json`
 - transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r36_cross_year_ny_nj_transfer/ny_nj_2023_to_2024_transfer_summary.json`
 - transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r36_cross_year_ny_nj_transfer/ny_nj_2024_to_2023_transfer_summary.json`
 - transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r59_cross_year_seattle_transfer/seattle_2023_to_2024_transfer_summary.json`
 - transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r59_cross_year_seattle_transfer/seattle_2024_to_2023_transfer_summary.json`
+- transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_transfer_summary.json`
+- transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2024_to_2023_transfer_summary.json`
 
 ## Pooled True New-Area Benchmark Snapshot
 
@@ -21,6 +24,8 @@
 | la_long_beach | timestamp | 853 | 0.1067 | 169 | 26 | ok | 0.8333 | 0.8929 | -0.0595 | 0.9841 |
 | ny_nj | own_ship | 960 | 0.0625 | 290 | 6 | low | 0.5333 | 0.0000 | 0.5333 | 0.9437 |
 | ny_nj | timestamp | 960 | 0.0625 | 172 | 6 | low | 0.3333 | 0.5000 | -0.1667 | 0.9558 |
+| ny_nj_2024 | own_ship | 1298 | 0.0485 | 259 | 15 | ok | 0.6667 | 0.4364 | 0.2303 | 0.9735 |
+| ny_nj_2024 | timestamp | 1298 | 0.0485 | 263 | 15 | ok | 0.3333 | 0.4762 | -0.1429 | 0.9578 |
 | savannah | own_ship | 198 | 0.0051 | 20 | 0 | low | 0.0000 | 0.0000 | 0.0000 | n/a |
 | savannah | timestamp | 198 | 0.0051 | 34 | 0 | low | 0.0000 | 0.0000 | 0.0000 | n/a |
 
@@ -28,6 +33,8 @@
 
 | Direction | Region | Target rows | Target pos rate | hgbt source F1 | hgbt target F1 | ΔF1(target-source) |
 |---|---|---:|---:|---:|---:|---:|
+| la_long_beach_2023_to_2024 | la_long_beach | 494 | 0.0547 | 0.5455 | 0.6897 | 0.1442 |
+| la_long_beach_2024_to_2023 | la_long_beach | 853 | 0.1067 | 0.4444 | 0.8830 | 0.4385 |
 | ny_nj_2023_to_2024 | ny_nj | 1298 | 0.0485 | 0.5333 | 0.6281 | 0.0948 |
 | ny_nj_2024_to_2023 | ny_nj | 960 | 0.0625 | 0.6667 | 0.6992 | 0.0325 |
 | seattle_2023_to_2024 | seattle | 652 | 0.1534 | 0.7952 | 0.7685 | -0.0267 |
@@ -36,9 +43,10 @@
 ## Examiner Interpretation
 
 - low-support true-area splits (`test positives < 10`): `5` (la_long_beach:own_ship, ny_nj:own_ship, ny_nj:timestamp, savannah:own_ship, savannah:timestamp)
-- own_ship hgbt F1 range: `0.0000 - 0.5333`
+- own_ship hgbt F1 range: `0.0000 - 0.6667`
 - timestamp hgbt F1 range: `0.0000 - 0.8333`
-- transfer negative-ΔF1 pairs: `1/4` (seattle_2023_to_2024(-0.0267))
+- transfer negative-ΔF1 pairs: `1/6` (seattle_2023_to_2024(-0.0267))
+- transfer harbor coverage (regions): `3`
 
 ## Outputs
 

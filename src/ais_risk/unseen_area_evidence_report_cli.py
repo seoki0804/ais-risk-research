@@ -16,7 +16,8 @@ def main() -> None:
         default=(
             "/Users/seoki/Desktop/research/outputs/2026-03-17_r5_true_new_area_ny_nj_pooled/ny_nj_pooled_pairwise_summary.json,"
             "/Users/seoki/Desktop/research/outputs/2026-03-17_r13_true_new_area_la_long_beach_pooled/la_long_beach_pooled_pairwise_summary.json,"
-            "/Users/seoki/Desktop/research/outputs/2026-03-17_r24_true_new_area_savannah_pooled/savannah_pooled_pairwise_summary.json"
+            "/Users/seoki/Desktop/research/outputs/2026-03-17_r24_true_new_area_savannah_pooled/savannah_pooled_pairwise_summary.json,"
+            "/Users/seoki/Desktop/research/outputs/2026-03-17_r35_cross_year_2024_ny_nj_pooled/ny_nj_2024_pooled_pairwise_summary.json"
         ),
         help="Comma-separated pooled true-area pairwise summary JSON paths.",
     )
@@ -26,7 +27,9 @@ def main() -> None:
             "/Users/seoki/Desktop/research/outputs/2026-03-17_r36_cross_year_ny_nj_transfer/ny_nj_2023_to_2024_transfer_summary.json,"
             "/Users/seoki/Desktop/research/outputs/2026-03-17_r36_cross_year_ny_nj_transfer/ny_nj_2024_to_2023_transfer_summary.json,"
             "/Users/seoki/Desktop/research/outputs/2026-03-17_r59_cross_year_seattle_transfer/seattle_2023_to_2024_transfer_summary.json,"
-            "/Users/seoki/Desktop/research/outputs/2026-03-17_r59_cross_year_seattle_transfer/seattle_2024_to_2023_transfer_summary.json"
+            "/Users/seoki/Desktop/research/outputs/2026-03-17_r59_cross_year_seattle_transfer/seattle_2024_to_2023_transfer_summary.json,"
+            "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_transfer_summary.json,"
+            "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2024_to_2023_transfer_summary.json"
         ),
         help="Comma-separated cross-year transfer summary JSON paths.",
     )

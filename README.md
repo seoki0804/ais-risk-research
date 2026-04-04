@@ -368,6 +368,13 @@ examples/run_true_unseen_area_evidence_report_2026-04-04_10seed.sh
 - `docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv`
 - `docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
 
+추가 독립 항만(LA/LB) cross-year 확장 실험:
+
+```bash
+examples/run_cross_year_2024_la_long_beach_pooled_61day.sh
+examples/run_cross_year_la_long_beach_transfer_61day.sh
+```
+
 확장 번들 매니페스트는 다음을 포함합니다.
 - 복사된 산출물 SHA256/파일크기
 - 입력 데이터 CSV SHA256

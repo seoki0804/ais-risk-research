@@ -10,7 +10,9 @@
   - cross-region transfer recommendation check
   - support-aware split auto-adjust
 - Remaining:
-  - none (core hardening track completed)
+  - post-core reviewer closure:
+    - raise positive support on low-support true-area splits (`Savannah`, `LA/LB own_ship`)
+    - maintain/update multi-harbor unseen transfer evidence package
 
 ## Action Items
 
@@ -88,7 +90,17 @@
    - Progress:
      - bundle export script includes seed-sweep + OOT + transfer + reliability + taxonomy artifacts.
      - one-shot external validity runner exists.
-     - manifest now includes copied-file SHA256, input-data SHA256, command-log SHA256, and git commit/dirty state.
+   - manifest now includes copied-file SHA256, input-data SHA256, command-log SHA256, and git commit/dirty state.
+
+8. `P1` Expand independent-harbor unseen-area evidence.
+   - Why: examiner risk is concentrated in "outside current ecosystem" generalization questions.
+   - Task:
+   - add additional unseen-area/cross-year transfer evidence paths and integrate into one examiner-facing report.
+   - keep support-threshold diagnostics (`test positives`) explicit in summary table and audit TODO wording.
+   - Status: `DONE`
+   - Evidence:
+     - `docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md/.json`
+     - includes NY/NJ 2024 pooled split evidence and LA/LB 2023↔2024 transfer results.
 
 ## Suggested Execution Order
 

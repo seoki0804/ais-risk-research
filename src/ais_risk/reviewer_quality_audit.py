@@ -322,12 +322,16 @@ def run_reviewer_quality_audit(
         low_support_splits = str(unseen.get("low_support_region_splits", "")).strip()
         transfer_negative = int(_safe_float(unseen.get("transfer_negative_delta_count")) or 0)
         transfer_rows_total = int(_safe_float(unseen.get("transfer_row_count")) or 0)
+        transfer_region_count = int(_safe_float(unseen.get("transfer_region_count")) or 0)
+        supported_split_count = int(_safe_float(unseen.get("true_area_supported_split_count")) or 0)
+        total_split_count = int(_safe_float(unseen.get("true_area_split_count")) or 0)
         lines.extend(
             [
                 "",
                 "## True Unseen-Area Addendum",
                 "",
                 f"- source: `{unseen_area_summary_path_resolved}`",
+                f"- supported true-area splits: `{supported_split_count}/{total_split_count}`",
                 f"- low-support true-area splits: `{low_support_count}` ({low_support_splits if low_support_splits else 'none'})",
                 (
                     f"- own_ship hgbt F1 range: `{_fmt(unseen.get('own_ship_hgbt_f1_min'))}"
@@ -336,15 +340,30 @@ def run_reviewer_quality_audit(
                 (
                     f"- transfer negative-ΔF1 pairs: `{transfer_negative}/{transfer_rows_total}`"
                 ),
+                f"- transfer harbor coverage: `{transfer_region_count}` regions",
             ]
         )
 
     todo_item_1 = "1. Add true unseen-area evidence (outside current same-ecosystem region set)."
     if unseen_area_summary_rows:
-        todo_item_1 = (
-            "1. Increase low-support true-area splits and add one more independent harbor "
-            "before final camera-ready claim locking."
-        )
+        unseen = unseen_area_summary_rows[0]
+        low_support_count = int(_safe_float(unseen.get("true_area_low_support_count")) or 0)
+        transfer_region_count = int(_safe_float(unseen.get("transfer_region_count")) or 0)
+        if low_support_count > 0 and transfer_region_count < 3:
+            todo_item_1 = (
+                "1. Increase low-support true-area splits and add one more independent harbor "
+                "before final camera-ready claim locking."
+            )
+        elif low_support_count > 0:
+            todo_item_1 = (
+                "1. Raise positive support for remaining low-support true-area splits "
+                "(priority: Savannah, LA/LB own-ship) while keeping current multi-harbor transfer evidence."
+            )
+        else:
+            todo_item_1 = (
+                "1. Freeze unseen-area evidence statement and cite support-threshold policy "
+                "explicitly in the manuscript."
+            )
 
     lines.extend(
         [

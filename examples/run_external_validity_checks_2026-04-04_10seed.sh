@@ -66,6 +66,14 @@ run_logged() {
     --seed 42
 
   run_logged \
+    "run_cross_year_2024_la_long_beach_pooled_61day.sh" \
+    bash examples/run_cross_year_2024_la_long_beach_pooled_61day.sh
+
+  run_logged \
+    "run_cross_year_la_long_beach_transfer_61day.sh" \
+    bash examples/run_cross_year_la_long_beach_transfer_61day.sh
+
+  run_logged \
     "unseen_area_evidence_report_cli" \
     env PYTHONPATH=src python -m ais_risk.unseen_area_evidence_report_cli \
     --output-prefix "${UNSEEN_AREA_REPORT_PREFIX}" \

@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    "/Users/seoki/Desktop/research/outputs/2026-03-17_r43_cross_year_2024_la_long_beach_pilot_20240901/la_long_beach_2024_20240901/la_long_beach_2024_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-03-17_r42_cross_year_2024_la_long_beach_pilot_20240902/la_long_beach_2024_20240902/la_long_beach_2024_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-03-17_r44_cross_year_2024_la_long_beach_pilot_20241008/la_long_beach_2024_20241008/la_long_beach_2024_pairwise_dataset.csv"
+  ],
+  "output": "/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled/la_long_beach_2024_pooled_pairwise.csv",
+  "output_rows": 494,
+  "file_counts": [
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-03-17_r43_cross_year_2024_la_long_beach_pilot_20240901/la_long_beach_2024_20240901/la_long_beach_2024_pairwise_dataset.csv",
+      "source_date": "2024-09-01",
+      "row_count": 193,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-03-17_r42_cross_year_2024_la_long_beach_pilot_20240902/la_long_beach_2024_20240902/la_long_beach_2024_pairwise_dataset.csv",
+      "source_date": "2024-09-02",
+      "row_count": 181,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-03-17_r44_cross_year_2024_la_long_beach_pilot_20241008/la_long_beach_2024_20241008/la_long_beach_2024_pairwise_dataset.csv",
+      "source_date": "2024-10-08",
+      "row_count": 120,
+      "status": "merged"
+    }
+  ]
+}

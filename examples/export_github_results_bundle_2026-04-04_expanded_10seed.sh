@@ -14,6 +14,8 @@ TRANSFER_DIR="${ROOT}/outputs/2026-04-04_transfer_check_10seed"
 RELIABILITY_DIR="${ROOT}/outputs/2026-04-04_reliability_report_10seed"
 TAXONOMY_DIR="${ROOT}/outputs/2026-04-04_error_taxonomy_10seed"
 UNSEEN_AREA_REPORT_PREFIX="${UNSEEN_AREA_REPORT_PREFIX:-${ROOT}/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed}"
+LA_LB_2024_POOL_DIR="${LA_LB_2024_POOL_DIR:-${ROOT}/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled}"
+LA_LB_TRANSFER_DIR="${LA_LB_TRANSFER_DIR:-${ROOT}/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer}"
 
 mkdir -p "${DEST_DIR}"
 
@@ -47,6 +49,11 @@ required_files=(
   "${UNSEEN_AREA_REPORT_PREFIX}_detail.csv"
   "${UNSEEN_AREA_REPORT_PREFIX}_summary.csv"
 )
+optional_files=(
+  "${LA_LB_2024_POOL_DIR}/la_long_beach_2024_pooled_pairwise_summary.json"
+  "${LA_LB_TRANSFER_DIR}/la_long_beach_2023_to_2024_transfer_summary.json"
+  "${LA_LB_TRANSFER_DIR}/la_long_beach_2024_to_2023_transfer_summary.json"
+)
 
 for file_path in "${required_files[@]}"; do
   if [[ ! -f "${file_path}" ]]; then
@@ -57,6 +64,13 @@ done
 
 for file_path in "${required_files[@]}"; do
   cp "${file_path}" "${DEST_DIR}/"
+done
+copied_optional_files=()
+for file_path in "${optional_files[@]}"; do
+  if [[ -f "${file_path}" ]]; then
+    cp "${file_path}" "${DEST_DIR}/"
+    copied_optional_files+=("$(basename "${file_path}")")
+  fi
 done
 
 command_logs_for_manifest=()
@@ -95,12 +109,17 @@ manifest_args=(
   --source-dir "reliability=${RELIABILITY_DIR}"
   --source-dir "taxonomy=${TAXONOMY_DIR}"
   --source-dir "unseen_area_report=$(dirname "${UNSEEN_AREA_REPORT_PREFIX}")"
+  --source-dir "la_lb_2024_pool=${LA_LB_2024_POOL_DIR}"
+  --source-dir "la_lb_transfer=${LA_LB_TRANSFER_DIR}"
   --manifest-txt "${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.txt"
   --manifest-json "${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.json"
 )
 
 for file_path in "${required_files[@]}"; do
   manifest_args+=(--copied-file "$(basename "${file_path}")")
+done
+for file_name in "${copied_optional_files[@]}"; do
+  manifest_args+=(--copied-file "${file_name}")
 done
 for file_path in "${input_files[@]}"; do
   manifest_args+=(--input-file "${file_path}")
