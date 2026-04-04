@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+
+# Local tool/runtime caches
+.playwright-cli/
+tmp/
+
+# Large/generated artifacts (keep repository lean)
+output/
+outputs/**
+
+# Allow curated small release artifacts if explicitly copied under docs/results
+!docs/results/**
+
+# Generated previews
+*.rendered.html
