@@ -120,6 +120,10 @@ class AllModelsSeedSweepTest(unittest.TestCase):
             self.assertEqual("2", cnn["runs"])
             self.assertAlmostEqual(0.75, float(hgbt["f1_mean"]), places=6)
             self.assertAlmostEqual(0.80, float(cnn["f1_mean"]), places=6)
+            self.assertIn("f1_ci95", hgbt)
+            self.assertIn("auroc_ci95", hgbt)
+            self.assertIn("ece_ci95", hgbt)
+            self.assertGreaterEqual(float(hgbt["f1_ci95"]), 0.0)
 
             winner_rows = list(csv.DictReader(Path(summary["winner_summary_csv_path"]).open("r", encoding="utf-8", newline="")))
             self.assertEqual(2, len(winner_rows))

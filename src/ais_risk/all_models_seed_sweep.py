@@ -5,6 +5,7 @@ import json
 from collections import defaultdict
 from pathlib import Path
 from statistics import mean, stdev
+from math import sqrt
 from typing import Any
 
 from .all_models import run_all_supported_models
@@ -17,16 +18,20 @@ AGG_FIELDS = [
     "runs",
     "f1_mean",
     "f1_std",
+    "f1_ci95",
     "precision_mean",
     "precision_std",
     "recall_mean",
     "recall_std",
     "auroc_mean",
     "auroc_std",
+    "auroc_ci95",
     "ece_mean",
     "ece_std",
+    "ece_ci95",
     "brier_mean",
     "brier_std",
+    "brier_ci95",
     "positive_count_mean",
 ]
 
@@ -49,6 +54,12 @@ def _std(values: list[float]) -> float:
     if len(values) <= 1:
         return 0.0
     return float(stdev(values))
+
+
+def _ci95(values: list[float]) -> float:
+    if len(values) <= 1:
+        return 0.0
+    return float(1.96 * _std(values) / sqrt(len(values)))
 
 
 def _parse_csv_rows(path: str | Path) -> list[dict[str, str]]:
@@ -252,22 +263,25 @@ def _build_markdown(
         "",
         "## Aggregated Model Metrics",
         "",
-        "| Dataset | Model | Family | Runs | F1 mean±std | AUROC mean±std | ECE mean±std | Positive mean |",
+        "| Dataset | Model | Family | Runs | F1 mean±std (CI95) | AUROC mean±std (CI95) | ECE mean±std (CI95) | Positive mean |",
         "|---|---|---|---:|---:|---:|---:|---:|",
     ]
     for row in aggregate_rows:
         lines.append(
-            "| {dataset} | {model} | {family} | {runs} | {f1m}±{f1s} | {aum}±{aus} | {ecem}±{eces} | {pos} |".format(
+            "| {dataset} | {model} | {family} | {runs} | {f1m}±{f1s} ({f1ci}) | {aum}±{aus} ({auci}) | {ecem}±{eces} ({ecici}) | {pos} |".format(
                 dataset=row.get("dataset", ""),
                 model=row.get("model_name", ""),
                 family=row.get("model_family", ""),
                 runs=row.get("runs", 0),
                 f1m=_fmt(row.get("f1_mean")),
                 f1s=_fmt(row.get("f1_std")),
+                f1ci=_fmt(row.get("f1_ci95")),
                 aum=_fmt(row.get("auroc_mean")),
                 aus=_fmt(row.get("auroc_std")),
+                auci=_fmt(row.get("auroc_ci95")),
                 ecem=_fmt(row.get("ece_mean")),
                 eces=_fmt(row.get("ece_std")),
+                ecici=_fmt(row.get("ece_ci95")),
                 pos=_fmt(row.get("positive_count_mean"), digits=1),
             )
         )
@@ -442,16 +456,20 @@ def run_all_models_seed_sweep(
                 "runs": len(rows),
                 "f1_mean": mean(f1_values) if f1_values else None,
                 "f1_std": _std(f1_values) if f1_values else None,
+                "f1_ci95": _ci95(f1_values) if f1_values else None,
                 "precision_mean": mean(precision_values) if precision_values else None,
                 "precision_std": _std(precision_values) if precision_values else None,
                 "recall_mean": mean(recall_values) if recall_values else None,
                 "recall_std": _std(recall_values) if recall_values else None,
                 "auroc_mean": mean(auroc_values) if auroc_values else None,
                 "auroc_std": _std(auroc_values) if auroc_values else None,
+                "auroc_ci95": _ci95(auroc_values) if auroc_values else None,
                 "ece_mean": mean(ece_values) if ece_values else None,
                 "ece_std": _std(ece_values) if ece_values else None,
+                "ece_ci95": _ci95(ece_values) if ece_values else None,
                 "brier_mean": mean(brier_values) if brier_values else None,
                 "brier_std": _std(brier_values) if brier_values else None,
+                "brier_ci95": _ci95(brier_values) if brier_values else None,
                 "positive_count_mean": mean(positive_values) if positive_values else None,
             }
         )

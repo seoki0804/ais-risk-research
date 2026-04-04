@@ -5,11 +5,14 @@
 - Completed:
   - all-model multi-area benchmark (tabular + CNN)
   - seed sweep aggregate/winner/recommendation
+  - calibration-gated recommendation policy (`ECE<=0.10`)
+  - out-of-time(timestamp split) recommendation check
+  - cross-region transfer recommendation check
   - support-aware split auto-adjust
 - Remaining:
-  - calibration-gated final policy
-  - out-of-time and unseen-area transfer hardening
   - reviewer-grade uncertainty and failure analysis packaging
+  - reliability diagrams / error taxonomy
+  - publication packet automation hardening
 
 ## Action Items
 
@@ -18,33 +21,40 @@
    - Task:
      - implement ECE hard gate (`<=0.10`) before final recommendation selection.
      - keep rejected candidates in a separate audit table.
-   - Done when:
-     - recommendation file includes `accepted/rejected` reason.
-     - at least one run artifact shows gate effect clearly.
+   - Status: `DONE`
+   - Evidence:
+     - `all_models_seed_sweep_recommendation.csv` includes gate columns (`gate_status`, `ece_gate_*`).
+     - `all_models_seed_sweep_summary.md` includes gate settings.
 
 2. `P1` Run out-of-time validation bundle.
    - Why: current evidence is strong for split-based holdout, weaker for strict time drift.
    - Task:
      - prepare one strict future-only block per region.
      - run all-model benchmark on each block with fixed thresholds from source validation.
-   - Done when:
-     - `F1/AUROC/ECE` degradation table exists for Houston/NOLA/Seattle.
+   - Status: `DONE`
+   - Evidence:
+     - `out_of_time_recommendation_check.csv/.md` exists for Houston/NOLA/Seattle.
 
 3. `P1` Add true unseen-area transfer comparison.
    - Why: reviewers will ask if policy generalizes beyond same-ecosystem regions.
    - Task:
      - run `benchmark_transfer` for selected source/target pairs.
      - evaluate threshold portability and calibration drift.
-   - Done when:
-     - transfer summary includes per-model source vs target gap and recommendation.
+   - Status: `DONE`
+   - Evidence:
+     - `transfer_recommendation_check.csv/.md` includes source→target `ΔF1/ΔAUROC/target ECE`.
 
 4. `P2` Strengthen seed/stability evidence.
    - Why: neural and some CNN variants have higher seed variance.
    - Task:
      - increase seed count from `3` to `>=10` for final submission numbers.
      - export confidence intervals from aggregate table.
-   - Done when:
-     - summary includes mean/std and CI for all final candidates.
+   - Status: `PARTIAL`
+   - Progress:
+     - aggregate now includes `CI95` columns (`f1_ci95`, `auroc_ci95`, `ece_ci95`, `brier_ci95`).
+     - 10-seed runner added: `examples/run_all_models_seed_sweep_10seed_2026-04-04.sh`.
+   - Remaining:
+     - execute 10-seed full run and replace current 3-seed submission numbers.
 
 5. `P2` Publish reliability diagrams for final candidates.
    - Why: calibration quality is central to risk-map trust.
@@ -67,8 +77,12 @@
    - Task:
      - add one script that creates final `docs/results/<date>` bundle from latest run root.
      - include manifest with input hashes and command logs.
-   - Done when:
-     - one command regenerates the full submission evidence bundle.
+   - Status: `PARTIAL`
+   - Progress:
+     - bundle export script includes seed-sweep + OOT + transfer artifacts.
+     - one-shot external validity runner exists.
+   - Remaining:
+     - add input hash / command provenance to manifest for strict reproducibility audits.
 
 ## Suggested Execution Order
 

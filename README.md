@@ -240,12 +240,18 @@ PYTHONPATH=src python -m ais_risk.all_models_seed_sweep_cli \
 ```
 
 주요 안정성 산출물:
-- `all_models_seed_sweep_aggregate.csv` (모델별 평균/표준편차)
+- `all_models_seed_sweep_aggregate.csv` (모델별 평균/표준편차/CI95)
 - `all_models_seed_sweep_winner_summary.csv` (seed별 승자 빈도)
 - `all_models_seed_sweep_recommendation.csv` (해역별 자동 추천)
 
 참고: 추천표는 기본적으로 `ECE mean <= 0.10` 하드 게이트를 적용합니다.
 비활성화하려면 `--disable-recommendation-ece-gate`를 사용하세요.
+
+최종 제출용(권장) 10-seed 실행:
+
+```bash
+examples/run_all_models_seed_sweep_10seed_2026-04-04.sh
+```
 
 추천 모델의 out-of-time(timestamp split) 점검:
 

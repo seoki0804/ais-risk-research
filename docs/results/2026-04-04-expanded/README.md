@@ -4,6 +4,7 @@ This bundle captures the expanded all-model run that adds `random_forest` and `e
 
 - Multi-area leaderboard (`Houston/NOLA/Seattle`, own-ship split, support-aware auto-adjust)
 - Seed sweep aggregation (`seeds=41,42,43`)
+  - includes mean/std and CI95 columns in aggregate table
 - Recommendation outputs with F1-tolerance + ECE tie-break rule
 - Out-of-time(timestamp split) check for the final recommended model per region
 - Cross-region transfer check for source-region recommended models
