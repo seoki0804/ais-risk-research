@@ -258,6 +258,17 @@ PYTHONPATH=src python -m ais_risk.out_of_time_eval_cli \
 - `out_of_time_recommendation_check.csv`
 - `out_of_time_recommendation_check.md`
 
+cross-region transfer 점검(소스 해역 추천모델을 타 해역으로 전이):
+
+```bash
+PYTHONPATH=src python -m ais_risk.transfer_recommendation_eval_cli \
+  --output-root outputs/2026-04-04_transfer_check
+```
+
+주요 산출물:
+- `transfer_recommendation_check.csv`
+- `transfer_recommendation_check.md`
+
 GitHub 업로드용 경량 결과 번들 추출:
 
 ```bash

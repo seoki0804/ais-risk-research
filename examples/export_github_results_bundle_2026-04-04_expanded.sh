@@ -7,6 +7,7 @@ DEST_DIR="${DEST_DIR:-${ROOT}/docs/results/2026-04-04-expanded}"
 MULTI_DIR="${ROOT}/outputs/2026-04-04_all_models_multiarea_expanded"
 SWEEP_DIR="${ROOT}/outputs/2026-04-04_all_models_seed_sweep_expanded"
 OOT_DIR="${ROOT}/outputs/2026-04-04_out_of_time_check"
+TRANSFER_DIR="${ROOT}/outputs/2026-04-04_transfer_check"
 
 mkdir -p "${DEST_DIR}"
 
@@ -22,6 +23,8 @@ required_files=(
   "${SWEEP_DIR}/all_models_seed_sweep_recommendation.md"
   "${OOT_DIR}/out_of_time_recommendation_check.csv"
   "${OOT_DIR}/out_of_time_recommendation_check.md"
+  "${TRANSFER_DIR}/transfer_recommendation_check.csv"
+  "${TRANSFER_DIR}/transfer_recommendation_check.md"
 )
 
 for file_path in "${required_files[@]}"; do
@@ -41,6 +44,7 @@ MANIFEST_PATH="${DEST_DIR}/bundle_manifest_2026-04-04-expanded.txt"
   echo "source_multiarea_dir=${MULTI_DIR}"
   echo "source_seed_sweep_dir=${SWEEP_DIR}"
   echo "source_out_of_time_dir=${OOT_DIR}"
+  echo "source_transfer_dir=${TRANSFER_DIR}"
   echo "copied_files="
   for file_path in "${required_files[@]}"; do
     echo "  - $(basename "${file_path}")"
