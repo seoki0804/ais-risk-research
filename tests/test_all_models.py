@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from ais_risk.all_models import run_all_supported_models
+from ais_risk.all_models import ALL_TABULAR_MODEL_NAMES, run_all_supported_models
 
 
 class AllModelsTest(unittest.TestCase):
@@ -26,12 +26,34 @@ class AllModelsTest(unittest.TestCase):
                             "rule_score_pred",
                             "logreg_pred",
                             "hgbt_pred",
+                            "random_forest_pred",
+                            "extra_trees_pred",
                             "torch_mlp_pred",
                         ],
                     )
                     writer.writeheader()
-                    writer.writerow({"label_future_conflict": "1", "rule_score_pred": "1", "logreg_pred": "1", "hgbt_pred": "1", "torch_mlp_pred": "1"})
-                    writer.writerow({"label_future_conflict": "0", "rule_score_pred": "0", "logreg_pred": "0", "hgbt_pred": "0", "torch_mlp_pred": "0"})
+                    writer.writerow(
+                        {
+                            "label_future_conflict": "1",
+                            "rule_score_pred": "1",
+                            "logreg_pred": "1",
+                            "hgbt_pred": "1",
+                            "random_forest_pred": "1",
+                            "extra_trees_pred": "1",
+                            "torch_mlp_pred": "1",
+                        }
+                    )
+                    writer.writerow(
+                        {
+                            "label_future_conflict": "0",
+                            "rule_score_pred": "0",
+                            "logreg_pred": "0",
+                            "hgbt_pred": "0",
+                            "random_forest_pred": "0",
+                            "extra_trees_pred": "0",
+                            "torch_mlp_pred": "0",
+                        }
+                    )
                 return {
                     "summary_json_path": str(root / "tabular_summary.json"),
                     "predictions_csv_path": str(pred_path),
@@ -39,6 +61,26 @@ class AllModelsTest(unittest.TestCase):
                         "rule_score": {"f1": 0.50, "auroc": 0.60, "auprc": 0.55, "precision": 0.51, "recall": 0.49, "accuracy": 0.58, "threshold": 0.5, "elapsed_seconds": 0.01},
                         "logreg": {"f1": 0.70, "auroc": 0.80, "auprc": 0.71, "precision": 0.69, "recall": 0.72, "accuracy": 0.75, "threshold": 0.5, "elapsed_seconds": 0.02},
                         "hgbt": {"f1": 0.82, "auroc": 0.90, "auprc": 0.84, "precision": 0.81, "recall": 0.84, "accuracy": 0.86, "threshold": 0.45, "elapsed_seconds": 0.03},
+                        "random_forest": {
+                            "f1": 0.79,
+                            "auroc": 0.88,
+                            "auprc": 0.82,
+                            "precision": 0.78,
+                            "recall": 0.80,
+                            "accuracy": 0.84,
+                            "threshold": 0.50,
+                            "elapsed_seconds": 0.05,
+                        },
+                        "extra_trees": {
+                            "f1": 0.80,
+                            "auroc": 0.89,
+                            "auprc": 0.83,
+                            "precision": 0.79,
+                            "recall": 0.81,
+                            "accuracy": 0.85,
+                            "threshold": 0.50,
+                            "elapsed_seconds": 0.06,
+                        },
                         "torch_mlp": {
                             "f1": 0.77,
                             "auroc": 0.85,
@@ -62,6 +104,8 @@ class AllModelsTest(unittest.TestCase):
                         "rule_score": {"ece": 0.10, "brier_score": 0.20},
                         "logreg": {"ece": 0.08, "brier_score": 0.15},
                         "hgbt": {"ece": 0.04, "brier_score": 0.10},
+                        "random_forest": {"ece": 0.07, "brier_score": 0.13},
+                        "extra_trees": {"ece": 0.06, "brier_score": 0.12},
                         "torch_mlp": {"ece": 0.12, "brier_score": 0.18},
                     },
                 }
@@ -117,9 +161,11 @@ class AllModelsTest(unittest.TestCase):
             leaderboard_csv = Path(summary["leaderboard_csv_path"])
             self.assertTrue(leaderboard_csv.exists())
             rows = list(csv.DictReader(leaderboard_csv.open("r", encoding="utf-8", newline="")))
-            self.assertEqual(8, len(rows))
+            self.assertEqual(len(ALL_TABULAR_MODEL_NAMES) + 4, len(rows))
             model_names = {row["model_name"] for row in rows}
             self.assertIn("hgbt", model_names)
+            self.assertIn("random_forest", model_names)
+            self.assertIn("extra_trees", model_names)
             self.assertIn("torch_mlp", model_names)
             self.assertIn("cnn_weighted", model_names)
             self.assertIn("cnn_weighted_temp", model_names)
@@ -136,13 +182,41 @@ class AllModelsTest(unittest.TestCase):
             input_csv.write_text("timestamp,own_mmsi,target_mmsi,label_future_conflict\n", encoding="utf-8")
 
             def fake_benchmark(model_names: list[str], **_: object) -> dict[str, object]:
-                self.assertEqual(["rule_score", "logreg", "hgbt"], model_names)
+                self.assertEqual([model_name for model_name in ALL_TABULAR_MODEL_NAMES if model_name != "torch_mlp"], model_names)
                 pred_path = root / "tabular_predictions.csv"
                 with pred_path.open("w", encoding="utf-8", newline="") as handle:
-                    writer = csv.DictWriter(handle, fieldnames=["label_future_conflict", "rule_score_pred", "logreg_pred", "hgbt_pred"])
+                    writer = csv.DictWriter(
+                        handle,
+                        fieldnames=[
+                            "label_future_conflict",
+                            "rule_score_pred",
+                            "logreg_pred",
+                            "hgbt_pred",
+                            "random_forest_pred",
+                            "extra_trees_pred",
+                        ],
+                    )
                     writer.writeheader()
-                    writer.writerow({"label_future_conflict": "1", "rule_score_pred": "1", "logreg_pred": "1", "hgbt_pred": "1"})
-                    writer.writerow({"label_future_conflict": "0", "rule_score_pred": "0", "logreg_pred": "0", "hgbt_pred": "0"})
+                    writer.writerow(
+                        {
+                            "label_future_conflict": "1",
+                            "rule_score_pred": "1",
+                            "logreg_pred": "1",
+                            "hgbt_pred": "1",
+                            "random_forest_pred": "1",
+                            "extra_trees_pred": "1",
+                        }
+                    )
+                    writer.writerow(
+                        {
+                            "label_future_conflict": "0",
+                            "rule_score_pred": "0",
+                            "logreg_pred": "0",
+                            "hgbt_pred": "0",
+                            "random_forest_pred": "0",
+                            "extra_trees_pred": "0",
+                        }
+                    )
                 return {
                     "summary_json_path": str(root / "tabular_summary.json"),
                     "predictions_csv_path": str(pred_path),
@@ -150,6 +224,8 @@ class AllModelsTest(unittest.TestCase):
                         "rule_score": {"f1": 0.50},
                         "logreg": {"f1": 0.70},
                         "hgbt": {"f1": 0.82},
+                        "random_forest": {"f1": 0.79},
+                        "extra_trees": {"f1": 0.80},
                     },
                 }
 
@@ -175,10 +251,41 @@ class AllModelsTest(unittest.TestCase):
 
             pred_path = root / "tabular_predictions.csv"
             with pred_path.open("w", encoding="utf-8", newline="") as handle:
-                writer = csv.DictWriter(handle, fieldnames=["label_future_conflict", "rule_score_pred", "logreg_pred", "hgbt_pred", "torch_mlp_pred"])
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=[
+                        "label_future_conflict",
+                        "rule_score_pred",
+                        "logreg_pred",
+                        "hgbt_pred",
+                        "random_forest_pred",
+                        "extra_trees_pred",
+                        "torch_mlp_pred",
+                    ],
+                )
                 writer.writeheader()
-                writer.writerow({"label_future_conflict": "1", "rule_score_pred": "1", "logreg_pred": "1", "hgbt_pred": "1", "torch_mlp_pred": "1"})
-                writer.writerow({"label_future_conflict": "0", "rule_score_pred": "0", "logreg_pred": "0", "hgbt_pred": "0", "torch_mlp_pred": "0"})
+                writer.writerow(
+                    {
+                        "label_future_conflict": "1",
+                        "rule_score_pred": "1",
+                        "logreg_pred": "1",
+                        "hgbt_pred": "1",
+                        "random_forest_pred": "1",
+                        "extra_trees_pred": "1",
+                        "torch_mlp_pred": "1",
+                    }
+                )
+                writer.writerow(
+                    {
+                        "label_future_conflict": "0",
+                        "rule_score_pred": "0",
+                        "logreg_pred": "0",
+                        "hgbt_pred": "0",
+                        "random_forest_pred": "0",
+                        "extra_trees_pred": "0",
+                        "torch_mlp_pred": "0",
+                    }
+                )
 
             def fake_benchmark(**kwargs: object) -> dict[str, object]:
                 self.assertEqual(0.5, kwargs["train_fraction"])
@@ -190,6 +297,8 @@ class AllModelsTest(unittest.TestCase):
                         "rule_score": {"f1": 0.50},
                         "logreg": {"f1": 0.70},
                         "hgbt": {"f1": 0.82},
+                        "random_forest": {"f1": 0.79},
+                        "extra_trees": {"f1": 0.80},
                         "torch_mlp": {"f1": 0.77},
                     },
                 }

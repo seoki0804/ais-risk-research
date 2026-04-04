@@ -11,7 +11,7 @@ from .calibration_eval import run_calibration_evaluation
 from .regional_raster_cnn import run_regional_raster_cnn_benchmark
 
 
-ALL_TABULAR_MODEL_NAMES = ["rule_score", "logreg", "hgbt", "torch_mlp"]
+ALL_TABULAR_MODEL_NAMES = ["rule_score", "logreg", "hgbt", "random_forest", "extra_trees", "torch_mlp"]
 CNN_LOSS_TO_MODEL_NAME = {"weighted_bce": "cnn_weighted", "focal": "cnn_focal"}
 
 LEADERBOARD_FIELDS = [

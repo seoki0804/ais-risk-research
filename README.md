@@ -190,7 +190,7 @@ PYTHONPATH=src python -m ais_risk.cli \
 
 ## 전체 모델 일괄 학습 (GitHub 재현용)
 
-`rule_score / logreg / hgbt / torch_mlp`를 한 번에 학습하고, 성능 비교표(`csv`, `md`)를 자동 생성합니다.
+`rule_score / logreg / hgbt / random_forest / extra_trees / torch_mlp`를 한 번에 학습하고, 성능 비교표(`csv`, `md`)를 자동 생성합니다.
 
 ```bash
 PYTHONPATH=src python -m ais_risk.all_models_cli \
@@ -247,6 +247,12 @@ GitHub 업로드용 경량 결과 번들 추출:
 
 ```bash
 examples/export_github_results_bundle_2026-04-04.sh
+```
+
+확장 모델(`random_forest`, `extra_trees`) 재실행 결과 번들은:
+
+```bash
+examples/export_github_results_bundle_2026-04-04_expanded.sh
 ```
 
 ## 저장소 구조
