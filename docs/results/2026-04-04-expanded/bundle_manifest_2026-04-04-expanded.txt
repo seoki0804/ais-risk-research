@@ -3,6 +3,7 @@ source_multiarea_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models
 source_seed_sweep_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded
 source_out_of_time_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check
 source_transfer_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check
+source_reliability_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report
 copied_files=
   - all_models_multiarea_leaderboard.csv
   - all_models_multiarea_leaderboard.md
@@ -17,3 +18,10 @@ copied_files=
   - out_of_time_recommendation_check.md
   - transfer_recommendation_check.csv
   - transfer_recommendation_check.md
+  - reliability_recommended_region_summary.csv
+  - reliability_recommended_bins.csv
+  - reliability_recommended_summary.md
+  - reliability_recommended_summary.json
+  - houston_recommended_reliability.png
+  - nola_recommended_reliability.png
+  - seattle_recommended_reliability.png

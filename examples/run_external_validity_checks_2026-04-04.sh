@@ -8,6 +8,7 @@ BASELINE_LEADERBOARD_CSV="${BASELINE_LEADERBOARD_CSV:-${ROOT}/outputs/2026-04-04
 
 OOT_OUTPUT_ROOT="${OOT_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_out_of_time_check}"
 TRANSFER_OUTPUT_ROOT="${TRANSFER_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_transfer_check}"
+RELIABILITY_OUTPUT_ROOT="${RELIABILITY_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_reliability_report}"
 
 (
   cd "${ROOT}"
@@ -28,8 +29,17 @@ TRANSFER_OUTPUT_ROOT="${TRANSFER_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_transfe
 
 (
   cd "${ROOT}"
+  PYTHONPATH=src python -m ais_risk.reliability_report_cli \
+    --recommendation-csv "${RECOMMENDATION_CSV}" \
+    --run-manifest-csv "${ROOT}/outputs/2026-04-04_all_models_seed_sweep_expanded/all_models_seed_sweep_run_manifest.csv" \
+    --output-root "${RELIABILITY_OUTPUT_ROOT}"
+)
+
+(
+  cd "${ROOT}"
   bash examples/export_github_results_bundle_2026-04-04_expanded.sh
 )
 
 echo "out_of_time_md=${OOT_OUTPUT_ROOT}/out_of_time_recommendation_check.md"
 echo "transfer_md=${TRANSFER_OUTPUT_ROOT}/transfer_recommendation_check.md"
+echo "reliability_md=${RELIABILITY_OUTPUT_ROOT}/reliability_recommended_summary.md"

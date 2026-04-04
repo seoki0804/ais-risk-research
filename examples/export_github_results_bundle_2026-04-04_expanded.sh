@@ -8,6 +8,7 @@ MULTI_DIR="${ROOT}/outputs/2026-04-04_all_models_multiarea_expanded"
 SWEEP_DIR="${ROOT}/outputs/2026-04-04_all_models_seed_sweep_expanded"
 OOT_DIR="${ROOT}/outputs/2026-04-04_out_of_time_check"
 TRANSFER_DIR="${ROOT}/outputs/2026-04-04_transfer_check"
+RELIABILITY_DIR="${ROOT}/outputs/2026-04-04_reliability_report"
 
 mkdir -p "${DEST_DIR}"
 
@@ -25,6 +26,13 @@ required_files=(
   "${OOT_DIR}/out_of_time_recommendation_check.md"
   "${TRANSFER_DIR}/transfer_recommendation_check.csv"
   "${TRANSFER_DIR}/transfer_recommendation_check.md"
+  "${RELIABILITY_DIR}/reliability_recommended_region_summary.csv"
+  "${RELIABILITY_DIR}/reliability_recommended_bins.csv"
+  "${RELIABILITY_DIR}/reliability_recommended_summary.md"
+  "${RELIABILITY_DIR}/reliability_recommended_summary.json"
+  "${RELIABILITY_DIR}/houston_recommended_reliability.png"
+  "${RELIABILITY_DIR}/nola_recommended_reliability.png"
+  "${RELIABILITY_DIR}/seattle_recommended_reliability.png"
 )
 
 for file_path in "${required_files[@]}"; do
@@ -45,6 +53,7 @@ MANIFEST_PATH="${DEST_DIR}/bundle_manifest_2026-04-04-expanded.txt"
   echo "source_seed_sweep_dir=${SWEEP_DIR}"
   echo "source_out_of_time_dir=${OOT_DIR}"
   echo "source_transfer_dir=${TRANSFER_DIR}"
+  echo "source_reliability_dir=${RELIABILITY_DIR}"
   echo "copied_files="
   for file_path in "${required_files[@]}"; do
     echo "  - $(basename "${file_path}")"
