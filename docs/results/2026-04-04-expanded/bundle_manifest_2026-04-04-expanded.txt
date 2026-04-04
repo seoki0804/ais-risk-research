@@ -1,6 +1,7 @@
 bundle_date=2026-04-04-expanded
 source_multiarea_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded
 source_seed_sweep_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_expanded
+source_out_of_time_dir=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check
 copied_files=
   - all_models_multiarea_leaderboard.csv
   - all_models_multiarea_leaderboard.md
@@ -11,3 +12,5 @@ copied_files=
   - all_models_seed_sweep_recommendation.csv
   - all_models_seed_sweep_recommendation.json
   - all_models_seed_sweep_recommendation.md
+  - out_of_time_recommendation_check.csv
+  - out_of_time_recommendation_check.md

@@ -247,6 +247,17 @@ PYTHONPATH=src python -m ais_risk.all_models_seed_sweep_cli \
 참고: 추천표는 기본적으로 `ECE mean <= 0.10` 하드 게이트를 적용합니다.
 비활성화하려면 `--disable-recommendation-ece-gate`를 사용하세요.
 
+추천 모델의 out-of-time(timestamp split) 점검:
+
+```bash
+PYTHONPATH=src python -m ais_risk.out_of_time_eval_cli \
+  --output-root outputs/2026-04-04_out_of_time_check
+```
+
+주요 산출물:
+- `out_of_time_recommendation_check.csv`
+- `out_of_time_recommendation_check.md`
+
 GitHub 업로드용 경량 결과 번들 추출:
 
 ```bash
