@@ -1,10 +1,10 @@
 {
   "bundle_date": "2026-04-04-expanded-10seed",
-  "generated_at_utc": "2026-04-04T21:26:46Z",
+  "generated_at_utc": "2026-04-04T21:59:00Z",
   "bundle_dir": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed",
   "git": {
     "available": true,
-    "commit": "b917e84a49dc983559cef0e3ee201745815bad71",
+    "commit": "e3716db6832eda9c6de1cc9384f86dc03aa28c45",
     "dirty": true
   },
   "source_dirs": [
@@ -36,6 +36,11 @@
     {
       "label": "transfer",
       "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed",
+      "exists": true
+    },
+    {
+      "label": "unseen_area_report",
+      "path": "/Users/seoki/Desktop/research/docs",
       "exists": true
     }
   ],
@@ -81,8 +86,8 @@
       "label": "external_validity_command_log_2026-04-04_10seed.txt",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_command_log_2026-04-04_10seed.txt",
       "exists": true,
-      "bytes": 4348,
-      "sha256": "34f93e5e150cf02ca9d1ba6e26f44ecf2a3052d2ba13f7e32e1c3097f5f7191a"
+      "bytes": 5137,
+      "sha256": "1b3af39505f6b6d9f342b96e105fae3153834cc9c9030600e4b1434dbeb25a7d"
     }
   ],
   "copied_files": [
@@ -229,6 +234,30 @@
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/error_taxonomy_summary.json",
       "bytes": 562,
       "sha256": "d2463b52c49bdbd4718a79ebb7fcf796b9d119e28adfc46b5b41501f8b8e077b"
+    },
+    {
+      "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md",
+      "bytes": 3166,
+      "sha256": "9ed35495aa3bab82c148b689d49643c0ec142883d6bed87a586bbfbc89ec6f0c"
+    },
+    {
+      "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json",
+      "bytes": 2739,
+      "sha256": "abf112c58bd2784a4fcd32d2e42b8da7c4b74b65b2dfdbe9dd50e5c7b5e28cbb"
+    },
+    {
+      "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv",
+      "bytes": 5114,
+      "sha256": "9412ed32026e1da712dc00ed262887ac36ea40b2472023f558584f561dd5ee34"
+    },
+    {
+      "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
+      "bytes": 778,
+      "sha256": "1a6ba8897fbcd9b60418cb5859e8a1d06c1773860e48ac4fa3dd49a25e7fb19c"
     }
   ]
 }

@@ -99,6 +99,8 @@
   "significance_rows": 3,
   "threshold_robustness_summary_csv_path": "/Users/seoki/Desktop/research/docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv",
   "threshold_robustness_rows": 12,
+  "unseen_area_summary_csv_path": "/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
+  "unseen_area_summary_rows": 1,
   "summary_json_path": "/Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.json",
   "summary_md_path": "/Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.md"
 }

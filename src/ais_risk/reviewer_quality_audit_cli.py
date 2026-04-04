@@ -57,6 +57,11 @@ def main() -> None:
         default="/Users/seoki/Desktop/research/docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv",
         help="Optional threshold-robustness summary CSV path.",
     )
+    parser.add_argument(
+        "--unseen-area-summary-csv",
+        default="/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
+        help="Optional true unseen-area summary CSV path.",
+    )
     args = parser.parse_args()
 
     summary = run_reviewer_quality_audit(
@@ -70,6 +75,7 @@ def main() -> None:
         output_prefix=args.output_prefix,
         significance_csv_path=args.significance_csv,
         threshold_robustness_summary_csv_path=args.threshold_robustness_summary_csv,
+        unseen_area_summary_csv_path=args.unseen_area_summary_csv,
     )
     print(f"summary_json={summary['summary_json_path']}")
     print(f"summary_md={summary['summary_md_path']}")

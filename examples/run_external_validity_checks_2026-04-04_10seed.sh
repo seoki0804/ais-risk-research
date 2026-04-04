@@ -12,6 +12,7 @@ OOT_OUTPUT_ROOT="${OOT_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_out_of_time_check
 TRANSFER_OUTPUT_ROOT="${TRANSFER_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_transfer_check_10seed}"
 RELIABILITY_OUTPUT_ROOT="${RELIABILITY_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_reliability_report_10seed}"
 TAXONOMY_OUTPUT_ROOT="${TAXONOMY_OUTPUT_ROOT:-${ROOT}/outputs/2026-04-04_error_taxonomy_10seed}"
+UNSEEN_AREA_REPORT_PREFIX="${UNSEEN_AREA_REPORT_PREFIX:-${ROOT}/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed}"
 
 mkdir -p "$(dirname "${COMMAND_LOG_PATH}")"
 : > "${COMMAND_LOG_PATH}"
@@ -65,6 +66,12 @@ run_logged() {
     --seed 42
 
   run_logged \
+    "unseen_area_evidence_report_cli" \
+    env PYTHONPATH=src python -m ais_risk.unseen_area_evidence_report_cli \
+    --output-prefix "${UNSEEN_AREA_REPORT_PREFIX}" \
+    --min-test-positive-support 10
+
+  run_logged \
     "export_github_results_bundle_2026-04-04_expanded_10seed.sh" \
     env COMMAND_LOG_PATH="${COMMAND_LOG_PATH}" INPUT_DATA_DIR="${INPUT_DIR}" \
     bash examples/export_github_results_bundle_2026-04-04_expanded_10seed.sh
@@ -74,4 +81,5 @@ echo "out_of_time_md=${OOT_OUTPUT_ROOT}/out_of_time_recommendation_check.md"
 echo "transfer_md=${TRANSFER_OUTPUT_ROOT}/transfer_recommendation_check.md"
 echo "reliability_md=${RELIABILITY_OUTPUT_ROOT}/reliability_recommended_summary.md"
 echo "taxonomy_md=${TAXONOMY_OUTPUT_ROOT}/error_taxonomy_summary.md"
+echo "unseen_area_md=${UNSEEN_AREA_REPORT_PREFIX}.md"
 echo "command_log=${COMMAND_LOG_PATH}"

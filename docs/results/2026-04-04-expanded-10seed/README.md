@@ -10,6 +10,7 @@ This bundle captures the 10-seed expanded all-model run and its downstream check
 - Cross-region transfer check for source-region recommended models
 - Reliability diagrams and bin tables for final recommended models
 - FP/FN error taxonomy summary/detail for final recommended models
+- True unseen-area + cross-year transfer consolidated evidence report
 - Reproducibility manifest with SHA256/input-hash/command-log provenance
 
 ## Key Files
@@ -30,6 +31,9 @@ This bundle captures the 10-seed expanded all-model run and its downstream check
 - `error_taxonomy_region_summary.csv`
 - `error_taxonomy_details.csv`
 - `error_taxonomy_summary.md/.json`
+- `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md/.json`
+- `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv`
+- `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
 - `external_validity_command_log_2026-04-04_10seed.txt`
 - `bundle_manifest_2026-04-04-expanded-10seed.txt`
 - `bundle_manifest_2026-04-04-expanded-10seed.json`

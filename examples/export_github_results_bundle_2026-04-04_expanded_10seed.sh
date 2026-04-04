@@ -13,6 +13,7 @@ OOT_DIR="${ROOT}/outputs/2026-04-04_out_of_time_check_10seed"
 TRANSFER_DIR="${ROOT}/outputs/2026-04-04_transfer_check_10seed"
 RELIABILITY_DIR="${ROOT}/outputs/2026-04-04_reliability_report_10seed"
 TAXONOMY_DIR="${ROOT}/outputs/2026-04-04_error_taxonomy_10seed"
+UNSEEN_AREA_REPORT_PREFIX="${UNSEEN_AREA_REPORT_PREFIX:-${ROOT}/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed}"
 
 mkdir -p "${DEST_DIR}"
 
@@ -41,6 +42,10 @@ required_files=(
   "${TAXONOMY_DIR}/error_taxonomy_details.csv"
   "${TAXONOMY_DIR}/error_taxonomy_summary.md"
   "${TAXONOMY_DIR}/error_taxonomy_summary.json"
+  "${UNSEEN_AREA_REPORT_PREFIX}.md"
+  "${UNSEEN_AREA_REPORT_PREFIX}.json"
+  "${UNSEEN_AREA_REPORT_PREFIX}_detail.csv"
+  "${UNSEEN_AREA_REPORT_PREFIX}_summary.csv"
 )
 
 for file_path in "${required_files[@]}"; do
@@ -89,6 +94,7 @@ manifest_args=(
   --source-dir "transfer=${TRANSFER_DIR}"
   --source-dir "reliability=${RELIABILITY_DIR}"
   --source-dir "taxonomy=${TAXONOMY_DIR}"
+  --source-dir "unseen_area_report=$(dirname "${UNSEEN_AREA_REPORT_PREFIX}")"
   --manifest-txt "${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.txt"
   --manifest-json "${DEST_DIR}/bundle_manifest_${MANIFEST_DATE_TAG}.json"
 )

@@ -9,6 +9,7 @@
 - transfer_csv: `/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv`
 - reliability_csv: `/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv`
 - taxonomy_csv: `/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv`
+- unseen_area_summary_csv: `/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
 
 ## Recommendation Snapshot
 
@@ -64,9 +65,16 @@ Calibration gate enabled for all regions: `True` (threshold=`0.1000`)
 - seattle_pooled_pairwise/fn_very_heavy: mean_regret `30.800` (mean_rec_th `0.6050` vs mean_best_th `0.3650`)
 - houston_pooled_pairwise/fn_very_heavy: mean_regret `26.000` (mean_rec_th `0.9500` vs mean_best_th `0.0500`)
 
+## True Unseen-Area Addendum
+
+- source: `/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
+- low-support true-area splits: `5` (la_long_beach:own_ship,ny_nj:own_ship,ny_nj:timestamp,savannah:own_ship,savannah:timestamp)
+- own_ship hgbt F1 range: `0.0000 - 0.5333`
+- transfer negative-ΔF1 pairs: `1/4`
+
 ## Priority TODO (Examiner View)
 
-1. Add true unseen-area evidence (outside current same-ecosystem region set).
+1. Increase low-support true-area splits and add one more independent harbor before final camera-ready claim locking.
 2. Lock one operator cost profile per region and freeze threshold policy text in manuscript.
 3. Integrate significance appendix link and one-line interpretation into main result table caption.
 

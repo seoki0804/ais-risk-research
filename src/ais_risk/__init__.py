@@ -12,6 +12,7 @@ from .reviewer_quality_audit import run_reviewer_quality_audit
 from .significance_report import run_significance_report
 from .threshold_robustness_report import run_threshold_robustness_report
 from .transfer_recommendation_eval import run_cross_region_transfer_recommendation_check
+from .unseen_area_evidence_report import run_unseen_area_evidence_report
 
 __all__ = [
     "run_pairwise_benchmark",
@@ -24,6 +25,7 @@ __all__ = [
     "run_reviewer_quality_audit",
     "run_significance_report",
     "run_threshold_robustness_report",
+    "run_unseen_area_evidence_report",
     "run_cross_region_transfer_recommendation_check",
     "run_all_supported_models",
     "run_all_models_seed_sweep",

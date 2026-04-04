@@ -356,10 +356,22 @@ examples/run_threshold_robustness_report_2026-04-04_10seed.sh
 - `docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_detail.csv`
 - `docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv`
 
+true unseen-area + cross-year transfer 근거 통합 리포트:
+
+```bash
+examples/run_true_unseen_area_evidence_report_2026-04-04_10seed.sh
+```
+
+산출물:
+- `docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md`
+- `docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json`
+- `docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv`
+- `docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
+
 확장 번들 매니페스트는 다음을 포함합니다.
 - 복사된 산출물 SHA256/파일크기
 - 입력 데이터 CSV SHA256
-- 실행 커맨드 로그 SHA256(`external_validity_command_log_2026-04-04.txt`)
+- 실행 커맨드 로그 SHA256(`external_validity_command_log_2026-04-04_10seed.txt`)
 - git commit/dirty 상태
 
 ## 저장소 구조

@@ -62,6 +62,7 @@ def run_reviewer_quality_audit(
     output_prefix: str | Path,
     significance_csv_path: str | Path | None = None,
     threshold_robustness_summary_csv_path: str | Path | None = None,
+    unseen_area_summary_csv_path: str | Path | None = None,
 ) -> dict[str, Any]:
     recommendation_rows = _parse_csv_rows(recommendation_csv_path)
     aggregate_rows = _parse_csv_rows(aggregate_csv_path)
@@ -72,14 +73,18 @@ def run_reviewer_quality_audit(
     taxonomy_rows = _parse_csv_rows(taxonomy_region_summary_csv_path)
     significance_rows: list[dict[str, str]] = []
     threshold_robustness_rows: list[dict[str, str]] = []
+    unseen_area_summary_rows: list[dict[str, str]] = []
     significance_path_resolved = Path(significance_csv_path).resolve() if significance_csv_path else None
     threshold_robustness_path_resolved = (
         Path(threshold_robustness_summary_csv_path).resolve() if threshold_robustness_summary_csv_path else None
     )
+    unseen_area_summary_path_resolved = Path(unseen_area_summary_csv_path).resolve() if unseen_area_summary_csv_path else None
     if significance_path_resolved and significance_path_resolved.exists():
         significance_rows = _parse_csv_rows(significance_path_resolved)
     if threshold_robustness_path_resolved and threshold_robustness_path_resolved.exists():
         threshold_robustness_rows = _parse_csv_rows(threshold_robustness_path_resolved)
+    if unseen_area_summary_path_resolved and unseen_area_summary_path_resolved.exists():
+        unseen_area_summary_rows = _parse_csv_rows(unseen_area_summary_path_resolved)
 
     top_models = _choose_top_models(aggregate_rows, top_k=3)
 
@@ -169,6 +174,8 @@ def run_reviewer_quality_audit(
         "significance_rows": len(significance_rows),
         "threshold_robustness_summary_csv_path": str(threshold_robustness_path_resolved) if threshold_robustness_path_resolved else "",
         "threshold_robustness_rows": len(threshold_robustness_rows),
+        "unseen_area_summary_csv_path": str(unseen_area_summary_path_resolved) if unseen_area_summary_path_resolved else "",
+        "unseen_area_summary_rows": len(unseen_area_summary_rows),
         "summary_json_path": str(summary_json_path),
         "summary_md_path": str(summary_md_path),
     }
@@ -185,6 +192,11 @@ def run_reviewer_quality_audit(
         f"- transfer_csv: `{summary['transfer_csv_path']}`",
         f"- reliability_csv: `{summary['reliability_region_summary_csv_path']}`",
         f"- taxonomy_csv: `{summary['taxonomy_region_summary_csv_path']}`",
+        (
+            f"- unseen_area_summary_csv: `{summary['unseen_area_summary_csv_path']}`"
+            if summary.get("unseen_area_summary_csv_path")
+            else "- unseen_area_summary_csv: `(not provided)`"
+        ),
         "",
         "## Recommendation Snapshot",
         "",
@@ -304,13 +316,42 @@ def run_reviewer_quality_audit(
                     best_th=_fmt(row.get("mean_best_threshold")),
                 )
             )
+    if unseen_area_summary_rows:
+        unseen = unseen_area_summary_rows[0]
+        low_support_count = int(_safe_float(unseen.get("true_area_low_support_count")) or 0)
+        low_support_splits = str(unseen.get("low_support_region_splits", "")).strip()
+        transfer_negative = int(_safe_float(unseen.get("transfer_negative_delta_count")) or 0)
+        transfer_rows_total = int(_safe_float(unseen.get("transfer_row_count")) or 0)
+        lines.extend(
+            [
+                "",
+                "## True Unseen-Area Addendum",
+                "",
+                f"- source: `{unseen_area_summary_path_resolved}`",
+                f"- low-support true-area splits: `{low_support_count}` ({low_support_splits if low_support_splits else 'none'})",
+                (
+                    f"- own_ship hgbt F1 range: `{_fmt(unseen.get('own_ship_hgbt_f1_min'))}"
+                    f" - {_fmt(unseen.get('own_ship_hgbt_f1_max'))}`"
+                ),
+                (
+                    f"- transfer negative-ΔF1 pairs: `{transfer_negative}/{transfer_rows_total}`"
+                ),
+            ]
+        )
+
+    todo_item_1 = "1. Add true unseen-area evidence (outside current same-ecosystem region set)."
+    if unseen_area_summary_rows:
+        todo_item_1 = (
+            "1. Increase low-support true-area splits and add one more independent harbor "
+            "before final camera-ready claim locking."
+        )
 
     lines.extend(
         [
             "",
             "## Priority TODO (Examiner View)",
             "",
-            "1. Add true unseen-area evidence (outside current same-ecosystem region set).",
+            todo_item_1,
             (
                 "2. Add threshold-policy robustness table under operator cost scenarios (FP-heavy vs FN-heavy)."
                 if not threshold_robustness_rows
