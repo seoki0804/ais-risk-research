@@ -117,7 +117,11 @@ def _winner_summary_rows(winner_rows: list[dict[str, Any]]) -> list[dict[str, An
     return out
 
 
-def _recommendation_rows(aggregate_rows: list[dict[str, Any]], f1_tolerance: float) -> list[dict[str, Any]]:
+def _recommendation_rows(
+    aggregate_rows: list[dict[str, Any]],
+    f1_tolerance: float,
+    max_ece_mean: float | None,
+) -> list[dict[str, Any]]:
     by_dataset: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in aggregate_rows:
         by_dataset[str(row.get("dataset", ""))].append(row)
@@ -131,15 +135,54 @@ def _recommendation_rows(aggregate_rows: list[dict[str, Any]], f1_tolerance: flo
         best_f1 = max(float(row["f1_mean"]) for row in rows)
         tolerance = float(f1_tolerance)
         f1_candidates = [row for row in rows if float(row["f1_mean"]) >= best_f1 - tolerance]
-        f1_candidates.sort(
-            key=lambda row: (
-                float(row["ece_mean"]) if _safe_float(row.get("ece_mean")) is not None else float("inf"),
-                float(row["f1_std"]) if _safe_float(row.get("f1_std")) is not None else float("inf"),
-                -float(row["f1_mean"]),
-                str(row.get("model_name", "")),
+        gate_enabled = max_ece_mean is not None
+        gate_threshold = float(max_ece_mean) if gate_enabled else None
+
+        gate_pass_all = rows
+        if gate_enabled:
+            gate_pass_all = [
+                row
+                for row in rows
+                if _safe_float(row.get("ece_mean")) is not None and float(row["ece_mean"]) <= float(gate_threshold)
+            ]
+        gate_pass_f1_candidates = [row for row in f1_candidates if row in gate_pass_all]
+
+        selection_pool = f1_candidates
+        gate_status = "disabled"
+        selection_rule = "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std"
+        if gate_enabled:
+            if gate_pass_f1_candidates:
+                selection_pool = gate_pass_f1_candidates
+                gate_status = "pass_within_f1_band"
+                selection_rule = "ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std"
+            elif gate_pass_all:
+                selection_pool = gate_pass_all
+                gate_status = "fallback_to_gate_pass_outside_f1_band"
+                selection_rule = "ece_gate_hard_then_max_f1_then_min_ece_then_min_f1_std"
+            else:
+                selection_pool = f1_candidates
+                gate_status = "no_gate_pass_candidate"
+                selection_rule = "no_ece_gate_pass_candidate_fallback_to_f1_band"
+
+        if gate_enabled and gate_status == "fallback_to_gate_pass_outside_f1_band":
+            selection_pool.sort(
+                key=lambda row: (
+                    -float(row["f1_mean"]),
+                    float(row["ece_mean"]) if _safe_float(row.get("ece_mean")) is not None else float("inf"),
+                    float(row["f1_std"]) if _safe_float(row.get("f1_std")) is not None else float("inf"),
+                    str(row.get("model_name", "")),
+                )
             )
-        )
-        chosen = f1_candidates[0]
+        else:
+            selection_pool.sort(
+                key=lambda row: (
+                    float(row["ece_mean"]) if _safe_float(row.get("ece_mean")) is not None else float("inf"),
+                    float(row["f1_std"]) if _safe_float(row.get("f1_std")) is not None else float("inf"),
+                    -float(row["f1_mean"]),
+                    str(row.get("model_name", "")),
+                )
+            )
+        chosen = selection_pool[0]
         recommendations.append(
             {
                 "dataset": dataset,
@@ -151,7 +194,12 @@ def _recommendation_rows(aggregate_rows: list[dict[str, Any]], f1_tolerance: flo
                 "ece_std": chosen.get("ece_std"),
                 "f1_tolerance": float(tolerance),
                 "candidate_count": len(f1_candidates),
-                "selection_rule": "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std",
+                "ece_gate_enabled": bool(gate_enabled),
+                "ece_gate_max": gate_threshold,
+                "ece_gate_pass_count": len(gate_pass_f1_candidates),
+                "ece_gate_pass_total_count": len(gate_pass_all) if gate_enabled else len(rows),
+                "gate_status": gate_status,
+                "selection_rule": selection_rule,
             }
         )
     return recommendations
@@ -161,12 +209,12 @@ def _recommendation_markdown(rows: list[dict[str, Any]]) -> str:
     lines = [
         "# Seed Sweep Recommendation",
         "",
-        "| Dataset | Recommended Model | Family | F1 mean±std | ECE mean±std | Candidate Count |",
-        "|---|---|---|---:|---:|---:|",
+        "| Dataset | Recommended Model | Family | F1 mean±std | ECE mean±std | Candidate Count | Gate Status |",
+        "|---|---|---|---:|---:|---:|---|",
     ]
     for row in rows:
         lines.append(
-            "| {dataset} | {model} | {family} | {f1m}±{f1s} | {ecem}±{eces} | {cand} |".format(
+            "| {dataset} | {model} | {family} | {f1m}±{f1s} | {ecem}±{eces} | {cand} | {gate} |".format(
                 dataset=row.get("dataset", ""),
                 model=row.get("model_name", ""),
                 family=row.get("model_family", ""),
@@ -175,6 +223,7 @@ def _recommendation_markdown(rows: list[dict[str, Any]]) -> str:
                 ecem=_fmt(row.get("ece_mean")),
                 eces=_fmt(row.get("ece_std")),
                 cand=row.get("candidate_count", 0),
+                gate=row.get("gate_status", ""),
             )
         )
     return "\n".join(lines) + "\n"
@@ -198,6 +247,8 @@ def _build_markdown(
         f"- split_strategy: `{summary['split_strategy']}`",
         f"- auto_adjust_split_for_support: `{summary['auto_adjust_split_for_support']}`",
         f"- min_positive_support: `{summary['min_positive_support']}`",
+        f"- recommendation_f1_tolerance: `{summary['recommendation_f1_tolerance']}`",
+        f"- recommendation_max_ece_mean: `{summary['recommendation_max_ece_mean']}`",
         "",
         "## Aggregated Model Metrics",
         "",
@@ -247,13 +298,13 @@ def _build_markdown(
             "",
             "## Recommended Model Per Dataset",
             "",
-            "| Dataset | Recommended Model | Family | F1 mean±std | ECE mean±std | Candidate Count |",
-            "|---|---|---|---:|---:|---:|",
+            "| Dataset | Recommended Model | Family | F1 mean±std | ECE mean±std | Candidate Count | Gate Status |",
+            "|---|---|---|---:|---:|---:|---|",
         ]
     )
     for row in recommendation_rows:
         lines.append(
-            "| {dataset} | {model} | {family} | {f1m}±{f1s} | {ecem}±{eces} | {cand} |".format(
+            "| {dataset} | {model} | {family} | {f1m}±{f1s} | {ecem}±{eces} | {cand} | {gate} |".format(
                 dataset=row.get("dataset", ""),
                 model=row.get("model_name", ""),
                 family=row.get("model_family", ""),
@@ -262,6 +313,7 @@ def _build_markdown(
                 ecem=_fmt(row.get("ece_mean")),
                 eces=_fmt(row.get("ece_std")),
                 cand=row.get("candidate_count", 0),
+                gate=row.get("gate_status", ""),
             )
         )
 
@@ -298,6 +350,7 @@ def run_all_models_seed_sweep(
     min_positive_support: int = 10,
     auto_adjust_split_for_support: bool = True,
     recommendation_f1_tolerance: float = 0.01,
+    recommendation_max_ece_mean: float | None = 0.10,
 ) -> dict[str, Any]:
     output_root_path = Path(output_root).resolve()
     output_root_path.mkdir(parents=True, exist_ok=True)
@@ -412,7 +465,11 @@ def run_all_models_seed_sweep(
 
     winner_rows = _winner_rows(raw_rows)
     winner_summary_rows = _winner_summary_rows(winner_rows)
-    recommendation_rows = _recommendation_rows(aggregate_rows, f1_tolerance=float(recommendation_f1_tolerance))
+    recommendation_rows = _recommendation_rows(
+        aggregate_rows,
+        f1_tolerance=float(recommendation_f1_tolerance),
+        max_ece_mean=recommendation_max_ece_mean,
+    )
 
     run_manifest_json_path = output_root_path / "all_models_seed_sweep_run_manifest.json"
     raw_rows_csv_path = output_root_path / "all_models_seed_sweep_raw_rows.csv"
@@ -439,6 +496,11 @@ def run_all_models_seed_sweep(
         "ece_std",
         "f1_tolerance",
         "candidate_count",
+        "ece_gate_enabled",
+        "ece_gate_max",
+        "ece_gate_pass_count",
+        "ece_gate_pass_total_count",
+        "gate_status",
         "selection_rule",
     ]
 
@@ -463,6 +525,7 @@ def run_all_models_seed_sweep(
         "auto_adjust_split_for_support": bool(auto_adjust_split_for_support),
         "min_positive_support": int(min_positive_support),
         "recommendation_f1_tolerance": float(recommendation_f1_tolerance),
+        "recommendation_max_ece_mean": recommendation_max_ece_mean,
         "run_count": len(run_manifest_rows),
         "raw_row_count": len(raw_rows),
         "aggregate_row_count": len(aggregate_rows),

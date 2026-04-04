@@ -235,13 +235,17 @@ PYTHONPATH=src python -m ais_risk.all_models_seed_sweep_cli \
   --output-root outputs/all_models_seed_sweep_2026-04-04 \
   --regions houston,nola,seattle \
   --seeds 41,42,43 \
-  --include-regional-cnn
+  --include-regional-cnn \
+  --recommendation-max-ece-mean 0.10
 ```
 
 주요 안정성 산출물:
 - `all_models_seed_sweep_aggregate.csv` (모델별 평균/표준편차)
 - `all_models_seed_sweep_winner_summary.csv` (seed별 승자 빈도)
 - `all_models_seed_sweep_recommendation.csv` (해역별 자동 추천)
+
+참고: 추천표는 기본적으로 `ECE mean <= 0.10` 하드 게이트를 적용합니다.
+비활성화하려면 `--disable-recommendation-ece-gate`를 사용하세요.
 
 GitHub 업로드용 경량 결과 번들 추출:
 

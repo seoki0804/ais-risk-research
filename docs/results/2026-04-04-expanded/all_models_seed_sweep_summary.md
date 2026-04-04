@@ -9,6 +9,8 @@
 - split_strategy: `own_ship`
 - auto_adjust_split_for_support: `True`
 - min_positive_support: `10`
+- recommendation_f1_tolerance: `0.01`
+- recommendation_max_ece_mean: `0.1`
 
 ## Aggregated Model Metrics
 
@@ -57,11 +59,11 @@
 
 ## Recommended Model Per Dataset
 
-| Dataset | Recommended Model | Family | F1 mean±std | ECE mean±std | Candidate Count |
-|---|---|---|---:|---:|---:|
-| houston_pooled_pairwise | hgbt | tabular | 0.8286±0.0000 | 0.0229±0.0000 | 1 |
-| nola_pooled_pairwise | hgbt | tabular | 0.6015±0.0000 | 0.0237±0.0000 | 1 |
-| seattle_pooled_pairwise | logreg | tabular | 0.8214±0.0000 | 0.0482±0.0000 | 3 |
+| Dataset | Recommended Model | Family | F1 mean±std | ECE mean±std | Candidate Count | Gate Status |
+|---|---|---|---:|---:|---:|---|
+| houston_pooled_pairwise | hgbt | tabular | 0.8286±0.0000 | 0.0229±0.0000 | 1 | pass_within_f1_band |
+| nola_pooled_pairwise | hgbt | tabular | 0.6015±0.0000 | 0.0237±0.0000 | 1 | pass_within_f1_band |
+| seattle_pooled_pairwise | logreg | tabular | 0.8214±0.0000 | 0.0482±0.0000 | 3 | pass_within_f1_band |
 
 ## Outputs
 

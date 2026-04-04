@@ -48,6 +48,17 @@ def main() -> None:
         default=0.01,
         help="F1 tolerance band for recommendation tie-break (then choose lower ECE).",
     )
+    parser.add_argument(
+        "--recommendation-max-ece-mean",
+        type=float,
+        default=0.10,
+        help="Calibration hard gate for recommendation (ECE mean <= value).",
+    )
+    parser.add_argument(
+        "--disable-recommendation-ece-gate",
+        action="store_true",
+        help="Disable recommendation ECE hard gate.",
+    )
     parser.add_argument("--disable-auto-adjust-split", action="store_true", help="Disable split auto-adjustment for positive support.")
     args = parser.parse_args()
 
@@ -70,6 +81,7 @@ def main() -> None:
         min_positive_support=int(args.min_positive_support),
         auto_adjust_split_for_support=not bool(args.disable_auto_adjust_split),
         recommendation_f1_tolerance=float(args.recommendation_f1_tolerance),
+        recommendation_max_ece_mean=(None if bool(args.disable_recommendation_ece_gate) else float(args.recommendation_max_ece_mean)),
     )
 
     print(f"summary_json={summary['summary_json_path']}")

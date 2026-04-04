@@ -9,7 +9,12 @@
     "ece_std": 0.0,
     "f1_tolerance": 0.01,
     "candidate_count": 1,
-    "selection_rule": "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std"
+    "ece_gate_enabled": true,
+    "ece_gate_max": 0.1,
+    "ece_gate_pass_count": 1,
+    "ece_gate_pass_total_count": 4,
+    "gate_status": "pass_within_f1_band",
+    "selection_rule": "ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std"
   },
   {
     "dataset": "nola_pooled_pairwise",
@@ -21,7 +26,12 @@
     "ece_std": 0.0,
     "f1_tolerance": 0.01,
     "candidate_count": 1,
-    "selection_rule": "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std"
+    "ece_gate_enabled": true,
+    "ece_gate_max": 0.1,
+    "ece_gate_pass_count": 1,
+    "ece_gate_pass_total_count": 6,
+    "gate_status": "pass_within_f1_band",
+    "selection_rule": "ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std"
   },
   {
     "dataset": "seattle_pooled_pairwise",
@@ -33,6 +43,11 @@
     "ece_std": 0.0,
     "f1_tolerance": 0.01,
     "candidate_count": 3,
-    "selection_rule": "max_f1_mean_within_tolerance_then_min_ece_then_min_f1_std"
+    "ece_gate_enabled": true,
+    "ece_gate_max": 0.1,
+    "ece_gate_pass_count": 1,
+    "ece_gate_pass_total_count": 4,
+    "gate_status": "pass_within_f1_band",
+    "selection_rule": "ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std"
   }
 ]

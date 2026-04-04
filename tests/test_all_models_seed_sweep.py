@@ -130,6 +130,105 @@ class AllModelsSeedSweepTest(unittest.TestCase):
             recommendation_rows = list(csv.DictReader(Path(summary["recommendation_csv_path"]).open("r", encoding="utf-8", newline="")))
             self.assertEqual(1, len(recommendation_rows))
             self.assertEqual("cnn_focal", recommendation_rows[0]["model_name"])
+            self.assertEqual("pass_within_f1_band", recommendation_rows[0]["gate_status"])
+
+    def test_seed_sweep_recommendation_relaxes_when_no_model_passes_ece_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            input_csv = root / "houston_pooled_pairwise.csv"
+            input_csv.write_text("timestamp,own_mmsi,target_mmsi,label_future_conflict\n", encoding="utf-8")
+
+            def fake_run_all_supported_models(input_path: str | Path, output_dir: str | Path, random_seed: int, **_: object) -> dict[str, object]:
+                run_dir = Path(output_dir)
+                run_dir.mkdir(parents=True, exist_ok=True)
+                leaderboard_path = run_dir / "leaderboard.csv"
+                rows = [
+                    {
+                        "dataset": "houston_pooled_pairwise",
+                        "model_family": "tabular",
+                        "model_name": "hgbt",
+                        "status": "completed",
+                        "f1": 0.79,
+                        "precision": 0.8,
+                        "recall": 0.8,
+                        "auroc": 0.9,
+                        "auprc": 0.85,
+                        "accuracy": 0.88,
+                        "threshold": 0.5,
+                        "sample_count": 100,
+                        "positive_count": 20,
+                        "negative_count": 80,
+                        "tp": 16,
+                        "fp": 4,
+                        "tn": 76,
+                        "fn": 4,
+                        "ece": 0.20,
+                        "brier_score": 0.08,
+                        "elapsed_seconds": 0.1,
+                        "device": "",
+                        "epochs": "",
+                        "hidden_dim": "",
+                        "split_strategy": "own_ship",
+                        "summary_json_path": str(run_dir / "summary.json"),
+                        "predictions_csv_path": str(run_dir / "pred.csv"),
+                        "notes": "",
+                    },
+                    {
+                        "dataset": "houston_pooled_pairwise",
+                        "model_family": "regional_raster_cnn",
+                        "model_name": "cnn_focal",
+                        "status": "completed",
+                        "f1": 0.80,
+                        "precision": 0.75,
+                        "recall": 0.85,
+                        "auroc": 0.92,
+                        "auprc": 0.86,
+                        "accuracy": 0.89,
+                        "threshold": 0.7,
+                        "sample_count": 100,
+                        "positive_count": 20,
+                        "negative_count": 80,
+                        "tp": 17,
+                        "fp": 6,
+                        "tn": 74,
+                        "fn": 3,
+                        "ece": 0.30,
+                        "brier_score": 0.09,
+                        "elapsed_seconds": 0.2,
+                        "device": "mps",
+                        "epochs": 20,
+                        "hidden_dim": "",
+                        "split_strategy": "own_ship",
+                        "summary_json_path": str(run_dir / "summary.json"),
+                        "predictions_csv_path": str(run_dir / "pred.csv"),
+                        "notes": "loss=focal",
+                    },
+                ]
+                with leaderboard_path.open("w", encoding="utf-8", newline="") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+                    writer.writeheader()
+                    writer.writerows(rows)
+                return {
+                    "summary_json_path": str(run_dir / "summary.json"),
+                    "leaderboard_csv_path": str(leaderboard_path),
+                    "split_was_auto_adjusted": False,
+                    "effective_train_fraction": 0.6,
+                    "effective_val_fraction": 0.2,
+                }
+
+            with patch("ais_risk.all_models_seed_sweep.run_all_supported_models", side_effect=fake_run_all_supported_models):
+                summary = run_all_models_seed_sweep(
+                    input_paths_by_region={"houston": input_csv},
+                    output_root=root / "out",
+                    seeds=[41, 42],
+                    include_regional_cnn=True,
+                    recommendation_max_ece_mean=0.10,
+                )
+
+            recommendation_rows = list(csv.DictReader(Path(summary["recommendation_csv_path"]).open("r", encoding="utf-8", newline="")))
+            self.assertEqual(1, len(recommendation_rows))
+            self.assertEqual("hgbt", recommendation_rows[0]["model_name"])
+            self.assertEqual("no_gate_pass_candidate", recommendation_rows[0]["gate_status"])
 
 
 if __name__ == "__main__":
