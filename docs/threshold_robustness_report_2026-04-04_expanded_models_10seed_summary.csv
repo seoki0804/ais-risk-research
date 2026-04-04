@@ -1,0 +1,13 @@
+dataset,model_name,profile,runs,mean_best_threshold,std_best_threshold,mean_recommended_threshold,mean_regret,max_regret,mean_best_cost,mean_recommended_cost,regret_zero_rate
+houston_pooled_pairwise,hgbt,balanced,10,0.95,0.0,0.95,0.0,0.0,12.0,12.0,1.0
+houston_pooled_pairwise,hgbt,fn_heavy,10,0.2,0.0,0.95,12.0,12.0,22.0,34.0,0.0
+houston_pooled_pairwise,hgbt,fn_very_heavy,10,0.05,0.0,0.95,26.0,26.0,30.0,56.0,0.0
+houston_pooled_pairwise,hgbt,fp_heavy,10,0.95,0.0,0.95,0.0,0.0,14.0,14.0,1.0
+nola_pooled_pairwise,hgbt,balanced,10,0.95,0.0,0.35,16.0,16.0,37.0,53.0,0.0
+nola_pooled_pairwise,hgbt,fn_heavy,10,0.4,0.0,0.35,3.0,3.0,70.0,73.0,0.0
+nola_pooled_pairwise,hgbt,fn_very_heavy,10,0.3,0.0,0.35,2.0,2.0,91.0,93.0,0.0
+nola_pooled_pairwise,hgbt,fp_heavy,10,0.95,0.0,0.35,86.0,86.0,53.0,139.0,0.0
+seattle_pooled_pairwise,extra_trees,balanced,10,0.5650000000000001,0.04116363011742822,0.605,1.7,5.0,18.2,19.9,0.4
+seattle_pooled_pairwise,extra_trees,fn_heavy,10,0.45,0.074535599249993,0.605,13.8,30.0,34.3,48.1,0.0
+seattle_pooled_pairwise,extra_trees,fn_very_heavy,10,0.365,0.024152294576982418,0.605,30.8,60.0,45.5,76.3,0.0
+seattle_pooled_pairwise,extra_trees,fp_heavy,10,0.71,0.06992058987801011,0.605,5.3,11.0,26.2,31.5,0.2

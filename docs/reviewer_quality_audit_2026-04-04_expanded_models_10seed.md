@@ -50,11 +50,25 @@ Calibration gate enabled for all regions: `True` (threshold=`0.1000`)
 | nola | 500 | 43 | 10 |
 | seattle | 590 | 5 | 15 |
 
+## Significance Addendum
+
+- source: `/Users/seoki/Desktop/research/docs/significance_report_2026-04-04_expanded_models_10seed.csv`
+- datasets with `F1 rec>cmp (CI)=True`: `1/3`
+- datasets with `ECE rec<cmp (CI)=True`: `3/3`
+
+## Threshold-Robustness Addendum
+
+- source: `/Users/seoki/Desktop/research/docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv`
+- non-zero regret profiles: `10/12`
+- nola_pooled_pairwise/fp_heavy: mean_regret `86.000` (mean_rec_th `0.3500` vs mean_best_th `0.9500`)
+- seattle_pooled_pairwise/fn_very_heavy: mean_regret `30.800` (mean_rec_th `0.6050` vs mean_best_th `0.3650`)
+- houston_pooled_pairwise/fn_very_heavy: mean_regret `26.000` (mean_rec_th `0.9500` vs mean_best_th `0.0500`)
+
 ## Priority TODO (Examiner View)
 
 1. Add true unseen-area evidence (outside current same-ecosystem region set).
-2. Add threshold-policy robustness table under operator cost scenarios (FP-heavy vs FN-heavy).
-3. Add significance notes for top-model deltas (bootstrap CI or paired test) in main table.
+2. Lock one operator cost profile per region and freeze threshold policy text in manuscript.
+3. Integrate significance appendix link and one-line interpretation into main result table caption.
 
 ## Top-3 Models Per Dataset (10-seed aggregate)
 

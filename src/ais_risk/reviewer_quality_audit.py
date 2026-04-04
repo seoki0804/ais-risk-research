@@ -60,6 +60,8 @@ def run_reviewer_quality_audit(
     reliability_region_summary_csv_path: str | Path,
     taxonomy_region_summary_csv_path: str | Path,
     output_prefix: str | Path,
+    significance_csv_path: str | Path | None = None,
+    threshold_robustness_summary_csv_path: str | Path | None = None,
 ) -> dict[str, Any]:
     recommendation_rows = _parse_csv_rows(recommendation_csv_path)
     aggregate_rows = _parse_csv_rows(aggregate_csv_path)
@@ -68,6 +70,16 @@ def run_reviewer_quality_audit(
     transfer_rows = _parse_csv_rows(transfer_csv_path)
     reliability_rows = _parse_csv_rows(reliability_region_summary_csv_path)
     taxonomy_rows = _parse_csv_rows(taxonomy_region_summary_csv_path)
+    significance_rows: list[dict[str, str]] = []
+    threshold_robustness_rows: list[dict[str, str]] = []
+    significance_path_resolved = Path(significance_csv_path).resolve() if significance_csv_path else None
+    threshold_robustness_path_resolved = (
+        Path(threshold_robustness_summary_csv_path).resolve() if threshold_robustness_summary_csv_path else None
+    )
+    if significance_path_resolved and significance_path_resolved.exists():
+        significance_rows = _parse_csv_rows(significance_path_resolved)
+    if threshold_robustness_path_resolved and threshold_robustness_path_resolved.exists():
+        threshold_robustness_rows = _parse_csv_rows(threshold_robustness_path_resolved)
 
     top_models = _choose_top_models(aggregate_rows, top_k=3)
 
@@ -153,6 +165,10 @@ def run_reviewer_quality_audit(
         "high_variance_candidates": high_variance_candidates,
         "positive_support_by_region": positive_support_by_region,
         "fp_fn_by_region": fp_fn_by_region,
+        "significance_csv_path": str(significance_path_resolved) if significance_path_resolved else "",
+        "significance_rows": len(significance_rows),
+        "threshold_robustness_summary_csv_path": str(threshold_robustness_path_resolved) if threshold_robustness_path_resolved else "",
+        "threshold_robustness_rows": len(threshold_robustness_rows),
         "summary_json_path": str(summary_json_path),
         "summary_md_path": str(summary_md_path),
     }
@@ -247,14 +263,64 @@ def run_reviewer_quality_audit(
         fn = fp_fn_by_region.get(region, {}).get("fn", 0)
         lines.append(f"| {region} | {support} | {fp} | {fn} |")
 
+    if significance_rows:
+        f1_ci_true = sum(1 for row in significance_rows if str(row.get("f1_rec_better_ci", "")).lower() == "true")
+        ece_ci_true = sum(1 for row in significance_rows if str(row.get("ece_rec_lower_ci", "")).lower() == "true")
+        lines.extend(
+            [
+                "",
+                "## Significance Addendum",
+                "",
+                f"- source: `{significance_path_resolved}`",
+                f"- datasets with `F1 rec>cmp (CI)=True`: `{f1_ci_true}/{len(significance_rows)}`",
+                f"- datasets with `ECE rec<cmp (CI)=True`: `{ece_ci_true}/{len(significance_rows)}`",
+            ]
+        )
+    if threshold_robustness_rows:
+        nonzero_regret_profiles = [
+            row for row in threshold_robustness_rows if (_safe_float(row.get("mean_regret")) or 0.0) > 0.0
+        ]
+        worst = sorted(
+            nonzero_regret_profiles,
+            key=lambda row: float(_safe_float(row.get("mean_regret")) or 0.0),
+            reverse=True,
+        )[:3]
+        lines.extend(
+            [
+                "",
+                "## Threshold-Robustness Addendum",
+                "",
+                f"- source: `{threshold_robustness_path_resolved}`",
+                f"- non-zero regret profiles: `{len(nonzero_regret_profiles)}/{len(threshold_robustness_rows)}`",
+            ]
+        )
+        for row in worst:
+            lines.append(
+                "- {dataset}/{profile}: mean_regret `{regret}` (mean_rec_th `{rec_th}` vs mean_best_th `{best_th}`)".format(
+                    dataset=row.get("dataset", ""),
+                    profile=row.get("profile", ""),
+                    regret=_fmt(row.get("mean_regret"), digits=3),
+                    rec_th=_fmt(row.get("mean_recommended_threshold")),
+                    best_th=_fmt(row.get("mean_best_threshold")),
+                )
+            )
+
     lines.extend(
         [
             "",
             "## Priority TODO (Examiner View)",
             "",
             "1. Add true unseen-area evidence (outside current same-ecosystem region set).",
-            "2. Add threshold-policy robustness table under operator cost scenarios (FP-heavy vs FN-heavy).",
-            "3. Add significance notes for top-model deltas (bootstrap CI or paired test) in main table.",
+            (
+                "2. Add threshold-policy robustness table under operator cost scenarios (FP-heavy vs FN-heavy)."
+                if not threshold_robustness_rows
+                else "2. Lock one operator cost profile per region and freeze threshold policy text in manuscript."
+            ),
+            (
+                "3. Add significance notes for top-model deltas (bootstrap CI or paired test) in main table."
+                if not significance_rows
+                else "3. Integrate significance appendix link and one-line interpretation into main result table caption."
+            ),
             "",
             "## Top-3 Models Per Dataset (10-seed aggregate)",
             "",

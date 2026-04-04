@@ -10,6 +10,7 @@ from .regional_raster_cnn import run_regional_raster_cnn_benchmark
 from .reliability_report import run_reliability_report_for_recommended_models
 from .reviewer_quality_audit import run_reviewer_quality_audit
 from .significance_report import run_significance_report
+from .threshold_robustness_report import run_threshold_robustness_report
 from .transfer_recommendation_eval import run_cross_region_transfer_recommendation_check
 
 __all__ = [
@@ -22,6 +23,7 @@ __all__ = [
     "run_reliability_report_for_recommended_models",
     "run_reviewer_quality_audit",
     "run_significance_report",
+    "run_threshold_robustness_report",
     "run_cross_region_transfer_recommendation_check",
     "run_all_supported_models",
     "run_all_models_seed_sweep",

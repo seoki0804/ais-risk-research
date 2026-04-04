@@ -344,6 +344,18 @@ examples/run_significance_report_2026-04-04_10seed.sh
 - `docs/significance_report_2026-04-04_expanded_models_10seed.md`
 - `docs/significance_report_2026-04-04_expanded_models_10seed.json`
 
+운용 비용 시나리오별 임계값 정책 강건성 리포트:
+
+```bash
+examples/run_threshold_robustness_report_2026-04-04_10seed.sh
+```
+
+산출물:
+- `docs/threshold_robustness_report_2026-04-04_expanded_models_10seed.md`
+- `docs/threshold_robustness_report_2026-04-04_expanded_models_10seed.json`
+- `docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_detail.csv`
+- `docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv`
+
 확장 번들 매니페스트는 다음을 포함합니다.
 - 복사된 산출물 SHA256/파일크기
 - 입력 데이터 CSV SHA256

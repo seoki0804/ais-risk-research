@@ -47,6 +47,16 @@ def main() -> None:
         default="/Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed",
         help="Output prefix path (without extension).",
     )
+    parser.add_argument(
+        "--significance-csv",
+        default="/Users/seoki/Desktop/research/docs/significance_report_2026-04-04_expanded_models_10seed.csv",
+        help="Optional significance summary CSV path.",
+    )
+    parser.add_argument(
+        "--threshold-robustness-summary-csv",
+        default="/Users/seoki/Desktop/research/docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv",
+        help="Optional threshold-robustness summary CSV path.",
+    )
     args = parser.parse_args()
 
     summary = run_reviewer_quality_audit(
@@ -58,6 +68,8 @@ def main() -> None:
         reliability_region_summary_csv_path=args.reliability_region_summary_csv,
         taxonomy_region_summary_csv_path=args.taxonomy_region_summary_csv,
         output_prefix=args.output_prefix,
+        significance_csv_path=args.significance_csv,
+        threshold_robustness_summary_csv_path=args.threshold_robustness_summary_csv,
     )
     print(f"summary_json={summary['summary_json_path']}")
     print(f"summary_md={summary['summary_md_path']}")
