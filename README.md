@@ -269,6 +269,12 @@ PYTHONPATH=src python -m ais_risk.transfer_recommendation_eval_cli \
 - `transfer_recommendation_check.csv`
 - `transfer_recommendation_check.md`
 
+out-of-time + transfer + 번들 갱신을 한 번에 실행:
+
+```bash
+examples/run_external_validity_checks_2026-04-04.sh
+```
+
 GitHub 업로드용 경량 결과 번들 추출:
 
 ```bash
