@@ -29,3 +29,9 @@ data/curated/**
 !data/README.md
 !data/manifests/**
 !data/**/.gitkeep
+
+# Local-only workbench artifacts
+reference/
+notebooks/
+PORTFOLIO_PUBLIC_PAGE.md
+0.3636
