@@ -25,6 +25,12 @@ def main() -> None:
         choices=["timestamp", "own_ship"],
         help="Split strategy applied to the source dataset.",
     )
+    parser.add_argument(
+        "--threshold-grid-step",
+        type=float,
+        default=0.05,
+        help="Threshold sweep step size for source validation F1 selection (default: 0.05).",
+    )
     parser.add_argument("--torch-device", default="auto", help="Torch device for torch_mlp: auto, cpu, or mps.")
     parser.add_argument("--random-seed", type=int, default=42, help="Base random seed for reproducible training.")
     args = parser.parse_args()
@@ -39,6 +45,7 @@ def main() -> None:
         split_strategy=args.split_strategy,
         torch_device=args.torch_device,
         random_seed=int(args.random_seed),
+        threshold_grid_step=float(args.threshold_grid_step),
     )
     print(f"source_summary_json={summary['source_summary_json_path']}")
     print(f"source_val_predictions_csv={summary['source_val_predictions_csv_path']}")

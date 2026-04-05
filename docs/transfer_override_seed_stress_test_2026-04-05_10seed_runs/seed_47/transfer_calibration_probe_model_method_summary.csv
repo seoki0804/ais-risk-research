@@ -1,0 +1,5 @@
+source_region,model_name,method,pair_count,completed_pair_count,negative_fixed_count,negative_retuned_count,mean_delta_f1_fixed,mean_delta_f1_retuned,mean_target_ece,max_target_ece,all_targets_ece_leq_max,meets_negative_fixed_budget,meets_negative_retuned_budget,combined_pass_fixed,combined_pass_retuned
+houston,hgbt,isotonic,2,2,2,2,-0.17653965358568124,-0.14159667179305174,0.0273569942832659,0.041501982797749984,True,False,False,False,False
+houston,hgbt,none,2,2,2,2,-0.17430296240975857,-0.133056133056133,0.033677363563232414,0.042790174983366555,True,False,False,False,False
+houston,rule_score,isotonic,2,2,0,0,0.6032120676534846,0.6057700024075114,0.056647717636646916,0.06840750472573154,True,True,True,True,True
+houston,rule_score,none,2,2,0,0,0.5435893596481296,0.594183882122989,0.13985015079841429,0.13985745043246828,False,True,True,False,False

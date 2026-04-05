@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "multisource_source_summary_csv_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv",
+  "transfer_policy_governance_lock_json_path": "/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed.json",
+  "lock_source_region": "houston",
+  "baseline_combined_pass_count": 2,
+  "governed_combined_pass_count": 3,
+  "source_count": 3,
+  "improved_source_count": 1,
+  "detail_csv_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed_detail.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.json"
+}

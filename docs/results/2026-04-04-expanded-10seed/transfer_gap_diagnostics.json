@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "transfer_check_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv",
+  "threshold_grid_step": 0.01,
+  "bootstrap_samples": 500,
+  "random_seed": 42,
+  "detail_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics_detail.csv",
+  "summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics_summary.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics.json",
+  "pair_count": 6,
+  "completed_pair_count": 6,
+  "negative_delta_pair_count": 2,
+  "negative_delta_ci_pair_count": 0,
+  "pairs_with_target_retune_gain_ge_0_05": 2,
+  "max_target_retune_gain": 0.1055428309665597,
+  "max_target_retune_gain_pair": "nola->houston:hgbt"
+}

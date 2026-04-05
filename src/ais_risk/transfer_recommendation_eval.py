@@ -82,6 +82,7 @@ def _markdown(summary: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         f"- split_strategy: `{summary['split_strategy']}`",
         f"- train_fraction: `{summary['train_fraction']}`",
         f"- val_fraction: `{summary['val_fraction']}`",
+        f"- threshold_grid_step: `{summary['threshold_grid_step']}`",
         f"- calibration_bins: `{summary['calibration_bins']}`",
         "",
         "## Results",
@@ -129,6 +130,7 @@ def run_cross_region_transfer_recommendation_check(
     torch_device: str = "auto",
     random_seed: int = 42,
     calibration_bins: int = 10,
+    threshold_grid_step: float = 0.05,
 ) -> dict[str, Any]:
     output_root_path = Path(output_root).resolve()
     output_root_path.mkdir(parents=True, exist_ok=True)
@@ -183,6 +185,7 @@ def run_cross_region_transfer_recommendation_check(
                     split_strategy=split_strategy,
                     torch_device=torch_device,
                     random_seed=int(random_seed),
+                    threshold_grid_step=float(threshold_grid_step),
                 )
                 model_summary = transfer_summary.get("models", {}).get(model_name, {})
                 source_metrics = model_summary.get("source_test", {})
@@ -230,6 +233,7 @@ def run_cross_region_transfer_recommendation_check(
         "split_strategy": split_strategy,
         "train_fraction": float(train_fraction),
         "val_fraction": float(val_fraction),
+        "threshold_grid_step": float(threshold_grid_step),
         "torch_device": torch_device,
         "random_seed": int(random_seed),
         "calibration_bins": int(calibration_bins),

@@ -1,0 +1,122 @@
+from __future__ import annotations
+
+import argparse
+
+from .focus_seed_compare import run_focus_seed_compare_bundle
+from .study_sweep import parse_benchmark_modelsets
+
+
+def _parse_mmsis(text: str | None) -> list[str]:
+    if not text:
+        return []
+    values: list[str] = []
+    for chunk in str(text).split(","):
+        item = chunk.strip()
+        if not item:
+            continue
+        values.append(item)
+    return values
+
+
+def _parse_seeds(text: str | None) -> list[int]:
+    if not text:
+        return [42, 43, 44]
+    values: list[int] = []
+    for chunk in str(text).split(","):
+        item = chunk.strip()
+        if not item:
+            continue
+        values.append(int(item))
+    return values or [42, 43, 44]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Run focus MMSI compare across multiple random seeds and summarize robustness."
+    )
+    parser.add_argument("--manifest", required=True, help="Dataset manifest markdown path.")
+    parser.add_argument("--raw-input", required=True, help="Raw AIS CSV path.")
+    parser.add_argument("--output-prefix", required=True, help="Output prefix for seed-compare summary.")
+    parser.add_argument("--focus-own-ship-mmsis", required=True, help="Comma-separated focus own-ship MMSIs.")
+    parser.add_argument("--seed-values", default="42,43,44", help="Comma-separated seed list.")
+    parser.add_argument("--output-root", default="outputs/focus_seed_compare", help="Root directory for seed runs.")
+    parser.add_argument("--config", default="configs/base.toml", help="Project TOML config path.")
+    parser.add_argument("--ingestion-bundle", help="Optional named ingestion bundle for workflow step.")
+    parser.add_argument("--ingestion-config", help="Optional ingestion TOML config path.")
+    parser.add_argument("--source-preset", default="auto", help="Header mapping preset for workflow preprocessing.")
+    parser.add_argument("--column-map", help="Optional column overrides like mmsi=ShipId,timestamp=Event Time.")
+    parser.add_argument("--vessel-types", help="Optional standardized vessel type filter for workflow preprocessing.")
+    parser.add_argument(
+        "--benchmark-modelsets",
+        default="rule_score,logreg,hgbt;rule_score,logreg,hgbt,torch_mlp",
+        help="Semicolon-separated modelsets.",
+    )
+    parser.add_argument(
+        "--pairwise-split-strategy",
+        default="own_ship",
+        choices=["timestamp", "own_ship"],
+        help="Train/val/test split strategy for pairwise benchmark.",
+    )
+    parser.add_argument("--run-calibration-eval", action=argparse.BooleanOptionalAction, default=True, help="Enable calibration evaluation.")
+    parser.add_argument("--run-own-ship-loo", action=argparse.BooleanOptionalAction, default=True, help="Enable own-ship LOO.")
+    parser.add_argument("--run-own-ship-case-eval", action=argparse.BooleanOptionalAction, default=True, help="Enable own-ship fixed-case repeated eval.")
+    parser.add_argument("--own-ship-case-eval-min-rows", type=int, default=30, help="Minimum rows per own ship for fixed-case evaluation.")
+    parser.add_argument("--own-ship-case-eval-repeat-count", type=int, default=3, help="Repeat count for fixed-case evaluation.")
+    parser.add_argument("--build-study-journals", action="store_true", help="Build study journal markdown per run/modelset.")
+    parser.add_argument(
+        "--study-journal-output-template",
+        help="Output template for study journals. Supports {date}, {dataset_id}, {modelset_index}, {modelset_key}, {sweep_type}.",
+    )
+    parser.add_argument("--study-journal-note", help="Optional note appended to generated study journals.")
+    parser.add_argument("--torch-device", default="auto", help="Torch device: auto, cpu, mps.")
+    parser.add_argument("--compare-epsilon", type=float, default=1e-9, help="Tolerance for compare equal decision.")
+    parser.add_argument("--focus-label", default="focused_single_own_ship", help="Focus label used in compare report.")
+    parser.add_argument("--baseline-label", default="baseline_multi_own_ship", help="Baseline label used in compare report.")
+    parser.add_argument(
+        "--reuse-baseline-across-mmsis",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Reuse baseline sweep summary from first MMSI run inside each seed run.",
+    )
+    args = parser.parse_args()
+
+    summary = run_focus_seed_compare_bundle(
+        manifest_path=args.manifest,
+        raw_input_path=args.raw_input,
+        output_prefix=args.output_prefix,
+        focus_own_ship_mmsis=_parse_mmsis(args.focus_own_ship_mmsis),
+        seed_values=_parse_seeds(args.seed_values),
+        benchmark_modelsets=parse_benchmark_modelsets(args.benchmark_modelsets),
+        config_path=args.config,
+        ingestion_bundle_name=args.ingestion_bundle,
+        ingestion_config_path=args.ingestion_config,
+        source_preset_name=args.source_preset,
+        manual_column_map_text=args.column_map,
+        vessel_types_text=args.vessel_types,
+        output_root=args.output_root,
+        pairwise_split_strategy=args.pairwise_split_strategy,
+        run_calibration_eval=bool(args.run_calibration_eval),
+        run_own_ship_loo=bool(args.run_own_ship_loo),
+        run_own_ship_case_eval=bool(args.run_own_ship_case_eval),
+        own_ship_case_eval_min_rows=int(args.own_ship_case_eval_min_rows),
+        own_ship_case_eval_repeat_count=max(1, int(args.own_ship_case_eval_repeat_count)),
+        build_study_journals=bool(args.build_study_journals),
+        study_journal_output_template=args.study_journal_output_template,
+        study_journal_note=args.study_journal_note,
+        torch_device=args.torch_device,
+        compare_epsilon=float(args.compare_epsilon),
+        focus_label=args.focus_label,
+        baseline_label=args.baseline_label,
+        reuse_baseline_across_mmsis=bool(args.reuse_baseline_across_mmsis),
+    )
+    print(f"status={summary['status']}")
+    print(f"run_count={summary['run_count']}")
+    print(f"summary_json={summary['summary_json_path']}")
+    print(f"summary_md={summary['summary_md_path']}")
+    print(f"seed_rows_csv={summary['seed_rows_csv_path']}")
+    print(f"modelset_seed_rows_csv={summary['modelset_seed_rows_csv_path']}")
+    print(f"aggregate_csv={summary['aggregate_csv_path']}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,20 @@
+{
+  "status": "completed",
+  "transfer_gap_detail_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics_detail.csv",
+  "recommendation_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv",
+  "reliability_region_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv",
+  "taxonomy_region_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv",
+  "contour_report_summary_json_by_region": {
+    "houston": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_report_summary.json",
+    "nola": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/nola_report_summary.json",
+    "seattle": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/seattle_report_summary.json"
+  },
+  "transfer_direction_count": 6,
+  "scenario_panel_count": 3,
+  "transfer_uncertainty_table_csv_path": "/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.csv",
+  "transfer_uncertainty_table_md_path": "/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.md",
+  "scenario_panels_csv_path": "/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.csv",
+  "scenario_panels_md_path": "/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.md",
+  "integration_note_md_path": "/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed.json"
+}

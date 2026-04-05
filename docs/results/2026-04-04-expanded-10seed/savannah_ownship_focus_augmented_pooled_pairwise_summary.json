@@ -1,0 +1,31 @@
+{
+  "inputs": [
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r25_true_new_area_savannah_oct_expanded_pooled/savannah_oct_expanded_pooled_pairwise.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r15_sav_override_true_new_area_savannah_20230902/savannah_true_extension_2023-09-02/savannah_pairwise_dataset.csv"
+  ],
+  "allowlist": [
+    "211839000",
+    "218474000",
+    "367726210",
+    "368130910",
+    "373712000",
+    "431888000",
+    "477524100",
+    "538007911",
+    "563066900"
+  ],
+  "output": "/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_pairwise.csv",
+  "output_rows": 476,
+  "file_counts": [
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r25_true_new_area_savannah_oct_expanded_pooled/savannah_oct_expanded_pooled_pairwise.csv",
+      "row_count": 413,
+      "status": "merged_filtered"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r15_sav_override_true_new_area_savannah_20230902/savannah_true_extension_2023-09-02/savannah_pairwise_dataset.csv",
+      "row_count": 63,
+      "status": "merged_filtered"
+    }
+  ]
+}

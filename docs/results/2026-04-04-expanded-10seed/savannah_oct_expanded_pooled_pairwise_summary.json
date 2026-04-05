@@ -1,0 +1,127 @@
+{
+  "inputs": [
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230902/savannah_true_extension_2023-09-02/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230905/savannah_true_extension_2023-09-05/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230906/savannah_true_extension_2023-09-06/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230907/savannah_true_extension_2023-09-07/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230908/savannah_true_extension_2023-09-08/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230909/savannah_true_extension_2023-09-09/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230914/savannah_true_extension_2023-09-14/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231002/savannah_true_extension_2023-10-02/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231004/savannah_true_extension_2023-10-04/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231005/savannah_true_extension_2023-10-05/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231006/savannah_true_extension_2023-10-06/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231008/savannah_true_extension_2023-10-08/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231009/savannah_true_extension_2023-10-09/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231010/savannah_true_extension_2023-10-10/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231011/savannah_true_extension_2023-10-11/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231012/savannah_true_extension_2023-10-12/savannah_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231013/savannah_true_extension_2023-10-13/savannah_pairwise_dataset.csv"
+  ],
+  "output": "/Users/seoki/Desktop/research/outputs/2026-04-05_r25_true_new_area_savannah_oct_expanded_pooled/savannah_oct_expanded_pooled_pairwise.csv",
+  "output_rows": 560,
+  "file_counts": [
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230902/savannah_true_extension_2023-09-02/savannah_pairwise_dataset.csv",
+      "source_date": "2023-09-02",
+      "row_count": 65,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230905/savannah_true_extension_2023-09-05/savannah_pairwise_dataset.csv",
+      "source_date": "2023-09-05",
+      "row_count": 10,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230906/savannah_true_extension_2023-09-06/savannah_pairwise_dataset.csv",
+      "source_date": "2023-09-06",
+      "row_count": 157,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230907/savannah_true_extension_2023-09-07/savannah_pairwise_dataset.csv",
+      "source_date": "2023-09-07",
+      "row_count": 30,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230908/savannah_true_extension_2023-09-08/savannah_pairwise_dataset.csv",
+      "source_date": "2023-09-08",
+      "row_count": 29,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230909/savannah_true_extension_2023-09-09/savannah_pairwise_dataset.csv",
+      "source_date": "2023-09-09",
+      "row_count": 17,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20230914/savannah_true_extension_2023-09-14/savannah_pairwise_dataset.csv",
+      "source_date": "2023-09-14",
+      "row_count": 12,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231002/savannah_true_extension_2023-10-02/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-02",
+      "row_count": 14,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231004/savannah_true_extension_2023-10-04/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-04",
+      "row_count": 13,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231005/savannah_true_extension_2023-10-05/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-05",
+      "row_count": 17,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231006/savannah_true_extension_2023-10-06/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-06",
+      "row_count": 49,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231008/savannah_true_extension_2023-10-08/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-08",
+      "row_count": 27,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231009/savannah_true_extension_2023-10-09/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-09",
+      "row_count": 12,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231010/savannah_true_extension_2023-10-10/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-10",
+      "row_count": 46,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231011/savannah_true_extension_2023-10-11/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-11",
+      "row_count": 53,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231012/savannah_true_extension_2023-10-12/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-12",
+      "row_count": 1,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r24_sav_override2_true_new_area_savannah_20231013/savannah_true_extension_2023-10-13/savannah_pairwise_dataset.csv",
+      "source_date": "2023-10-13",
+      "row_count": 8,
+      "status": "merged"
+    }
+  ]
+}

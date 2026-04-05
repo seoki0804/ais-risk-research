@@ -41,6 +41,20 @@ class ReviewerQualityAuditCliTest(unittest.TestCase):
                 str(root / "taxonomy.csv"),
                 "--output-prefix",
                 str(root / "audit"),
+                "--out-of-time-threshold-policy-compare-json",
+                str(root / "oot_policy_compare.json"),
+                "--transfer-policy-governance-lock-json",
+                str(root / "governance_lock.json"),
+                "--transfer-policy-compare-all-models-json",
+                str(root / "policy_all_models.json"),
+                "--transfer-calibration-probe-json",
+                str(root / "transfer_calibration_probe.json"),
+                "--multisource-transfer-model-scan-summary-json",
+                str(root / "multisource_transfer_scan_summary.json"),
+                "--multisource-transfer-governance-bridge-json",
+                str(root / "multisource_transfer_governance_bridge.json"),
+                "--data-algorithm-quality-review-json",
+                str(root / "data_algorithm_quality_review.json"),
             ]
 
             stdout = io.StringIO()
@@ -54,6 +68,34 @@ class ReviewerQualityAuditCliTest(unittest.TestCase):
             self.assertIn("summary_json=", stdout.getvalue())
             self.assertEqual(str(root / "recommendation.csv"), captured_kwargs["recommendation_csv_path"])
             self.assertEqual(str(root / "audit"), captured_kwargs["output_prefix"])
+            self.assertEqual(
+                str(root / "oot_policy_compare.json"),
+                captured_kwargs["out_of_time_threshold_policy_compare_json_path"],
+            )
+            self.assertEqual(
+                str(root / "governance_lock.json"),
+                captured_kwargs["transfer_policy_governance_lock_json_path"],
+            )
+            self.assertEqual(
+                str(root / "policy_all_models.json"),
+                captured_kwargs["transfer_policy_compare_all_models_json_path"],
+            )
+            self.assertEqual(
+                str(root / "transfer_calibration_probe.json"),
+                captured_kwargs["transfer_calibration_probe_json_path"],
+            )
+            self.assertEqual(
+                str(root / "multisource_transfer_scan_summary.json"),
+                captured_kwargs["multisource_transfer_model_scan_summary_json_path"],
+            )
+            self.assertEqual(
+                str(root / "multisource_transfer_governance_bridge.json"),
+                captured_kwargs["multisource_transfer_governance_bridge_json_path"],
+            )
+            self.assertEqual(
+                str(root / "data_algorithm_quality_review.json"),
+                captured_kwargs["data_algorithm_quality_review_json_path"],
+            )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,15 @@
+[bundle]
+name = "marinecadastre_harbor"
+description = "MarineCadastre-like MMSI/BaseDateTime/LAT/LON/SOG/COG layout for harbor traffic screening."
+source_preset = "marinecadastre_like"
+
+[bundle.defaults]
+vessel_types = ["cargo", "tanker", "passenger", "tug", "service"]
+column_map = ""
+
+[bundle.source_preset_info]
+description = "Typical MMSI/BaseDateTime/LAT/LON/SOG/COG/Heading/VesselType layout."
+default_column_map = "mmsi=MMSI,timestamp=BaseDateTime,lat=LAT,lon=LON,sog=SOG,cog=COG,heading=Heading,vessel_type=VesselType"
+
+[bundle.notes]
+items = ["Good default for typical US AIS exports with BaseDateTime, LAT, LON, SOG, COG, Heading, VesselType.", "Keep service and tug types when analyzing constrained harbor traffic."]

@@ -1,0 +1,50 @@
+{
+  "inputs": [
+    "/Users/seoki/Desktop/research/outputs/2026-03-19_r2_lalb2023_true_new_area_la_long_beach_20230901/la_long_beach_true_extension_2023-09-01/la_long_beach_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-03-19_r2_lalb2023_true_new_area_la_long_beach_20230902/la_long_beach_true_extension_2023-09-02/la_long_beach_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r3_lalb2023ext_true_new_area_la_long_beach_20230903/la_long_beach_true_extension_2023-09-03/la_long_beach_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r3_lalb2023ext_true_new_area_la_long_beach_20230904/la_long_beach_true_extension_2023-09-04/la_long_beach_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-03-19_r2_lalb2023_true_new_area_la_long_beach_20230905/la_long_beach_true_extension_2023-09-05/la_long_beach_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-03-17_r8_true_new_area_la_long_beach_20231008/la_long_beach_true_extension_2023-10-08/la_long_beach_pairwise_dataset.csv"
+  ],
+  "output": "/Users/seoki/Desktop/research/outputs/2026-04-05_r4_true_new_area_la_long_beach_2023_extended_pooled/la_long_beach_2023_extended_pooled_pairwise.csv",
+  "output_rows": 1302,
+  "file_counts": [
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-03-19_r2_lalb2023_true_new_area_la_long_beach_20230901/la_long_beach_true_extension_2023-09-01/la_long_beach_pairwise_dataset.csv",
+      "source_date": "2023-09-01",
+      "row_count": 153,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-03-19_r2_lalb2023_true_new_area_la_long_beach_20230902/la_long_beach_true_extension_2023-09-02/la_long_beach_pairwise_dataset.csv",
+      "source_date": "2023-09-02",
+      "row_count": 477,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r3_lalb2023ext_true_new_area_la_long_beach_20230903/la_long_beach_true_extension_2023-09-03/la_long_beach_pairwise_dataset.csv",
+      "source_date": "2023-09-03",
+      "row_count": 201,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r3_lalb2023ext_true_new_area_la_long_beach_20230904/la_long_beach_true_extension_2023-09-04/la_long_beach_pairwise_dataset.csv",
+      "source_date": "2023-09-04",
+      "row_count": 248,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-03-19_r2_lalb2023_true_new_area_la_long_beach_20230905/la_long_beach_true_extension_2023-09-05/la_long_beach_pairwise_dataset.csv",
+      "source_date": "2023-09-05",
+      "row_count": 223,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-03-17_r8_true_new_area_la_long_beach_20231008/la_long_beach_true_extension_2023-10-08/la_long_beach_pairwise_dataset.csv",
+      "source_date": "2023-10-08",
+      "row_count": 0,
+      "status": "merged"
+    }
+  ]
+}

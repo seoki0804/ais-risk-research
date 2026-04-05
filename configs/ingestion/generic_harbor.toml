@@ -1,0 +1,15 @@
+[bundle]
+name = "generic_harbor"
+description = "General mixed-harbor ingestion starting point with alias auto detection and common commercial/service vessel filters."
+source_preset = "auto"
+
+[bundle.defaults]
+vessel_types = ["cargo", "tanker", "passenger", "tug", "service"]
+column_map = ""
+
+[bundle.source_preset_info]
+description = "Alias-based auto detection only. Use this when the raw CSV is already close to common AIS headers."
+default_column_map = ""
+
+[bundle.notes]
+items = ["Use this when the raw CSV header layout is unknown but the target sea area is a mixed harbor approach.", "If auto detection misses required headers, switch source preset or add manual column overrides."]

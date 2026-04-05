@@ -1,0 +1,4 @@
+region,dataset,model_name,locked_profile,mean_regret,mean_recommended_threshold,mean_best_threshold,selection_basis
+houston,houston_pooled_pairwise,hgbt,balanced,0.0,0.95,0.95,minimum_mean_regret_then_profile_priority_then_threshold_gap
+nola,nola_pooled_pairwise,hgbt,fn_very_heavy,2.0,0.35,0.3,minimum_mean_regret_then_profile_priority_then_threshold_gap
+seattle,seattle_pooled_pairwise,extra_trees,balanced,1.7,0.605,0.5650000000000001,minimum_mean_regret_then_profile_priority_then_threshold_gap

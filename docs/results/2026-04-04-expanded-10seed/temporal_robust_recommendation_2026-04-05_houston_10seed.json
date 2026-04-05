@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "baseline_aggregate_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv",
+  "out_of_time_aggregate_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv",
+  "baseline_recommendation_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv",
+  "dataset_prefix_filters": [
+    "houston"
+  ],
+  "f1_tolerance": 0.01,
+  "max_ece_mean": 0.1,
+  "min_out_of_time_delta_f1": -0.05,
+  "delta_penalty_weight": 1.0,
+  "dataset_count": 1,
+  "changed_recommendation_count": 0,
+  "current_temporal_target_pass_count": 0,
+  "robust_temporal_target_pass_count": 0,
+  "temporal_target_feasible_any_model_count": 1,
+  "temporal_target_feasible_with_ece_gate_count": 0,
+  "best_observed_out_of_time_delta_f1_mean_any_model": 0.07269338303821066,
+  "best_observed_out_of_time_delta_f1_mean_ece_pass_model": -0.10129870129870133,
+  "max_robust_in_time_regression_from_best_f1": 0.0,
+  "detail_csv_path": "/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed_detail.csv",
+  "comparison_csv_path": "/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed_comparison.csv",
+  "recommendation_csv_path": "/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed_recommendation.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed.json"
+}

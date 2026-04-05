@@ -1,0 +1,4 @@
+source_region,recommended_model,recommended_combined_pass,recommended_negative_pair_count,recommended_max_target_ece,recommended_mean_delta_f1_fixed_threshold,recommended_min_delta_f1_fixed_threshold,best_combined_model,best_combined_negative_pair_count,best_combined_max_target_ece,best_combined_mean_delta_f1_fixed_threshold,best_combined_min_delta_f1_fixed_threshold,best_combined_pass,model_count,target_pair_count
+houston,hgbt,False,2,0.042790174983366555,-0.17430296240975857,-0.2102564102564103,,,,,,False,6,12
+nola,hgbt,True,0,0.025994751164338088,0.3826065809076129,0.3213420316868593,extra_trees,0,0.053422958749168366,0.43491725305532014,0.3757103273376227,True,6,12
+seattle,random_forest,True,0,0.022040712183908073,0.04169959941598761,0.007526042861731863,random_forest,0,0.022040712183908073,0.04169959941598761,0.007526042861731863,True,6,12

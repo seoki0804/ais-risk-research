@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "predictions_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_44/transfer_scan/houston_to_seattle/model_scan_target_predictions.csv",
+  "model_names": [
+    "hgbt",
+    "rule_score"
+  ],
+  "bin_count": 10,
+  "models": {
+    "hgbt": {
+      "status": "completed",
+      "sample_count": 1503,
+      "skipped_rows": 0,
+      "brier_score": 0.04928629807198211,
+      "ece": 0.042790174983366555,
+      "mce": 0.56997875,
+      "mean_score": 0.20824137391882902,
+      "positive_rate": 0.1763140385894877
+    },
+    "rule_score": {
+      "status": "completed",
+      "sample_count": 1503,
+      "skipped_rows": 0,
+      "brier_score": 0.11544251973719874,
+      "ece": 0.13985745043246828,
+      "mce": 0.24848971428571448,
+      "mean_score": 0.28597172987358616,
+      "positive_rate": 0.1763140385894877
+    }
+  },
+  "calibration_bin_rows": 20,
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_44/transfer_scan/houston_to_seattle/model_scan_target_calibration_summary.json",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_44/transfer_scan/houston_to_seattle/model_scan_target_calibration_summary.md",
+  "calibration_bins_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_44/transfer_scan/houston_to_seattle/model_scan_target_calibration_bins.csv"
+}

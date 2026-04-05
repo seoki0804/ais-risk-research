@@ -1,0 +1,29 @@
+{
+  "status": "completed",
+  "source_region": "nola",
+  "source_input_path": "/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/nola_pooled_pairwise.csv",
+  "target_regions": [
+    "houston",
+    "seattle"
+  ],
+  "model_names": [
+    "rule_score",
+    "logreg",
+    "hgbt",
+    "random_forest",
+    "extra_trees",
+    "torch_mlp"
+  ],
+  "split_strategy": "own_ship",
+  "train_fraction": 0.6,
+  "val_fraction": 0.2,
+  "threshold_grid_step": 0.01,
+  "calibration_bins": 10,
+  "calibration_ece_max": 0.1,
+  "detail_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan_detail.csv",
+  "model_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan_model_summary.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan.json",
+  "recommended_model": "hgbt",
+  "selection_rule": "all_targets_ece_leq_max_then_max_min_target_f1_then_max_mean_target_f1_then_max_mean_delta_f1"
+}

@@ -1,13 +1,43 @@
 {
   "bundle_date": "2026-04-04-expanded-10seed",
-  "generated_at_utc": "2026-04-04T22:08:22Z",
+  "generated_at_utc": "2026-04-05T18:26:50Z",
   "bundle_dir": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed",
   "git": {
     "available": true,
-    "commit": "8f646f198ac990f7a5432c9fe46b4b95f3464cf6",
+    "commit": "90e50b0d0b5fe4652002242fa966941b6675cd29",
     "dirty": true
   },
   "source_dirs": [
+    {
+      "label": "data_algorithm_quality_review",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "external_validity_assets",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "houston_transfer_calibration_probe",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "houston_transfer_policy_compare",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "houston_transfer_policy_compare_all_models",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "la_lb_2023_expanded_pool",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled",
+      "exists": true
+    },
     {
       "label": "la_lb_2024_pool",
       "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled",
@@ -19,8 +49,33 @@
       "exists": true
     },
     {
+      "label": "manuscript_freeze_packet",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
       "label": "multiarea",
       "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded",
+      "exists": true
+    },
+    {
+      "label": "multisource_transfer_governance_bridge",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "multisource_transfer_scan",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed",
+      "exists": true
+    },
+    {
+      "label": "multisource_transfer_scan_summary",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "ny_nj_2023_ext_pool",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled",
       "exists": true
     },
     {
@@ -29,8 +84,23 @@
       "exists": true
     },
     {
+      "label": "out_of_time_threshold_policy_compare",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
       "label": "reliability",
       "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed",
+      "exists": true
+    },
+    {
+      "label": "reviewer_audit",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "savannah_ext_pool",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled",
       "exists": true
     },
     {
@@ -44,8 +114,38 @@
       "exists": true
     },
     {
+      "label": "temporal_robust",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
       "label": "transfer",
       "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed",
+      "exists": true
+    },
+    {
+      "label": "transfer_gap_diagnostics",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed",
+      "exists": true
+    },
+    {
+      "label": "transfer_model_scan",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed",
+      "exists": true
+    },
+    {
+      "label": "transfer_override_seed_stress_test",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "transfer_policy_governance_lock",
+      "path": "/Users/seoki/Desktop/research/docs",
+      "exists": true
+    },
+    {
+      "label": "uncertainty_contour",
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed",
       "exists": true
     },
     {
@@ -96,8 +196,8 @@
       "label": "external_validity_command_log_2026-04-04_10seed.txt",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_command_log_2026-04-04_10seed.txt",
       "exists": true,
-      "bytes": 9269,
-      "sha256": "5849d4603f64ee4d7728913d185032070e3eb3d7145f10d32c02fbcdcaa8378f"
+      "bytes": 50106,
+      "sha256": "8e8e9ed20ed573d1de4bb56c225d87aab7e093c43b700a0a011ef0c3fc76fc9c"
     }
   ],
   "copied_files": [
@@ -170,14 +270,14 @@
     {
       "name": "transfer_recommendation_check.csv",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_recommendation_check.csv",
-      "bytes": 3964,
-      "sha256": "d120dc565eebd76acc5b08e2a5d68d99d143efef6d4e9e5452e17cba51e6d551"
+      "bytes": 4022,
+      "sha256": "fb53bbffe4595adac780e44ae90b6a9070bee7883e0ff323d3d56bd8df407272"
     },
     {
       "name": "transfer_recommendation_check.md",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_recommendation_check.md",
-      "bytes": 1505,
-      "sha256": "ffde0179b51d9deaa140a95df5088227b4088bdc7898769644b0ab6ce0df72ed"
+      "bytes": 1534,
+      "sha256": "52645db08cbcd5d764e3955dbafe704f4c027f9b8446a11b125a7d30fa583227"
     },
     {
       "name": "reliability_recommended_region_summary.csv",
@@ -248,26 +348,488 @@
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md",
-      "bytes": 4044,
-      "sha256": "ea0aef56d2804bb70009d0bbdb946ffa638db1bc21a0a540e51bd1c19430ad1f"
+      "bytes": 4202,
+      "sha256": "1d3cde0ff24788b47ad4bbec66aee8d24845b13285a1c7dc165729a94fa2daf8"
     },
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json",
-      "bytes": 3310,
-      "sha256": "7a304d80b6cd9d431d04ef9d173da125848d456c514a30af3c299298bfbf9ad6"
+      "bytes": 3405,
+      "sha256": "7add6515264e6e8edea9c1afa2e7e80faf1323957c0aa0c16c4ce331a86d4fdc"
     },
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv",
-      "bytes": 7277,
-      "sha256": "5c085d26babffc7fbfcc581418d25e8b7335f78ab0252dc3483a43e148f7d699"
+      "bytes": 8095,
+      "sha256": "07568203af11a7c3411c978ff2267ecaa5b109b4907b5485c3ce85b8ce095214"
     },
     {
       "name": "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
-      "bytes": 831,
-      "sha256": "574e09ebdb6a83396b30589b1e73b1216c77530274113c5950f0d16ef0eef00d"
+      "bytes": 797,
+      "sha256": "b1107084d6692b8d690b1202c53a929e07b0423ca43476321ed0bce00abed4df"
+    },
+    {
+      "name": "transfer_gap_diagnostics.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_gap_diagnostics.md",
+      "bytes": 1591,
+      "sha256": "1e1995a2c14dc50e4289637fd97a0ea5574e67bf05b5bdc4fe87cb81eade2340"
+    },
+    {
+      "name": "transfer_gap_diagnostics.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_gap_diagnostics.json",
+      "bytes": 1066,
+      "sha256": "88d169e0613e0436aecf32c95ee5882f06af1b0531acb567e635be34c85a0c6d"
+    },
+    {
+      "name": "transfer_gap_diagnostics_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_gap_diagnostics_detail.csv",
+      "bytes": 2472,
+      "sha256": "3f0345305fc0591350aaf0c9447bbc386b110554ce33f4cbdc918752962e8417"
+    },
+    {
+      "name": "transfer_gap_diagnostics_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_gap_diagnostics_summary.csv",
+      "bytes": 226,
+      "sha256": "1b970d5ae0569af9f46904bad3df0b6429609336b75dbcab6e30fd0d7cd90790"
+    },
+    {
+      "name": "reviewer_quality_audit_2026-04-04_expanded_models_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/reviewer_quality_audit_2026-04-04_expanded_models_10seed.md",
+      "bytes": 14776,
+      "sha256": "8486f4448051eb3604a6d188a280c506d840a37143a7c6f14de3148636223876"
+    },
+    {
+      "name": "reviewer_quality_audit_2026-04-04_expanded_models_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/reviewer_quality_audit_2026-04-04_expanded_models_10seed.json",
+      "bytes": 9746,
+      "sha256": "17d529a9d06b29183616d875ce202278acd3804488d3b88f4d9a86de8118c236"
+    },
+    {
+      "name": "examiner_todo_2026-04-05_transfer_focus.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/examiner_todo_2026-04-05_transfer_focus.md",
+      "bytes": 10470,
+      "sha256": "14c95e58ac510af40a07cd25a8dcdfa8dc86d4e37bcfbea01688e9d44d753eec"
+    },
+    {
+      "name": "temporal_robust_recommendation_2026-04-05_houston_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/temporal_robust_recommendation_2026-04-05_houston_10seed.md",
+      "bytes": 1912,
+      "sha256": "3a793fd166715e8644c46ff3246cbc7af7350fa8ed6188f947744f223903dd67"
+    },
+    {
+      "name": "temporal_robust_recommendation_2026-04-05_houston_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/temporal_robust_recommendation_2026-04-05_houston_10seed.json",
+      "bytes": 1765,
+      "sha256": "db22a26d13c0cd496b69c69b57534363be37a78d8600faa6c33b5905bc3be1a8"
+    },
+    {
+      "name": "temporal_robust_recommendation_2026-04-05_houston_10seed_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/temporal_robust_recommendation_2026-04-05_houston_10seed_detail.csv",
+      "bytes": 2398,
+      "sha256": "edf5868a902739f5bb186a24c548eb64f37741246902e8a09184cb41530e0d02"
+    },
+    {
+      "name": "temporal_robust_recommendation_2026-04-05_houston_10seed_comparison.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/temporal_robust_recommendation_2026-04-05_houston_10seed_comparison.csv",
+      "bytes": 853,
+      "sha256": "aa9f4527da92ea86ba7e09f348e5355cd505ee0040e729cb49dde191ef2cbe94"
+    },
+    {
+      "name": "temporal_robust_recommendation_2026-04-05_houston_10seed_recommendation.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/temporal_robust_recommendation_2026-04-05_houston_10seed_recommendation.csv",
+      "bytes": 459,
+      "sha256": "ca6744f69694610e47ff0b4fc543a9501b62701633bf70338add2a4083c7e093"
+    },
+    {
+      "name": "out_of_time_threshold_policy_compare_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/out_of_time_threshold_policy_compare_2026-04-05_10seed.md",
+      "bytes": 2052,
+      "sha256": "e1dc2f902a8f09eca84b9f4816160265241150513999ee85f2d81ef0f187ac5e"
+    },
+    {
+      "name": "out_of_time_threshold_policy_compare_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/out_of_time_threshold_policy_compare_2026-04-05_10seed.json",
+      "bytes": 6060,
+      "sha256": "bf4d5619d9fba6089ea5a03bdfa282ca1853be9cdf261b4f6e9cc065c52a01fa"
+    },
+    {
+      "name": "out_of_time_threshold_policy_compare_2026-04-05_10seed_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/out_of_time_threshold_policy_compare_2026-04-05_10seed_detail.csv",
+      "bytes": 5296,
+      "sha256": "1fee5a61090ee4e3cb776233ec4623173515d5a4cb49e467b6ad04337ebb10b9"
+    },
+    {
+      "name": "out_of_time_threshold_policy_compare_2026-04-05_10seed_policy_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/out_of_time_threshold_policy_compare_2026-04-05_10seed_policy_summary.csv",
+      "bytes": 549,
+      "sha256": "badbb4de1052ee18c5fbfa9de51f84fd039c3048c7d41f533e4e162aa75663dc"
+    },
+    {
+      "name": "transfer_policy_governance_lock_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_policy_governance_lock_2026-04-05_10seed.md",
+      "bytes": 2030,
+      "sha256": "366a3795df6488e52b78fa20e6cd878c677616a28196cd77c1e62cdc37d4ee9b"
+    },
+    {
+      "name": "transfer_policy_governance_lock_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_policy_governance_lock_2026-04-05_10seed.json",
+      "bytes": 2264,
+      "sha256": "068187105d9db93564b6f6f7059033fcb8e93c353c9d9fcfe55f213c020c40d0"
+    },
+    {
+      "name": "transfer_policy_governance_lock_2026-04-05_10seed_policy_lock.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_policy_governance_lock_2026-04-05_10seed_policy_lock.csv",
+      "bytes": 922,
+      "sha256": "179a10439584045f25c58cb042eb24a31aab0c8d792606d5fda415a138ef8a57"
+    },
+    {
+      "name": "transfer_policy_governance_lock_2026-04-05_10seed_projected_transfer_check.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_policy_governance_lock_2026-04-05_10seed_projected_transfer_check.csv",
+      "bytes": 4133,
+      "sha256": "a50cc65de64ff819cbb7d89306895b10174d8b0460b12da18f5c03acbbbda6ea"
+    },
+    {
+      "name": "transfer_policy_governance_lock_2026-04-05_10seed_candidate_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_policy_governance_lock_2026-04-05_10seed_candidate_summary.csv",
+      "bytes": 2187,
+      "sha256": "ce8f5fa608dd03dbe92d3a548aac8722bd3fbc9bfc3f96d40837a57abb54179a"
+    },
+    {
+      "name": "houston_transfer_policy_compare_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_policy_compare_2026-04-05_10seed.md",
+      "bytes": 1066,
+      "sha256": "b3907bc7fffb5b6bede0db7b0d3015396e8803127e10844d859eac3fe0ebb08e"
+    },
+    {
+      "name": "houston_transfer_policy_compare_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_policy_compare_2026-04-05_10seed.json",
+      "bytes": 1507,
+      "sha256": "adc5e82df404e91452c87070fd8ef13152174d23e99d8ee07e1fefadcebbc989"
+    },
+    {
+      "name": "houston_transfer_policy_compare_2026-04-05_10seed.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_policy_compare_2026-04-05_10seed.csv",
+      "bytes": 472,
+      "sha256": "612911edb62c504fbf90c4db832879113f2a08bdbaab554b99131529b30af0a5"
+    },
+    {
+      "name": "houston_transfer_policy_compare_all_models_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_policy_compare_all_models_2026-04-05_10seed.md",
+      "bytes": 1299,
+      "sha256": "294224cf97aca6ece748c6399bd3a10fb0afa0b22a75dd76e327abad57967cdf"
+    },
+    {
+      "name": "houston_transfer_policy_compare_all_models_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_policy_compare_all_models_2026-04-05_10seed.json",
+      "bytes": 2659,
+      "sha256": "b871a04b60a1c2ff3efa1b871c414037540f258c7b4029bae1d1d166a481deee"
+    },
+    {
+      "name": "houston_transfer_policy_compare_all_models_2026-04-05_10seed.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_policy_compare_all_models_2026-04-05_10seed.csv",
+      "bytes": 769,
+      "sha256": "47c7298eb46bcf67f75b2624b695b23cafa88b09c091748ce6e2bb4dc9b0eb4d"
+    },
+    {
+      "name": "houston_transfer_calibration_probe_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_calibration_probe_2026-04-05_10seed.md",
+      "bytes": 2776,
+      "sha256": "f4b48f0d45963e5bf435408865f9220bb6550176044b08b6144015974ac1482b"
+    },
+    {
+      "name": "houston_transfer_calibration_probe_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_calibration_probe_2026-04-05_10seed.json",
+      "bytes": 2445,
+      "sha256": "434722c35c413ca2c3b8bc501993b53cbdd5f2b5c6bf666d9454f3fcbd701d9d"
+    },
+    {
+      "name": "houston_transfer_calibration_probe_2026-04-05_10seed_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_calibration_probe_2026-04-05_10seed_detail.csv",
+      "bytes": 12644,
+      "sha256": "79df25448dce9ba5232ab809658168fc4629f8247b43f51958afbd2a6725943f"
+    },
+    {
+      "name": "houston_transfer_calibration_probe_2026-04-05_10seed_model_method_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_calibration_probe_2026-04-05_10seed_model_method_summary.csv",
+      "bytes": 2893,
+      "sha256": "ed49615cad720aebbe0a86ca71c14285d8e536cbf92dce83e7ce63d5b40393f8"
+    },
+    {
+      "name": "multisource_transfer_model_scan_summary_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/multisource_transfer_model_scan_summary_2026-04-05_10seed.md",
+      "bytes": 728,
+      "sha256": "eebea5baa08a1cda219e27810b5c2313cb2742338de355676050066e816a9b12"
+    },
+    {
+      "name": "multisource_transfer_model_scan_summary_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/multisource_transfer_model_scan_summary_2026-04-05_10seed.json",
+      "bytes": 916,
+      "sha256": "24c5bc7ef6e067b61e559490bde2564dc46ad11316a1db936020d532f4df7665"
+    },
+    {
+      "name": "multisource_transfer_model_scan_summary_2026-04-05_10seed_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/multisource_transfer_model_scan_summary_2026-04-05_10seed_detail.csv",
+      "bytes": 2187,
+      "sha256": "c504828dc4ba35b2700b3654dd863fe34e486d7b2d1a08dacd39d1378cde3d80"
+    },
+    {
+      "name": "multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv",
+      "bytes": 861,
+      "sha256": "8b3c7be93f93158cee7ca34ab7d67f59e7e83534c7fbde7244bef0b6f1732bf1"
+    },
+    {
+      "name": "multisource_transfer_governance_bridge_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/multisource_transfer_governance_bridge_2026-04-05_10seed.md",
+      "bytes": 935,
+      "sha256": "32e82db00f2d492aa1389660ddfc97a5912813d8338bc249415581df11d2d088"
+    },
+    {
+      "name": "multisource_transfer_governance_bridge_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/multisource_transfer_governance_bridge_2026-04-05_10seed.json",
+      "bytes": 852,
+      "sha256": "3450290229361f45a078152e4bdca787d08ba108476a5d1321f6a2a79ea2d6d3"
+    },
+    {
+      "name": "multisource_transfer_governance_bridge_2026-04-05_10seed_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/multisource_transfer_governance_bridge_2026-04-05_10seed_detail.csv",
+      "bytes": 644,
+      "sha256": "3bb24b14f7265216ded3c3134e81c1e94f8483123731feeb8f062d4e6a063b0c"
+    },
+    {
+      "name": "transfer_override_seed_stress_test_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_override_seed_stress_test_2026-04-05_10seed.md",
+      "bytes": 2135,
+      "sha256": "c63d4b46472239de7e40f23bca2264e952129f9c381318cb7d4febef405e52f4"
+    },
+    {
+      "name": "transfer_override_seed_stress_test_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_override_seed_stress_test_2026-04-05_10seed.json",
+      "bytes": 1461,
+      "sha256": "2295d8e3baed7ffaf51276c5a8bc457e62c6b37024249d786f13fea89d1993e1"
+    },
+    {
+      "name": "transfer_override_seed_stress_test_2026-04-05_10seed_per_seed.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/transfer_override_seed_stress_test_2026-04-05_10seed_per_seed.csv",
+      "bytes": 7423,
+      "sha256": "33fb9d993ada32da440ad686eca0361a1298692cfe31e64338c2a114672d188b"
+    },
+    {
+      "name": "data_algorithm_quality_review_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/data_algorithm_quality_review_2026-04-05_10seed.md",
+      "bytes": 3438,
+      "sha256": "a6baf9457d6729bc3a4d1122ac3aa71b10edd27138eacd3e8b7f24e9e5154e89"
+    },
+    {
+      "name": "data_algorithm_quality_review_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/data_algorithm_quality_review_2026-04-05_10seed.json",
+      "bytes": 7058,
+      "sha256": "371fbfa9f3636d99b9c55de5ee0592cec3c95bfc55a79cca257bfe4f3ba2d703"
+    },
+    {
+      "name": "data_algorithm_quality_review_2026-04-05_10seed_dataset_scorecard.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/data_algorithm_quality_review_2026-04-05_10seed_dataset_scorecard.csv",
+      "bytes": 1522,
+      "sha256": "a9d02b4589aae81bbd8ec6ff116462b84bb4ca07624bbd1d364bf0098d13052e"
+    },
+    {
+      "name": "data_algorithm_quality_review_2026-04-05_10seed_high_risk_models.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/data_algorithm_quality_review_2026-04-05_10seed_high_risk_models.csv",
+      "bytes": 2429,
+      "sha256": "d6e5ddf8c088aa60a4117557f0bdb4222060be9021f720fcefa8160faeb3bc05"
+    },
+    {
+      "name": "data_algorithm_quality_review_2026-04-05_10seed_todo.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/data_algorithm_quality_review_2026-04-05_10seed_todo.csv",
+      "bytes": 65,
+      "sha256": "769bc6513df08bcd39146ac088e65bdc243c9365134582a6c49ab63465840dd6"
+    },
+    {
+      "name": "houston_transfer_model_scan.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_model_scan.md",
+      "bytes": 1698,
+      "sha256": "9223cb1bf3667d6de9bec7b45d09ba95a0790aa8e0acf9830cc61e756f0f8b24"
+    },
+    {
+      "name": "houston_transfer_model_scan.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_model_scan.json",
+      "bytes": 1256,
+      "sha256": "73e71f40d4fe28c16985ec3f483036c82ba56af099ac676beac6f8467779ff62"
+    },
+    {
+      "name": "houston_transfer_model_scan_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_model_scan_detail.csv",
+      "bytes": 6889,
+      "sha256": "8a2cb65b464ffab94db05587011aa322c30dafd90aa2bc4cd449dc7cb952e944"
+    },
+    {
+      "name": "houston_transfer_model_scan_model_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_transfer_model_scan_model_summary.csv",
+      "bytes": 1061,
+      "sha256": "66621d014e00a7903ebe9c4b06e4541c2336be2cc99017debb6ce197c3e916e1"
+    },
+    {
+      "name": "nola_transfer_model_scan.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/nola_transfer_model_scan.md",
+      "bytes": 1723,
+      "sha256": "de62cfb69ebb687bf9e245276ba4d1c3e9890fdb6488bd85c11dd884e8b8e02a"
+    },
+    {
+      "name": "nola_transfer_model_scan.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/nola_transfer_model_scan.json",
+      "bytes": 1289,
+      "sha256": "c759749f4c9f3ebff0d37ac7d1a9b7fdd587e5bbd3effe830445b2f27632e182"
+    },
+    {
+      "name": "nola_transfer_model_scan_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/nola_transfer_model_scan_detail.csv",
+      "bytes": 7369,
+      "sha256": "af8dbcf13d79f8346ec57da4a793cad83f5e1d20c80eafa280bab5391f61cce2"
+    },
+    {
+      "name": "nola_transfer_model_scan_model_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/nola_transfer_model_scan_model_summary.csv",
+      "bytes": 1029,
+      "sha256": "17894e1400f9423404328428fdd063ab665fc495f2ee685f4fd5b35b381d7204"
+    },
+    {
+      "name": "seattle_transfer_model_scan.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/seattle_transfer_model_scan.md",
+      "bytes": 1752,
+      "sha256": "7aabb2392667440aee0da3aa885de41694001d09b0f94aff22e5ad84470b3c4c"
+    },
+    {
+      "name": "seattle_transfer_model_scan.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/seattle_transfer_model_scan.json",
+      "bytes": 1313,
+      "sha256": "c8a3f1ddd96b1a0fcb6d2d2d586724b6fce2fade7f576b9e867be0966db00aa3"
+    },
+    {
+      "name": "seattle_transfer_model_scan_detail.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/seattle_transfer_model_scan_detail.csv",
+      "bytes": 7476,
+      "sha256": "56ff888e9bf11eefe4ce6cd9d3c15cbd5af19fa5317b1d19db5266fc8ab8c777"
+    },
+    {
+      "name": "seattle_transfer_model_scan_model_summary.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/seattle_transfer_model_scan_model_summary.csv",
+      "bytes": 1066,
+      "sha256": "dbdd0c283daaf265f5d8bed5902491f565d54cbecf7267fb875e7bd7a02f1100"
+    },
+    {
+      "name": "external_validity_manuscript_assets_2026-04-05_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_manuscript_assets_2026-04-05_10seed.md",
+      "bytes": 1262,
+      "sha256": "097ec8b89643d7718eb3363a2597c99d9b84d5c751b7c83a14e401b6c46b2381"
+    },
+    {
+      "name": "external_validity_manuscript_assets_2026-04-05_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_manuscript_assets_2026-04-05_10seed.json",
+      "bytes": 1982,
+      "sha256": "ef25abdcb4ab43b76095423905beea93eea23e01c94414dae0fd6a20e8a9e29f"
+    },
+    {
+      "name": "external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.csv",
+      "bytes": 1077,
+      "sha256": "d08fcf2a127e5e1941fac309d4a32a76bd18aac434653296ad7fd4d063843336"
+    },
+    {
+      "name": "external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.md",
+      "bytes": 977,
+      "sha256": "fdc461bf4dee2778ca6f6a18f8b784cee63b63b3f8fb52004932dd308f8db877"
+    },
+    {
+      "name": "external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.csv",
+      "bytes": 1792,
+      "sha256": "f6aefc2ce62ccdd850b6ffc82b27bf0f70800eb955d88aca950d6094b49382c9"
+    },
+    {
+      "name": "external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.md",
+      "bytes": 2283,
+      "sha256": "da079c11e24193189f8160ac8fcaa08ae425e4c38ebb3b5b52e6c52784ab8c99"
+    },
+    {
+      "name": "houston_report_figure.svg",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_report_figure.svg",
+      "bytes": 21916,
+      "sha256": "3426bbefd5c4a8a142d9359030c65355f3ffde36b9ded6168bb0645662d2afc0"
+    },
+    {
+      "name": "nola_report_figure.svg",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/nola_report_figure.svg",
+      "bytes": 14706,
+      "sha256": "c31dc0a88ee7c3a9057dfa8c55dffb522dcd028efbd03c397d33c15c60ac7d5f"
+    },
+    {
+      "name": "seattle_report_figure.svg",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/seattle_report_figure.svg",
+      "bytes": 14824,
+      "sha256": "dfc0c766d3d58b922823a9c7e71bc9fda800e2afb334376f9c7970fe3e5b0682"
+    },
+    {
+      "name": "houston_report_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/houston_report_summary.json",
+      "bytes": 1048,
+      "sha256": "0473b87c237d24d567e3afce3b4e2688c4f402d0d7be9a0ef80b158c6da1249a"
+    },
+    {
+      "name": "nola_report_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/nola_report_summary.json",
+      "bytes": 1034,
+      "sha256": "8fad7fb5822936d80b5515f4926a0f531de6acdf9ce72443426e7263ce888d35"
+    },
+    {
+      "name": "seattle_report_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/seattle_report_summary.json",
+      "bytes": 1063,
+      "sha256": "d5bdacb4536e7bda193304cd58e00db0879468f01c92c281d2cdfd1842e28f83"
+    },
+    {
+      "name": "manuscript_freeze_packet_2026-04-04_expanded_models_10seed.md",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/manuscript_freeze_packet_2026-04-04_expanded_models_10seed.md",
+      "bytes": 3129,
+      "sha256": "9148c14059ef114d3e624e047e8a6f33cfc46f524610ef10976c2646708fc8a5"
+    },
+    {
+      "name": "manuscript_freeze_packet_2026-04-04_expanded_models_10seed.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/manuscript_freeze_packet_2026-04-04_expanded_models_10seed.json",
+      "bytes": 3072,
+      "sha256": "0224e5c7131d75a3b0ea823c0616434ee0ceeb71e8cb711be75409a43e2d908c"
+    },
+    {
+      "name": "manuscript_freeze_packet_2026-04-04_expanded_models_10seed_operator_profile_lock.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/manuscript_freeze_packet_2026-04-04_expanded_models_10seed_operator_profile_lock.csv",
+      "bytes": 503,
+      "sha256": "f12d593f813aa43107ce23274282aed5e23b10f881fc6ee48030fc1c5a69b07a"
+    },
+    {
+      "name": "manuscript_freeze_packet_2026-04-04_expanded_models_10seed_model_claim_scope.csv",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/manuscript_freeze_packet_2026-04-04_expanded_models_10seed_model_claim_scope.csv",
+      "bytes": 4271,
+      "sha256": "7d8aec16bd80ccc6563e08f58fbff8d90787901e9c82f2b209c827523137e267"
+    },
+    {
+      "name": "la_long_beach_2023_expanded_pooled_pairwise_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/la_long_beach_2023_expanded_pooled_pairwise_summary.json",
+      "bytes": 4954,
+      "sha256": "96f1a89cc6aaad7c03b014ac5c1ed677124d432eaef5e855756b53e4d5bd8380"
+    },
+    {
+      "name": "ny_nj_2023_extended_pooled_pairwise_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/ny_nj_2023_extended_pooled_pairwise_summary.json",
+      "bytes": 4558,
+      "sha256": "899a71a60de17b40f79cd8a4d9e5028307315612691ef067fe0f3a7e9096e20d"
+    },
+    {
+      "name": "savannah_ownship_focus_augmented_pooled_pairwise_summary.json",
+      "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/savannah_ownship_focus_augmented_pooled_pairwise_summary.json",
+      "bytes": 1205,
+      "sha256": "bbae484c600bcc97bff150dfb4e579a02fb03acda8a8d88f944a731f3dd5cbc4"
     },
     {
       "name": "la_long_beach_2024_pooled_pairwise_summary.json",
@@ -278,14 +840,14 @@
     {
       "name": "la_long_beach_2023_to_2024_transfer_summary.json",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/la_long_beach_2023_to_2024_transfer_summary.json",
-      "bytes": 4756,
-      "sha256": "c5909c0a2f1255a30cfefb55b22211f6a2b2d5905d307881f55fbdd563e9fe54"
+      "bytes": 4791,
+      "sha256": "090f2a6ca8ed8b60f5351f2edf079a1502818b57b0918cb5f483556076e2ef7b"
     },
     {
       "name": "la_long_beach_2024_to_2023_transfer_summary.json",
       "path": "/Users/seoki/Desktop/research/docs/results/2026-04-04-expanded-10seed/la_long_beach_2024_to_2023_transfer_summary.json",
-      "bytes": 4757,
-      "sha256": "872616de879ccf9578bf2b51c53447c1f50f2b5a232eaa6990793d6be659dee6"
+      "bytes": 4790,
+      "sha256": "cd0d30dd5f2a8b2aa8febf742f815dd8258b223c5f019c35863fc1f5a6d5572e"
     }
   ]
 }

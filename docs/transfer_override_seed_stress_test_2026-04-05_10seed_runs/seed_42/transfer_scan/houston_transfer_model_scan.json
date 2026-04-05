@@ -1,0 +1,25 @@
+{
+  "status": "completed",
+  "source_region": "houston",
+  "source_input_path": "/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/houston_pooled_pairwise.csv",
+  "target_regions": [
+    "nola",
+    "seattle"
+  ],
+  "model_names": [
+    "hgbt",
+    "rule_score"
+  ],
+  "split_strategy": "own_ship",
+  "train_fraction": 0.6,
+  "val_fraction": 0.2,
+  "threshold_grid_step": 0.01,
+  "calibration_bins": 10,
+  "calibration_ece_max": 0.1,
+  "detail_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_scan/houston_transfer_model_scan_detail.csv",
+  "model_summary_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_scan/houston_transfer_model_scan_model_summary.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_scan/houston_transfer_model_scan.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_scan/houston_transfer_model_scan.json",
+  "recommended_model": "hgbt",
+  "selection_rule": "all_targets_ece_leq_max_then_max_min_target_f1_then_max_mean_target_f1_then_max_mean_delta_f1"
+}

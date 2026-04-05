@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "case_id": "2023-10-09T20-26-11Z__368216230__hgbt",
+  "timestamp": "2023-10-09T20:26:11Z",
+  "own_mmsi": "368216230",
+  "model": "hgbt",
+  "target_count": 2,
+  "max_risk_raw": 0.9845471224341573,
+  "max_risk_mean": 0.9537712374213787,
+  "max_cell_band_span": 0.6060144890318159,
+  "projected_cells_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_projection_projected_cells.csv",
+  "case_summary_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_projection_case_summary.csv",
+  "config_path": "configs/base.toml",
+  "figure_svg_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_report_figure.svg",
+  "summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_report_summary.json",
+  "summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_report_summary.md"
+}

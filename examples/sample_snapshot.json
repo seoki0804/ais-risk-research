@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-03-07T09:00:00Z",
+  "own_ship": {
+    "mmsi": "440000001",
+    "lat": 35.0500,
+    "lon": 129.0500,
+    "sog": 12.0,
+    "cog": 45.0,
+    "heading": 45.0,
+    "vessel_type": "cargo"
+  },
+  "targets": [
+    {
+      "mmsi": "440000101",
+      "lat": 35.0720,
+      "lon": 129.0780,
+      "sog": 12.5,
+      "cog": 225.0,
+      "heading": 225.0,
+      "vessel_type": "cargo"
+    },
+    {
+      "mmsi": "440000102",
+      "lat": 35.0430,
+      "lon": 129.0780,
+      "sog": 14.0,
+      "cog": 315.0,
+      "heading": 315.0,
+      "vessel_type": "tanker"
+    },
+    {
+      "mmsi": "440000103",
+      "lat": 35.0350,
+      "lon": 129.0350,
+      "sog": 15.5,
+      "cog": 48.0,
+      "heading": 48.0,
+      "vessel_type": "cargo"
+    }
+  ]
+}
