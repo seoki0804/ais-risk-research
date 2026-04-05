@@ -1,0 +1,2 @@
+dataset,delta_penalty_weight,ece_gate_max,ece_mean,f1_mean,f1_std,f1_tolerance,gate_status,min_out_of_time_delta_f1,model_family,model_name,out_of_time_delta_f1_mean,robust_score,selection_rule
+houston_pooled_pairwise,1.0,0.1,0.022859754716981127,0.8285714285714286,0.0,0.01,temporal_gate_failed_fallback_to_f1_band_with_ece_gate,-0.05,tabular,hgbt,-0.10129870129870133,0.7772727272727273,f1_band+ece_gate_then_max_robust_score_then_min_ece_then_min_f1_std

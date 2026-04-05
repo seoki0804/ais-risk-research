@@ -7,10 +7,26 @@ This bundle captures the 10-seed expanded all-model run and its downstream check
   - includes mean/std and CI95 columns in aggregate table
 - Recommendation outputs with F1-tolerance + ECE hard-gate rule (`ECE<=0.10`)
 - Out-of-time(timestamp split) check for the final recommended model per region
-- Cross-region transfer check for source-region recommended models
+- Cross-region transfer check for source-region recommended models (validation threshold sweep step `0.01`)
+- Houston-source transfer model scan across all supported models (`rule/logreg/hgbt/rf/et/torch_mlp`)
+- Transfer-gap diagnostics (bootstrap CI + target-threshold retune gain analysis)
 - Reliability diagrams and bin tables for final recommended models
 - FP/FN error taxonomy summary/detail for final recommended models
 - True unseen-area + cross-year transfer consolidated evidence report
+- Manuscript freeze packet (support-governed claim text, operator profile lock, caption addendum)
+- Reviewer quality audit (examiner findings + closed TODO evidence)
+- Examiner TODO sheet (next-cycle transfer robustness actions with acceptance criteria)
+- Houston temporal-robust recommendation check (10-seed timestamp sweep linkage)
+- Out-of-time threshold policy compare (val-tuned vs fixed-baseline threshold, with oracle upper-bound)
+- Transfer-policy governance lock (in-time vs transfer-only split policy lock + projected transfer check)
+- Houston transfer policy compare (fixed-threshold vs target-retuned threshold; shortlist models)
+- Houston transfer policy compare (all-model probe) for calibration-vs-transfer tradeoff
+- Houston transfer calibration probe (`none/platt/isotonic`) for post-hoc calibration feasibility under ECE gate
+- Multi-source transfer model scan summary (`Houston/NOLA/Seattle`, all-model cross-source consistency check)
+- Multi-source transfer governance bridge (Houston override lock applied to source-level pass accounting)
+- Transfer override seed-stress test (multi-seed replay for Houston transfer-only override path, DQ-3 closure evidence)
+- Data-algorithm quality review (data sufficiency + overfit/stability gates + detailed TODO table)
+- External-validity manuscript assets (Supplementary transfer-uncertainty table + 3-region heatmap scenario panels + main-text insert)
 - Reproducibility manifest with SHA256/input-hash/command-log provenance
 
 ## Key Files
@@ -22,6 +38,12 @@ This bundle captures the 10-seed expanded all-model run and its downstream check
 - `all_models_seed_sweep_recommendation.csv/.json/.md`
 - `out_of_time_recommendation_check.csv/.md`
 - `transfer_recommendation_check.csv/.md`
+- `(optional) transfer_gap_diagnostics.md/.json`
+- `(optional) transfer_gap_diagnostics_detail.csv`
+- `(optional) transfer_gap_diagnostics_summary.csv`
+- `(optional) houston_transfer_model_scan.md/.json`
+- `(optional) houston_transfer_model_scan_detail.csv`
+- `(optional) houston_transfer_model_scan_model_summary.csv`
 - `reliability_recommended_region_summary.csv`
 - `reliability_recommended_bins.csv`
 - `reliability_recommended_summary.md/.json`
@@ -34,12 +56,62 @@ This bundle captures the 10-seed expanded all-model run and its downstream check
 - `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md/.json`
 - `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv`
 - `true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv`
+- `(optional) manuscript_freeze_packet_2026-04-04_expanded_models_10seed.md/.json`
+- `(optional) manuscript_freeze_packet_2026-04-04_expanded_models_10seed_operator_profile_lock.csv`
+- `(optional) manuscript_freeze_packet_2026-04-04_expanded_models_10seed_model_claim_scope.csv`
+- `(optional) reviewer_quality_audit_2026-04-04_expanded_models_10seed.md/.json`
+- `(optional) examiner_todo_2026-04-05_transfer_focus.md`
+- `(optional) temporal_robust_recommendation_2026-04-05_houston_10seed.md/.json`
+- `(optional) temporal_robust_recommendation_2026-04-05_houston_10seed_detail.csv`
+- `(optional) temporal_robust_recommendation_2026-04-05_houston_10seed_comparison.csv`
+- `(optional) temporal_robust_recommendation_2026-04-05_houston_10seed_recommendation.csv`
+- `(optional) out_of_time_threshold_policy_compare_2026-04-05_10seed.md/.json`
+- `(optional) out_of_time_threshold_policy_compare_2026-04-05_10seed_detail.csv`
+- `(optional) out_of_time_threshold_policy_compare_2026-04-05_10seed_policy_summary.csv`
+- `(optional) transfer_policy_governance_lock_2026-04-05_10seed.md/.json`
+- `(optional) transfer_policy_governance_lock_2026-04-05_10seed_policy_lock.csv`
+- `(optional) transfer_policy_governance_lock_2026-04-05_10seed_projected_transfer_check.csv`
+- `(optional) transfer_policy_governance_lock_2026-04-05_10seed_candidate_summary.csv`
+- `(optional) houston_transfer_policy_compare_2026-04-05_10seed.md/.json/.csv`
+- `(optional) houston_transfer_policy_compare_all_models_2026-04-05_10seed.md/.json/.csv`
+- `(optional) houston_transfer_calibration_probe_2026-04-05_10seed.md/.json`
+- `(optional) houston_transfer_calibration_probe_2026-04-05_10seed_detail.csv`
+- `(optional) houston_transfer_calibration_probe_2026-04-05_10seed_model_method_summary.csv`
+- `(optional) multisource_transfer_model_scan_summary_2026-04-05_10seed.md/.json`
+- `(optional) multisource_transfer_model_scan_summary_2026-04-05_10seed_detail.csv`
+- `(optional) multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv`
+- `(optional) multisource_transfer_governance_bridge_2026-04-05_10seed.md/.json`
+- `(optional) multisource_transfer_governance_bridge_2026-04-05_10seed_detail.csv`
+- `(optional) transfer_override_seed_stress_test_2026-04-05_10seed.md/.json`
+- `(optional) transfer_override_seed_stress_test_2026-04-05_10seed_per_seed.csv`
+- `(optional) data_algorithm_quality_review_2026-04-05_10seed.md/.json`
+- `(optional) data_algorithm_quality_review_2026-04-05_10seed_dataset_scorecard.csv`
+- `(optional) data_algorithm_quality_review_2026-04-05_10seed_high_risk_models.csv`
+- `(optional) data_algorithm_quality_review_2026-04-05_10seed_todo.csv`
+- `(optional) houston_transfer_model_scan.md/.json/.csv`
+- `(optional) nola_transfer_model_scan.md/.json/.csv`
+- `(optional) seattle_transfer_model_scan.md/.json/.csv`
+- `(optional) external_validity_manuscript_assets_2026-04-05_10seed.md/.json`
+- `(optional) external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.csv/.md`
+- `(optional) external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.csv/.md`
+- `(optional) houston_report_figure.svg`
+- `(optional) nola_report_figure.svg`
+- `(optional) seattle_report_figure.svg`
+- `(optional) savannah_ownship_focus_augmented_pooled_pairwise_summary.json`
+- `(optional) la_long_beach_2023_expanded_pooled_pairwise_summary.json`
+- `(optional) ny_nj_2023_extended_pooled_pairwise_summary.json`
 - `(optional) la_long_beach_2024_pooled_pairwise_summary.json`
 - `(optional) la_long_beach_2023_to_2024_transfer_summary.json`
 - `(optional) la_long_beach_2024_to_2023_transfer_summary.json`
 - `external_validity_command_log_2026-04-04_10seed.txt`
 - `bundle_manifest_2026-04-04-expanded-10seed.txt`
 - `bundle_manifest_2026-04-04-expanded-10seed.json`
+- `(optional) GITHUB_UPLOAD_CHECKLIST_2026-04-05.md`
+
+## Rerun Note
+
+- Runner scripts now auto-set `TMPDIR` to `${ROOT}/.tmp` when `TMPDIR` is not preconfigured.
+- For low-disk environments, keep at least `1 GiB` free before rerun to avoid tempfile/capture failures.
 
 ## Quick Takeaway
 
@@ -52,6 +124,55 @@ This bundle captures the 10-seed expanded all-model run and its downstream check
   - Houston: F1 decrease (`-0.1013`)
   - NOLA: F1 increase (`+0.2318`)
   - Seattle(extra_trees): small F1 decrease (`-0.0099`) and ECE increase (`+0.0088`, still below `0.10`)
+- Cross-region transfer check:
+  - negative-ΔF1 pairs: `2/6` (`houston->nola`, `houston->seattle`)
+  - Seattle source pair improved to non-negative under finer threshold sweep (`seattle->houston`: `+0.0021`)
+- Transfer-gap diagnostics:
+  - fixed-threshold negative pairs with CI upper<0: `0/6`
+  - target-threshold retune gain >= `0.05` F1 observed in `2` pairs (max: `nola->houston:hgbt`, `+0.1055`)
+- Houston transfer model scan:
+  - calibration-gated robust recommendation remains `hgbt`
+  - summary: min target F1 `0.7897`, mean target F1 `0.8257`, max target ECE `0.0428`
+- Houston temporal robustness check (10-seed timestamp aggregate):
+  - recommendation change under temporal penalty rule: `0/1` (remains `hgbt`)
+  - temporal target (`ΔF1 >= -0.05`) feasible with ECE gate: `0/1`
+- Out-of-time threshold policy compare (recommended models across 3 regions):
+  - recommended non-oracle policy: `fixed_baseline_threshold`
+  - combined pass count: `oot_val_tuned 1/3 -> fixed_baseline_threshold 2/3`
+  - Houston(`hgbt`) out-of-time delta improved `-0.1013 -> -0.0286` with combined gate `no -> yes`
+- Transfer-policy governance lock:
+  - selected transfer override: `rule_score/isotonic` (Houston source, transfer-only path)
+  - projected transfer negatives improved `2/6 -> 0/6` (source Houston `2 -> 0`)
+  - governance gate status: `governance_ready_for_lock=True`
+- Houston transfer policy compare (`hgbt`, `extra_trees`, `random_forest`):
+  - fixed-threshold negative pairs: `2/2` for all shortlisted models
+  - target-retuned threshold still leaves `2/2` negative pairs (mean ΔF1 improves but remains negative)
+- Houston transfer policy compare (all models):
+  - `rule_score` reaches `0/2` negatives in raw policy compare, but with calibration risk (`target ECE≈0.14`) and low source in-time F1
+  - under calibration gate (`ECE<=0.10`) and without post-hoc recalibration, no model satisfies desired Houston-source negative reduction
+- Houston transfer calibration probe (`none/platt/isotonic`):
+  - `rule_score/isotonic` passes combined gate in both fixed/retuned modes (`negative pairs 0/2`, `max target ECE 0.0684`)
+  - split-policy what-if (Houston source only): projected global negatives `2/6 -> 0/6`
+  - trade-off: Houston source in-time F1 anchor is low (`~0.10`), so this path should remain transfer-only governance
+  - probe indicates a calibration-feasible Houston-source transfer policy exists, but requires explicit governance split from the in-time recommendation path (`hgbt`)
+- Multi-source transfer model scan summary (`Houston/NOLA/Seattle`):
+  - recommended-model combined pass under (`max target ECE<=0.10`, `negative pairs<=1`): `2/3`
+  - best-combined model pass across sources: `2/3`
+  - recommendation mismatch count (recommended vs best-combined model): `2`
+- Multi-source transfer governance bridge:
+  - baseline combined-pass sources: `2/3`
+  - governed combined-pass sources (Houston transfer override lock applied): `3/3`
+  - improved source count after governance bridge: `1`
+- Transfer override seed-stress test:
+  - multi-seed replay artifact is exported for DQ-3 closure (`transfer_override_seed_stress_test_2026-04-05_10seed.*`)
+  - `data_algorithm_quality_review` now consumes `dq3_acceptance_met` from this report
+- Data-algorithm quality review:
+  - baseline->final combined-pass datasets: `2/3 -> 3/3` (governance-aligned temporal + transfer policy application)
+  - high-risk model pool (ECE/seed-variance outliers) is exported as a separate table
+  - examiner-facing TODO rows are now fully closed (`todo_count=0`): `DQ-3` is closed by seed-stress acceptance and `DQ-5` is closed by manuscript-freeze claim-hygiene evidence
+- Manuscript asset pack:
+  - supplementary transfer-uncertainty table covers `6/6` directions with fixed ΔF1, CI95, retune gain, and best target threshold
+  - scenario panels cover `3/3` regions and bind heatmap+contour evidence to reliability(ECE) + taxonomy(FP/FN) notes
 - Reliability summary:
   - Houston(hgbt) ECE `0.0229`
   - NOLA(hgbt) ECE `0.0237`

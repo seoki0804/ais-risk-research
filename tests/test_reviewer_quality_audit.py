@@ -29,6 +29,7 @@ class ReviewerQualityAuditTest(unittest.TestCase):
             transfer_csv = root / "transfer.csv"
             reliability_csv = root / "reliability.csv"
             taxonomy_csv = root / "taxonomy.csv"
+            external_assets_json = root / "external_assets.json"
             output_prefix = root / "audit"
 
             _write_csv(
@@ -169,6 +170,19 @@ class ReviewerQualityAuditTest(unittest.TestCase):
                     },
                 ],
             )
+            external_assets_json.write_text(
+                json.dumps(
+                    {
+                        "status": "completed",
+                        "transfer_direction_count": 6,
+                        "scenario_panel_count": 3,
+                        "transfer_uncertainty_table_md_path": str(root / "transfer_table.md"),
+                        "scenario_panels_md_path": str(root / "scenario_panels.md"),
+                        "integration_note_md_path": str(root / "integration_note.md"),
+                    }
+                ),
+                encoding="utf-8",
+            )
 
             summary = run_reviewer_quality_audit(
                 recommendation_csv_path=recommendation_csv,
@@ -178,6 +192,7 @@ class ReviewerQualityAuditTest(unittest.TestCase):
                 transfer_csv_path=transfer_csv,
                 reliability_region_summary_csv_path=reliability_csv,
                 taxonomy_region_summary_csv_path=taxonomy_csv,
+                external_validity_manuscript_assets_json_path=external_assets_json,
                 output_prefix=output_prefix,
             )
 
@@ -195,6 +210,8 @@ class ReviewerQualityAuditTest(unittest.TestCase):
             self.assertIn("Priority TODO", md_text)
             payload = json.loads(summary_json.read_text(encoding="utf-8"))
             self.assertEqual("completed", payload["status"])
+            self.assertEqual(6, payload["external_validity_manuscript_assets"]["transfer_direction_count"])
+            self.assertEqual(3, payload["external_validity_manuscript_assets"]["scenario_panel_count"])
 
 
 if __name__ == "__main__":

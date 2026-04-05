@@ -14,9 +14,9 @@ def main() -> None:
     parser.add_argument(
         "--true-area-pairwise-summaries",
         default=(
-            "/Users/seoki/Desktop/research/outputs/2026-03-17_r5_true_new_area_ny_nj_pooled/ny_nj_pooled_pairwise_summary.json,"
-            "/Users/seoki/Desktop/research/outputs/2026-03-17_r13_true_new_area_la_long_beach_pooled/la_long_beach_pooled_pairwise_summary.json,"
-            "/Users/seoki/Desktop/research/outputs/2026-03-17_r24_true_new_area_savannah_pooled/savannah_pooled_pairwise_summary.json,"
+            "/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_pairwise_summary.json,"
+            "/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_pairwise_summary.json,"
+            "/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_pairwise_summary.json,"
             "/Users/seoki/Desktop/research/outputs/2026-03-17_r35_cross_year_2024_ny_nj_pooled/ny_nj_2024_pooled_pairwise_summary.json"
         ),
         help="Comma-separated pooled true-area pairwise summary JSON paths.",

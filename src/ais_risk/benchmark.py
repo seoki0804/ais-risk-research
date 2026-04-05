@@ -224,6 +224,7 @@ def run_benchmark_on_partitions(
     model_names: list[str] | None = None,
     torch_device: str = "auto",
     random_seed: int | None = 42,
+    threshold_grid: list[float] | None = None,
 ) -> tuple[dict[str, Any], dict[str, np.ndarray]]:
     if not train_rows or not val_rows or not test_rows:
         raise ValueError("Train/val/test rows must all be non-empty.")
@@ -247,7 +248,7 @@ def run_benchmark_on_partitions(
         started = time.perf_counter()
         val_scores = np.array([float(row["rule_score"]) for row in val_rows], dtype=float)
         test_scores = np.array([float(row["rule_score"]) for row in test_rows], dtype=float)
-        threshold = _choose_threshold(y_val, val_scores)
+        threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
         metrics = _build_metrics(y_test, test_scores, threshold)
         metrics["elapsed_seconds"] = float(time.perf_counter() - started)
         models_summary["rule_score"] = metrics
@@ -272,7 +273,7 @@ def run_benchmark_on_partitions(
                 x_val=x_val_scaled,
                 x_test=x_test_scaled,
             )
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             metrics = _build_metrics(y_test, test_scores, threshold)
             metrics["top_positive_features"] = _top_logistic_coefficients(model, feature_names)
             metrics["elapsed_seconds"] = float(time.perf_counter() - started)
@@ -301,7 +302,7 @@ def run_benchmark_on_partitions(
                 x_test=x_test_scaled,
                 sample_weight=sample_weight,
             )
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             metrics = _build_metrics(y_test, test_scores, threshold)
             metrics["elapsed_seconds"] = float(time.perf_counter() - started)
             models_summary["hgbt"] = metrics
@@ -329,7 +330,7 @@ def run_benchmark_on_partitions(
                 x_val=x_val_scaled,
                 x_test=x_test_scaled,
             )
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             metrics = _build_metrics(y_test, test_scores, threshold)
             metrics["elapsed_seconds"] = float(time.perf_counter() - started)
             models_summary["random_forest"] = metrics
@@ -357,7 +358,7 @@ def run_benchmark_on_partitions(
                 x_val=x_val_scaled,
                 x_test=x_test_scaled,
             )
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             metrics = _build_metrics(y_test, test_scores, threshold)
             metrics["elapsed_seconds"] = float(time.perf_counter() - started)
             models_summary["extra_trees"] = metrics
@@ -379,7 +380,7 @@ def run_benchmark_on_partitions(
                 requested_device=torch_device,
                 random_seed=random_seed,
             )
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             metrics = _build_metrics(y_test, test_scores, threshold)
             metrics.update(info)
             metrics["elapsed_seconds"] = float(time.perf_counter() - started)
@@ -401,15 +402,36 @@ def _safe_average_precision(y_true: np.ndarray, scores: np.ndarray) -> float | N
     return float(average_precision_score(y_true, scores))
 
 
-def _choose_threshold(y_true: np.ndarray, scores: np.ndarray) -> float:
+def _build_threshold_grid(step: float = 0.05, minimum: float = 0.05, maximum: float = 0.95) -> list[float]:
+    step_value = float(step)
+    if step_value <= 0.0:
+        raise ValueError("threshold step must be > 0")
+    lower = max(0.0, float(minimum))
+    upper = min(1.0, float(maximum))
+    if lower > upper:
+        raise ValueError("threshold minimum must be <= maximum")
+    points: list[float] = []
+    current = lower
+    while current <= upper + (step_value * 0.5):
+        rounded = round(current, 6)
+        if 0.0 <= rounded <= 1.0:
+            points.append(rounded)
+        current += step_value
+    unique_points = sorted({value for value in points if 0.0 <= value <= 1.0})
+    if not unique_points:
+        raise ValueError("threshold grid is empty")
+    return unique_points
+
+
+def _choose_threshold(y_true: np.ndarray, scores: np.ndarray, threshold_grid: list[float] | None = None) -> float:
     best_threshold = 0.5
     best_f1 = -1.0
-    for step in range(5, 96, 5):
-        threshold = step / 100.0
+    grid = threshold_grid if threshold_grid is not None else [step / 100.0 for step in range(5, 96, 5)]
+    for threshold in grid:
         predictions = (scores >= threshold).astype(int)
         current_f1 = f1_score(y_true, predictions, zero_division=0)
         if current_f1 > best_f1:
-            best_threshold = threshold
+            best_threshold = float(threshold)
             best_f1 = current_f1
     return float(best_threshold)
 
@@ -914,6 +936,7 @@ def run_pairwise_benchmark(
     split_strategy: str = "timestamp",
     torch_device: str = "auto",
     random_seed: int | None = 42,
+    threshold_grid_step: float = 0.05,
 ) -> dict[str, Any]:
     rows = load_pairwise_dataset_rows(input_path)
     if not rows:
@@ -937,9 +960,11 @@ def run_pairwise_benchmark(
         "split": split_summary,
         "models": {},
         "random_seed": random_seed,
+        "threshold_grid_step": float(threshold_grid_step),
     }
 
     benchmark_started = time.perf_counter()
+    threshold_grid = _build_threshold_grid(step=float(threshold_grid_step))
     models_summary, model_scores = run_benchmark_on_partitions(
         train_rows=train_rows,
         val_rows=val_rows,
@@ -947,6 +972,7 @@ def run_pairwise_benchmark(
         model_names=requested_models,
         torch_device=torch_device,
         random_seed=random_seed,
+        threshold_grid=threshold_grid,
     )
     summary["models"] = models_summary
     summary["benchmark_elapsed_seconds"] = float(time.perf_counter() - benchmark_started)
@@ -966,6 +992,7 @@ def run_pairwise_transfer_benchmark(
     split_strategy: str = "own_ship",
     torch_device: str = "auto",
     random_seed: int | None = 42,
+    threshold_grid_step: float = 0.05,
 ) -> dict[str, Any]:
     source_rows = load_pairwise_dataset_rows(train_input_path)
     target_rows = load_pairwise_dataset_rows(target_input_path)
@@ -1005,6 +1032,7 @@ def run_pairwise_transfer_benchmark(
     model_thresholds: dict[str, float] = {}
 
     transfer_started = time.perf_counter()
+    threshold_grid = _build_threshold_grid(step=float(threshold_grid_step))
 
     for model_name in requested_models:
         started = time.perf_counter()
@@ -1012,7 +1040,7 @@ def run_pairwise_transfer_benchmark(
             val_scores = np.array([float(row["rule_score"]) for row in val_rows], dtype=float)
             test_scores = np.array([float(row["rule_score"]) for row in test_rows], dtype=float)
             target_scores = np.array([float(row["rule_score"]) for row in target_rows], dtype=float)
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             source_metrics = _build_metrics(y_test, test_scores, threshold)
             source_metrics["elapsed_seconds"] = float(time.perf_counter() - started)
             target_metrics = _build_metrics(y_target, target_scores, threshold)
@@ -1053,7 +1081,7 @@ def run_pairwise_transfer_benchmark(
             )
             if target_scores is None:
                 raise RuntimeError("target scores should not be None for transfer benchmark.")
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             source_metrics = _build_metrics(y_test, test_scores, threshold)
             source_metrics["top_positive_features"] = _top_logistic_coefficients(model, feature_names)
             source_metrics["elapsed_seconds"] = float(time.perf_counter() - started)
@@ -1098,7 +1126,7 @@ def run_pairwise_transfer_benchmark(
             )
             if target_scores is None:
                 raise RuntimeError("target scores should not be None for transfer benchmark.")
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             source_metrics = _build_metrics(y_test, test_scores, threshold)
             source_metrics["elapsed_seconds"] = float(time.perf_counter() - started)
             target_metrics = _build_metrics(y_target, target_scores, threshold)
@@ -1142,7 +1170,7 @@ def run_pairwise_transfer_benchmark(
             )
             if target_scores is None:
                 raise RuntimeError("target scores should not be None for transfer benchmark.")
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             source_metrics = _build_metrics(y_test, test_scores, threshold)
             source_metrics["elapsed_seconds"] = float(time.perf_counter() - started)
             target_metrics = _build_metrics(y_target, target_scores, threshold)
@@ -1186,7 +1214,7 @@ def run_pairwise_transfer_benchmark(
             )
             if target_scores is None:
                 raise RuntimeError("target scores should not be None for transfer benchmark.")
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             source_metrics = _build_metrics(y_test, test_scores, threshold)
             source_metrics["elapsed_seconds"] = float(time.perf_counter() - started)
             target_metrics = _build_metrics(y_target, target_scores, threshold)
@@ -1222,7 +1250,7 @@ def run_pairwise_transfer_benchmark(
                 requested_device=torch_device,
                 random_seed=random_seed,
             )
-            threshold = _choose_threshold(y_val, val_scores)
+            threshold = _choose_threshold(y_val, val_scores, threshold_grid=threshold_grid)
             source_metrics = _build_metrics(y_test, test_scores, threshold)
             source_metrics.update(info)
             source_metrics["elapsed_seconds"] = float(time.perf_counter() - started)
@@ -1254,6 +1282,7 @@ def run_pairwise_transfer_benchmark(
         "split": split_summary,
         "models": source_models_summary,
         "random_seed": random_seed,
+        "threshold_grid_step": float(threshold_grid_step),
         "benchmark_elapsed_seconds": float(time.perf_counter() - transfer_started),
     }
 
@@ -1302,6 +1331,7 @@ def run_pairwise_transfer_benchmark(
         "split": split_summary,
         "models": transfer_models_summary,
         "random_seed": random_seed,
+        "threshold_grid_step": float(threshold_grid_step),
         "transfer_elapsed_seconds": float(time.perf_counter() - transfer_started),
         "source_summary_json_path": str(source_summary_json_path),
         "source_summary_md_path": str(source_summary_md_path),

@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "scan_output_root": "/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed",
+  "source_regions": [
+    "houston",
+    "nola",
+    "seattle"
+  ],
+  "max_target_ece": 0.1,
+  "max_negative_pairs_allowed": 1,
+  "recommended_combined_pass_count": 2,
+  "source_count": 3,
+  "best_combined_pass_count": 2,
+  "recommendation_mismatch_count": 2,
+  "detail_csv_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_detail.csv",
+  "source_summary_csv_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed.json"
+}

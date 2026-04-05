@@ -1,0 +1,64 @@
+{
+  "status": "completed",
+  "transfer_scan_detail_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_scan/houston_transfer_model_scan_detail.csv",
+  "source_region_filter": "houston",
+  "model_filter": [
+    "hgbt",
+    "rule_score"
+  ],
+  "methods": [
+    "none",
+    "isotonic"
+  ],
+  "threshold_grid_step": 0.01,
+  "ece_gate_max": 0.1,
+  "max_negative_pairs_allowed": 1,
+  "detail_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_calibration_probe_detail.csv",
+  "model_method_summary_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_calibration_probe_model_method_summary.csv",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_calibration_probe.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_42/transfer_calibration_probe.json",
+  "detail_row_count": 8,
+  "model_method_row_count": 4,
+  "combined_pass_fixed_count": 1,
+  "combined_pass_retuned_count": 1,
+  "top_combined_pass_fixed": [
+    {
+      "source_region": "houston",
+      "model_name": "rule_score",
+      "method": "isotonic",
+      "pair_count": 2,
+      "completed_pair_count": 2,
+      "negative_fixed_count": 0,
+      "negative_retuned_count": 0,
+      "mean_delta_f1_fixed": 0.6032120676534846,
+      "mean_delta_f1_retuned": 0.6057700024075114,
+      "mean_target_ece": 0.056647717636646916,
+      "max_target_ece": 0.06840750472573154,
+      "all_targets_ece_leq_max": true,
+      "meets_negative_fixed_budget": true,
+      "meets_negative_retuned_budget": true,
+      "combined_pass_fixed": true,
+      "combined_pass_retuned": true
+    }
+  ],
+  "top_combined_pass_retuned": [
+    {
+      "source_region": "houston",
+      "model_name": "rule_score",
+      "method": "isotonic",
+      "pair_count": 2,
+      "completed_pair_count": 2,
+      "negative_fixed_count": 0,
+      "negative_retuned_count": 0,
+      "mean_delta_f1_fixed": 0.6032120676534846,
+      "mean_delta_f1_retuned": 0.6057700024075114,
+      "mean_target_ece": 0.056647717636646916,
+      "max_target_ece": 0.06840750472573154,
+      "all_targets_ece_leq_max": true,
+      "meets_negative_fixed_budget": true,
+      "meets_negative_retuned_budget": true,
+      "combined_pass_fixed": true,
+      "combined_pass_retuned": true
+    }
+  ]
+}

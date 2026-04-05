@@ -1,0 +1,19 @@
+[project]
+name = "ais-risk-mapping-starter"
+version = "0.1.0"
+description = "Starter baseline for own-ship-centric AIS risk heatmap and safety contour generation."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Codex" }
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -25,7 +25,7 @@
     "hgbt": {
       "status": "completed",
       "threshold": 0.05,
-      "elapsed_seconds": 1.0123401246964931,
+      "elapsed_seconds": 0.47214945778250694,
       "source_test": {
         "threshold": 0.05,
         "auroc": 0.9976190476190476,
@@ -35,7 +35,7 @@
         "recall": 1.0,
         "f1": 0.4444444444444444,
         "positive_rate_predicted": 0.12844036697247707,
-        "elapsed_seconds": 1.0076205828227103
+        "elapsed_seconds": 0.4687832500785589
       },
       "target_transfer": {
         "threshold": 0.05,
@@ -51,7 +51,7 @@
     "logreg": {
       "status": "completed",
       "threshold": 0.05,
-      "elapsed_seconds": 0.15053454134613276,
+      "elapsed_seconds": 0.04204833321273327,
       "source_test": {
         "threshold": 0.05,
         "auroc": 0.930952380952381,
@@ -95,7 +95,7 @@
             "coefficient": 0.376576495931569
           }
         ],
-        "elapsed_seconds": 0.14043358294293284
+        "elapsed_seconds": 0.035040708258748055
       },
       "target_transfer": {
         "threshold": 0.05,
@@ -110,7 +110,8 @@
     }
   },
   "random_seed": 42,
-  "transfer_elapsed_seconds": 1.1829587910324335,
+  "threshold_grid_step": 0.05,
+  "transfer_elapsed_seconds": 0.5254183327779174,
   "source_summary_json_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2024_to_2023_source_summary.json",
   "source_summary_md_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2024_to_2023_source_summary.md",
   "source_test_predictions_csv_path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2024_to_2023_source_test_predictions.csv",

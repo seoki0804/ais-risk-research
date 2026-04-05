@@ -1,0 +1,41 @@
+{
+  "status": "completed",
+  "summary_csv_path": "/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.csv",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.json",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.md",
+  "rows": [
+    {
+      "model_name": "extra_trees",
+      "pair_count": 2,
+      "negative_fixed_count": 2,
+      "negative_retuned_count": 2,
+      "negative_fixed_ci_count": 0,
+      "mean_delta_f1_fixed": -0.17543843975306217,
+      "mean_delta_f1_retuned": -0.12768137286290582,
+      "mean_retune_gain_f1": 0.04775706689015635,
+      "max_retune_gain_f1": 0.0880319954110168
+    },
+    {
+      "model_name": "hgbt",
+      "pair_count": 2,
+      "negative_fixed_count": 2,
+      "negative_retuned_count": 2,
+      "negative_fixed_ci_count": 0,
+      "mean_delta_f1_fixed": -0.17430296240975857,
+      "mean_delta_f1_retuned": -0.133056133056133,
+      "mean_retune_gain_f1": 0.04124682935362556,
+      "max_retune_gain_f1": 0.07927927927927936
+    },
+    {
+      "model_name": "random_forest",
+      "pair_count": 2,
+      "negative_fixed_count": 2,
+      "negative_retuned_count": 2,
+      "negative_fixed_ci_count": 0,
+      "mean_delta_f1_fixed": -0.20494070359758038,
+      "mean_delta_f1_retuned": -0.11549900275189984,
+      "mean_retune_gain_f1": 0.08944170084568054,
+      "max_retune_gain_f1": 0.1585953989647081
+    }
+  ]
+}

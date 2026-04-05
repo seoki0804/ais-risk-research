@@ -1,0 +1,4 @@
+source_region,baseline_recommended_model,baseline_combined_pass,baseline_negative_pairs,baseline_max_target_ece,governance_mode,governed_model,governed_calibration_method,governed_combined_pass,governed_negative_pairs,governed_max_target_ece,notes
+houston,hgbt,False,2,0.042790174983366555,transfer_override_locked,rule_score,isotonic,True,0,0.06840750472573154,source override from policy lock (baseline_neg=2 -> projected_neg=0)
+nola,hgbt,True,0,0.025994751164338088,baseline_recommended,hgbt,,True,0,0.025994751164338088,
+seattle,random_forest,True,0,0.022040712183908073,baseline_recommended,random_forest,,True,0,0.022040712183908073,

@@ -5,9 +5,9 @@
 - target_model: `hgbt`
 - comparator_model: `logreg`
 - min_test_positive_support: `10`
-- true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r5_true_new_area_ny_nj_pooled/ny_nj_pooled_pairwise_summary.json`
-- true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r13_true_new_area_la_long_beach_pooled/la_long_beach_pooled_pairwise_summary.json`
-- true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r24_true_new_area_savannah_pooled/savannah_pooled_pairwise_summary.json`
+- true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_pairwise_summary.json`
+- true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_pairwise_summary.json`
+- true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_pairwise_summary.json`
 - true_area_pairwise_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r35_cross_year_2024_ny_nj_pooled/ny_nj_2024_pooled_pairwise_summary.json`
 - transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r36_cross_year_ny_nj_transfer/ny_nj_2023_to_2024_transfer_summary.json`
 - transfer_summary: `/Users/seoki/Desktop/research/outputs/2026-03-17_r36_cross_year_ny_nj_transfer/ny_nj_2024_to_2023_transfer_summary.json`
@@ -20,14 +20,14 @@
 
 | Region | Split | Rows | Pos rate | Test rows | Test pos | Support | hgbt F1 | logreg F1 | Δ(hgbt-logreg) | hgbt AUROC |
 |---|---|---:|---:|---:|---:|---|---:|---:|---:|---:|
-| la_long_beach | own_ship | 853 | 0.1067 | 163 | 3 | low | 0.4000 | 0.1765 | 0.2235 | 0.9833 |
-| la_long_beach | timestamp | 853 | 0.1067 | 169 | 26 | ok | 0.8333 | 0.8929 | -0.0595 | 0.9841 |
-| ny_nj | own_ship | 960 | 0.0625 | 290 | 6 | low | 0.5333 | 0.0000 | 0.5333 | 0.9437 |
-| ny_nj | timestamp | 960 | 0.0625 | 172 | 6 | low | 0.3333 | 0.5000 | -0.1667 | 0.9558 |
+| la_long_beach_2023_expanded | own_ship | 4609 | 0.1011 | 1040 | 53 | ok | 0.7216 | 0.6406 | 0.0810 | 0.9749 |
+| la_long_beach_2023_expanded | timestamp | 4609 | 0.1011 | 1051 | 74 | ok | 0.8369 | 0.8221 | 0.0148 | 0.9870 |
+| ny_nj_2023_extended | own_ship | 25802 | 0.1302 | 5566 | 698 | ok | 0.7789 | 0.7682 | 0.0107 | 0.9606 |
+| ny_nj_2023_extended | timestamp | 25802 | 0.1302 | 5016 | 724 | ok | 0.8462 | 0.8375 | 0.0087 | 0.9736 |
 | ny_nj_2024 | own_ship | 1298 | 0.0485 | 259 | 15 | ok | 0.6667 | 0.4364 | 0.2303 | 0.9735 |
 | ny_nj_2024 | timestamp | 1298 | 0.0485 | 263 | 15 | ok | 0.3333 | 0.4762 | -0.1429 | 0.9578 |
-| savannah | own_ship | 198 | 0.0051 | 20 | 0 | low | 0.0000 | 0.0000 | 0.0000 | n/a |
-| savannah | timestamp | 198 | 0.0051 | 34 | 0 | low | 0.0000 | 0.0000 | 0.0000 | n/a |
+| savannah_ownship_focus_augmented | own_ship | 476 | 0.1555 | 71 | 11 | ok | 0.7500 | 0.4878 | 0.2622 | 0.9803 |
+| savannah_ownship_focus_augmented | timestamp | 476 | 0.1555 | 90 | 23 | ok | 0.5263 | 0.6154 | -0.0891 | 0.9299 |
 
 ## Cross-Year Transfer Snapshot
 
@@ -42,9 +42,9 @@
 
 ## Examiner Interpretation
 
-- low-support true-area splits (`test positives < 10`): `5` (la_long_beach:own_ship, ny_nj:own_ship, ny_nj:timestamp, savannah:own_ship, savannah:timestamp)
-- own_ship hgbt F1 range: `0.0000 - 0.6667`
-- timestamp hgbt F1 range: `0.0000 - 0.8333`
+- low-support true-area splits (`test positives < 10`): `0` (none)
+- own_ship hgbt F1 range: `0.6667 - 0.7789`
+- timestamp hgbt F1 range: `0.3333 - 0.8462`
 - transfer negative-ΔF1 pairs: `1/6` (seattle_2023_to_2024(-0.0267))
 - transfer harbor coverage (regions): `3`
 

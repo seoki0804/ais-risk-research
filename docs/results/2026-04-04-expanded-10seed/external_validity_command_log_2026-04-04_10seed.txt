@@ -1,31 +1,254 @@
 === out_of_time_eval_cli ===
-timestamp_utc=2026-04-04T22:07:06Z
+timestamp_utc=2026-04-05T18:21:20Z
 command=env PYTHONPATH=src python -m ais_risk.out_of_time_eval_cli --input-dir /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --baseline-leaderboard-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded/all_models_multiarea_leaderboard.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed 
 summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check_summary.json
 results_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check.csv
 results_md=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check.md
+=== run_out_of_time_threshold_policy_compare_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:21:30Z
+command=env RECOMMENDATION_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv BASELINE_LEADERBOARD_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_multiarea_expanded/all_models_multiarea_leaderboard.csv OUT_OF_TIME_OUTPUT_ROOT=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed OUTPUT_PREFIX=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed DATASET_PREFIXES=houston\,nola\,seattle THRESHOLD_GRID_STEP=0.01 MAX_OUT_OF_TIME_ECE=0.10 MIN_OUT_OF_TIME_DELTA_F1=-0.05 MAX_IN_TIME_REGRESSION_FROM_BEST_F1=0.02 INCLUDE_ORACLE_POLICY=1 bash examples/run_out_of_time_threshold_policy_compare_2026-04-05.sh 
+summary_json=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed.json
+summary_md=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed.md
+detail_csv=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed_detail.csv
+policy_summary_csv=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed_policy_summary.csv
+summary_md=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed.json
+detail_csv=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed_detail.csv
+policy_summary_csv=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed_policy_summary.csv
 === transfer_recommendation_eval_cli ===
-timestamp_utc=2026-04-04T22:07:23Z
-command=env PYTHONPATH=src python -m ais_risk.transfer_recommendation_eval_cli --input-dir /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed 
+timestamp_utc=2026-04-05T18:21:32Z
+command=env PYTHONPATH=src python -m ais_risk.transfer_recommendation_eval_cli --input-dir /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed --threshold-grid-step 0.01 
 summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check_summary.json
 results_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv
 results_md=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.md
+=== transfer_gap_diagnostics_cli ===
+timestamp_utc=2026-04-05T18:21:37Z
+command=env PYTHONPATH=src python -m ais_risk.transfer_gap_diagnostics_cli --transfer-check-csv /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv --output-prefix /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics --threshold-grid-step 0.01 --bootstrap-samples 500 --random-seed 42 
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics.md
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics.json
+detail_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics_detail.csv
+summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics_summary.csv
+=== transfer_model_scan_cli_houston ===
+timestamp_utc=2026-04-05T18:21:46Z
+command=env PYTHONPATH=src python -m ais_risk.transfer_model_scan_cli --source-region houston --source-input /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/houston_pooled_pairwise.csv --targets nola:/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/nola_pooled_pairwise.csv\,seattle:/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/seattle_pooled_pairwise.csv --models rule_score\,logreg\,hgbt\,random_forest\,extra_trees\,torch_mlp --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed --split-strategy own_ship --threshold-grid-step 0.01 --random-seed 42 --calibration-ece-max 0.10 
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan.md
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan.json
+detail_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan_detail.csv
+model_summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan_model_summary.csv
+recommended_model=hgbt
+=== run_houston_temporal_robustness_2026-04-05_10seed.sh ===
+timestamp_utc=2026-04-05T18:21:52Z
+command=env INPUT_DIR=/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix BASELINE_AGGREGATE_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv BASELINE_RECOMMENDATION_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv TIMESTAMP_SWEEP_OUTPUT_ROOT=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed TEMPORAL_ROBUST_OUTPUT_PREFIX=/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed bash examples/run_houston_temporal_robustness_2026-04-05_10seed.sh 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_summary.md
+aggregate_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv
+winner_summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_winner_summary.csv
+recommendation_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv
+recommendation_md=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_recommendation.md
+summary_md=/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed.json
+detail_csv=/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed_detail.csv
+comparison_csv=/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed_comparison.csv
+recommendation_csv=/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed_recommendation.csv
+timestamp_sweep_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_houston_timestamp_seed_sweep_10seed/all_models_seed_sweep_summary.md
+temporal_robust_summary=/Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed.md
+=== run_houston_transfer_policy_compare_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:23:33Z
+command=env TRANSFER_MODEL_SCAN_DETAIL_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan_detail.csv WORKDIR=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed SUMMARY_PREFIX=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed bash examples/run_houston_transfer_policy_compare_2026-04-05.sh 
+transfer_check_like_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed/houston_shortlist_transfer_check_like.csv
+pair_rows=6
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed/houston_shortlist_transfer_gap.md
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed/houston_shortlist_transfer_gap.json
+detail_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed/houston_shortlist_transfer_gap_detail.csv
+summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed/houston_shortlist_transfer_gap_summary.csv
+summary_md=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.json
+summary_csv=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.csv
+transfer_check_like_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed/houston_shortlist_transfer_check_like.csv
+transfer_gap_md=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_10seed/houston_shortlist_transfer_gap.md
+policy_compare_md=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.md
+=== run_houston_transfer_policy_compare_2026-04-05_all_models.sh ===
+timestamp_utc=2026-04-05T18:23:48Z
+command=env TRANSFER_MODEL_SCAN_DETAIL_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan_detail.csv WORKDIR=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed SUMMARY_PREFIX=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_all_models_2026-04-05_10seed SHORTLIST_MODELS=rule_score\,logreg\,hgbt\,random_forest\,extra_trees\,torch_mlp TRANSFER_CHECK_LIKE_CSV=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_check_like.csv GAP_OUTPUT_PREFIX=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_gap bash examples/run_houston_transfer_policy_compare_2026-04-05.sh 
+transfer_check_like_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_check_like.csv
+pair_rows=12
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_gap.md
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_gap.json
+detail_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_gap_detail.csv
+summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_gap_summary.csv
+summary_md=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_all_models_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_all_models_2026-04-05_10seed.json
+summary_csv=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_all_models_2026-04-05_10seed.csv
+transfer_check_like_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_check_like.csv
+transfer_gap_md=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_policy_compare_all_models_10seed/houston_all_models_transfer_gap.md
+policy_compare_md=/Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_all_models_2026-04-05_10seed.md
+=== run_houston_transfer_calibration_probe_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:24:19Z
+command=env TRANSFER_SCAN_DETAIL_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan_detail.csv OUTPUT_PREFIX=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed SOURCE_REGION=houston MODELS=rule_score\,logreg\,hgbt\,random_forest\,extra_trees\,torch_mlp METHODS=none\,platt\,isotonic THRESHOLD_GRID_STEP=0.01 ECE_GATE_MAX=0.10 MAX_NEGATIVE_PAIRS_ALLOWED=1 RANDOM_SEED=42 bash examples/run_houston_transfer_calibration_probe_2026-04-05.sh 
+summary_json=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed.json
+summary_md=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed.md
+detail_csv=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed_detail.csv
+model_method_summary_csv=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed_model_method_summary.csv
+summary_md=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed.json
+detail_csv=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed_detail.csv
+model_method_summary_csv=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed_model_method_summary.csv
+=== run_multisource_transfer_model_scan_summary_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:24:29Z
+command=env INPUT_DIR=/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix OUTPUT_ROOT=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed SUMMARY_PREFIX=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed MODELS=rule_score\,logreg\,hgbt\,random_forest\,extra_trees\,torch_mlp THRESHOLD_GRID_STEP=0.01 RANDOM_SEED=42 MAX_TARGET_ECE=0.10 MAX_NEGATIVE_PAIRS=1 bash examples/run_multisource_transfer_model_scan_summary_2026-04-05.sh 
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/houston_transfer_model_scan.md
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/houston_transfer_model_scan.json
+detail_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/houston_transfer_model_scan_detail.csv
+model_summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/houston_transfer_model_scan_model_summary.csv
+recommended_model=hgbt
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan.md
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan.json
+detail_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan_detail.csv
+model_summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/nola_transfer_model_scan_model_summary.csv
+recommended_model=hgbt
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/seattle_transfer_model_scan.md
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/seattle_transfer_model_scan.json
+detail_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/seattle_transfer_model_scan_detail.csv
+model_summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_transfer_model_scan_multisource_10seed/seattle_transfer_model_scan_model_summary.csv
+recommended_model=random_forest
+summary_md=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed.json
+detail_csv=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_detail.csv
+source_summary_csv=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv
+summary_md=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed.json
+detail_csv=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_detail.csv
+source_summary_csv=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv
+=== run_transfer_policy_governance_lock_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:24:58Z
+command=env RECOMMENDATION_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv TRANSFER_CHECK_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv OUT_OF_TIME_THRESHOLD_POLICY_COMPARE_JSON=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed.json TRANSFER_CALIBRATION_PROBE_DETAIL_CSV=/Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed_detail.csv OUTPUT_PREFIX=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed SOURCE_REGION_FOR_TRANSFER_OVERRIDE=houston METRIC_MODE=fixed MAX_TARGET_ECE=0.10 MAX_NEGATIVE_PAIRS_ALLOWED=1 REQUIRED_OUT_OF_TIME_POLICY=fixed_baseline_threshold OVERRIDE_MODEL_NAME= OVERRIDE_METHOD= bash examples/run_transfer_policy_governance_lock_2026-04-05.sh 
+summary_json=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed.json
+summary_md=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed.md
+policy_lock_csv=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed_policy_lock.csv
+projected_transfer_check_csv=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed_projected_transfer_check.csv
+candidate_summary_csv=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed_candidate_summary.csv
+summary_md=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed.json
+policy_lock_csv=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed_policy_lock.csv
+projected_transfer_check_csv=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed_projected_transfer_check.csv
+candidate_summary_csv=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed_candidate_summary.csv
+=== run_multisource_transfer_governance_bridge_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:25:00Z
+command=env MULTISOURCE_SOURCE_SUMMARY_CSV=/Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed_source_summary.csv TRANSFER_POLICY_GOVERNANCE_LOCK_JSON=/Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed.json OUTPUT_PREFIX=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed bash examples/run_multisource_transfer_governance_bridge_2026-04-05.sh 
+summary_md=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.json
+detail_csv=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed_detail.csv
+summary_md=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.json
+detail_csv=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed_detail.csv
+=== run_transfer_override_seed_stress_test_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:25:02Z
+command=env INPUT_DIR=/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix OUTPUT_PREFIX=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed SOURCE_REGION=houston TARGET_REGIONS=nola\,seattle BASELINE_MODEL=hgbt OVERRIDE_MODEL=rule_score OVERRIDE_METHOD=isotonic SEEDS=41\,42\,43\,44\,45\,46\,47\,48\,49\,50 SPLIT_STRATEGY=own_ship TRAIN_FRACTION=0.6 VAL_FRACTION=0.2 THRESHOLD_GRID_STEP=0.01 ECE_GATE_MAX=0.10 MAX_NEGATIVE_PAIRS_ALLOWED=1 TORCH_DEVICE=auto CALIBRATION_BINS=10 bash examples/run_transfer_override_seed_stress_test_2026-04-05.sh 
+summary_md=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed.json
+per_seed_csv=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_per_seed.csv
+run_root=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs
+summary_md=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed.json
+per_seed_csv=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_per_seed.csv
+=== uncertainty_contour_cli_houston ===
+timestamp_utc=2026-04-05T18:25:25Z
+command=env PYTHONPATH=src python -m ais_risk.uncertainty_contour_cli --predictions /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/houston/seed_41/houston_pooled_pairwise_tabular_all_models_test_predictions.csv --pairwise /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/houston_pooled_pairwise.csv --calibration-bins /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/houston/seed_41/houston_pooled_pairwise_tabular_all_models_calibration_bins.csv --output-prefix /Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston --models hgbt 
+status=completed
+band_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_band_summary.json
+projection_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_projection_summary.json
+report_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_report_summary.json
+figure_svg=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_report_figure.svg
+case_id=2023-10-09T20-26-11Z__368216230__hgbt
+=== uncertainty_contour_cli_nola ===
+timestamp_utc=2026-04-05T18:25:31Z
+command=env PYTHONPATH=src python -m ais_risk.uncertainty_contour_cli --predictions /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/nola/seed_41/nola_pooled_pairwise_tabular_all_models_test_predictions.csv --pairwise /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/nola_pooled_pairwise.csv --calibration-bins /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/nola/seed_41/nola_pooled_pairwise_tabular_all_models_calibration_bins.csv --output-prefix /Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/nola --models hgbt 
+status=completed
+band_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/nola_band_summary.json
+projection_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/nola_projection_summary.json
+report_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/nola_report_summary.json
+figure_svg=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/nola_report_figure.svg
+case_id=2023-08-09T04-02-05Z__368102290__hgbt
+=== uncertainty_contour_cli_seattle ===
+timestamp_utc=2026-04-05T18:25:45Z
+command=env PYTHONPATH=src python -m ais_risk.uncertainty_contour_cli --predictions /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/seattle/seed_41/seattle_pooled_pairwise_tabular_all_models_test_predictions.csv --pairwise /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix/seattle_pooled_pairwise.csv --calibration-bins /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/seattle/seed_41/seattle_pooled_pairwise_tabular_all_models_calibration_bins.csv --output-prefix /Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/seattle --models extra_trees 
+status=completed
+band_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/seattle_band_summary.json
+projection_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/seattle_projection_summary.json
+report_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/seattle_report_summary.json
+figure_svg=/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/seattle_report_figure.svg
+case_id=2023-08-08T19-49-32Z__366929710__extra_trees
 === reliability_report_cli ===
-timestamp_utc=2026-04-04T22:07:32Z
+timestamp_utc=2026-04-05T18:25:51Z
 command=env PYTHONPATH=src python -m ais_risk.reliability_report_cli --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --run-manifest-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_run_manifest.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed 
 summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_summary.json
 summary_md=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_summary.md
 region_summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv
 region_bins_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_bins.csv
 === error_taxonomy_report_cli ===
-timestamp_utc=2026-04-04T22:07:38Z
+timestamp_utc=2026-04-05T18:25:55Z
 command=env PYTHONPATH=src python -m ais_risk.error_taxonomy_report_cli --input-dir /Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix --regions houston\,nola\,seattle --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --run-manifest-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_run_manifest.csv --output-root /Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed --seed 42 
 summary_json=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_summary.json
 summary_md=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_summary.md
 summary_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv
 taxonomy_csv=/Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_details.csv
+=== external_validity_manuscript_assets_cli ===
+timestamp_utc=2026-04-05T18:25:59Z
+command=env PYTHONPATH=src python -m ais_risk.external_validity_manuscript_assets_cli --transfer-gap-detail-csv /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics_detail.csv --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --reliability-region-summary-csv /Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv --taxonomy-region-summary-csv /Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv --contour-summary-json-by-region houston:/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/houston_report_summary.json\,nola:/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/nola_report_summary.json\,seattle:/Users/seoki/Desktop/research/outputs/2026-04-05_uncertainty_contour_panel_10seed/seattle_report_summary.json --output-prefix /Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed 
+summary_json=/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed.json
+integration_note_md=/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed.md
+transfer_table_md=/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed_transfer_uncertainty_table.md
+scenario_panels_md=/Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed_scenario_panels.md
+=== run_true_new_area_savannah_ownship_focus_augmented_pooled_61day.sh ===
+timestamp_utc=2026-04-05T18:26:02Z
+command=bash examples/run_true_new_area_savannah_ownship_focus_augmented_pooled_61day.sh 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_pairwise_summary.json
+output=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_pairwise.csv
+output_rows=476
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_own_ship_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_own_ship_summary.md
+predictions_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_own_ship_test_predictions.csv
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_timestamp_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_timestamp_summary.md
+predictions_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_timestamp_test_predictions.csv
+pooled_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_pairwise.csv
+pooled_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_pairwise_summary.json
+own_ship_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_own_ship_summary.json
+timestamp_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r27_true_new_area_savannah_ownship_focus_augmented_pooled/savannah_ownship_focus_augmented_pooled_timestamp_summary.json
+=== run_true_new_area_la_long_beach_2023_expanded_pooled_61day.sh ===
+timestamp_utc=2026-04-05T18:26:10Z
+command=bash examples/run_true_new_area_la_long_beach_2023_expanded_pooled_61day.sh 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_pairwise_summary.json
+output=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_pairwise.csv
+output_rows=4609
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_own_ship_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_own_ship_summary.md
+predictions_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_own_ship_test_predictions.csv
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_timestamp_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_timestamp_summary.md
+predictions_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_timestamp_test_predictions.csv
+pooled_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_pairwise.csv
+pooled_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_pairwise_summary.json
+own_ship_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_own_ship_summary.json
+timestamp_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r14_true_new_area_la_long_beach_2023_expanded_pooled/la_long_beach_2023_expanded_pooled_timestamp_summary.json
+=== run_true_new_area_ny_nj_2023_extended_pooled_61day.sh ===
+timestamp_utc=2026-04-05T18:26:17Z
+command=bash examples/run_true_new_area_ny_nj_2023_extended_pooled_61day.sh 
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_pairwise_summary.json
+output=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_pairwise.csv
+output_rows=25802
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_own_ship_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_own_ship_summary.md
+predictions_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_own_ship_test_predictions.csv
+summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_timestamp_summary.json
+summary_md=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_timestamp_summary.md
+predictions_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_timestamp_test_predictions.csv
+pooled_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_pairwise.csv
+pooled_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_pairwise_summary.json
+own_ship_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_own_ship_summary.json
+timestamp_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_timestamp_summary.json
 === run_cross_year_2024_la_long_beach_pooled_61day.sh ===
-timestamp_utc=2026-04-04T22:07:43Z
+timestamp_utc=2026-04-05T18:26:25Z
 command=bash examples/run_cross_year_2024_la_long_beach_pooled_61day.sh 
 summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled/la_long_beach_2024_pooled_pairwise_summary.json
 output=/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled/la_long_beach_2024_pooled_pairwise.csv
@@ -41,7 +264,7 @@ pooled_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_20
 own_ship_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled/la_long_beach_2024_pooled_own_ship_summary.json
 timestamp_summary=/Users/seoki/Desktop/research/outputs/2026-04-05_r1_cross_year_2024_la_long_beach_pooled/la_long_beach_2024_pooled_timestamp_summary.json
 === run_cross_year_la_long_beach_transfer_61day.sh ===
-timestamp_utc=2026-04-04T22:07:56Z
+timestamp_utc=2026-04-05T18:26:30Z
 command=bash examples/run_cross_year_la_long_beach_transfer_61day.sh 
 source_summary_json=/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_source_summary.json
 source_val_predictions_csv=/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_source_val_predictions.csv
@@ -57,12 +280,37 @@ run_root=/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_
 transfer_2023_to_2024=/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2023_to_2024_transfer_summary.json
 transfer_2024_to_2023=/Users/seoki/Desktop/research/outputs/2026-04-05_r2_cross_year_la_long_beach_transfer/la_long_beach_2024_to_2023_transfer_summary.json
 === unseen_area_evidence_report_cli ===
-timestamp_utc=2026-04-04T22:08:11Z
+timestamp_utc=2026-04-05T18:26:37Z
 command=env PYTHONPATH=src python -m ais_risk.unseen_area_evidence_report_cli --output-prefix /Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed --min-test-positive-support 10 
 detail_csv=/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv
 summary_csv=/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv
 summary_md=/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.md
 summary_json=/Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed.json
+=== manuscript_freeze_packet_cli ===
+timestamp_utc=2026-04-05T18:26:39Z
+command=env PYTHONPATH=src python -m ais_risk.manuscript_freeze_packet_cli --unseen-area-summary-csv /Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv --threshold-robustness-summary-csv /Users/seoki/Desktop/research/docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv --significance-csv /Users/seoki/Desktop/research/docs/significance_report_2026-04-04_expanded_models_10seed.csv --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --aggregate-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv --max-ece 0.10 --max-f1-std 0.03 --output-prefix /Users/seoki/Desktop/research/docs/manuscript_freeze_packet_2026-04-04_expanded_models_10seed --min-test-positive-support 10 
+summary_md=/Users/seoki/Desktop/research/docs/manuscript_freeze_packet_2026-04-04_expanded_models_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/manuscript_freeze_packet_2026-04-04_expanded_models_10seed.json
+operator_profile_lock_csv=/Users/seoki/Desktop/research/docs/manuscript_freeze_packet_2026-04-04_expanded_models_10seed_operator_profile_lock.csv
+model_claim_scope_csv=/Users/seoki/Desktop/research/docs/manuscript_freeze_packet_2026-04-04_expanded_models_10seed_model_claim_scope.csv
+=== run_data_algorithm_quality_review_2026-04-05.sh ===
+timestamp_utc=2026-04-05T18:26:42Z
+command=env RECOMMENDATION_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv AGGREGATE_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv OUT_OF_TIME_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check.csv TRANSFER_CSV=/Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv OUT_OF_TIME_THRESHOLD_POLICY_COMPARE_JSON=/Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed.json MULTISOURCE_TRANSFER_GOVERNANCE_BRIDGE_JSON=/Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.json TRANSFER_OVERRIDE_SEED_STRESS_TEST_JSON=/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed.json MANUSCRIPT_FREEZE_PACKET_JSON=/Users/seoki/Desktop/research/docs/manuscript_freeze_packet_2026-04-04_expanded_models_10seed.json OUTPUT_PREFIX=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed MIN_POSITIVE_SUPPORT=30 MAX_ECE=0.10 MAX_F1_STD=0.03 MIN_OUT_OF_TIME_DELTA_F1=-0.05 MAX_NEGATIVE_TRANSFER_PAIRS=1 bash examples/run_data_algorithm_quality_review_2026-04-05.sh 
+summary_md=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed.json
+dataset_scorecard_csv=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed_dataset_scorecard.csv
+high_risk_models_csv=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed_high_risk_models.csv
+todo_csv=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed_todo.csv
+summary_md=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed.md
+summary_json=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed.json
+dataset_scorecard_csv=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed_dataset_scorecard.csv
+high_risk_models_csv=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed_high_risk_models.csv
+todo_csv=/Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed_todo.csv
+=== reviewer_quality_audit_cli ===
+timestamp_utc=2026-04-05T18:26:45Z
+command=env PYTHONPATH=src python -m ais_risk.reviewer_quality_audit_cli --recommendation-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_recommendation.csv --aggregate-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_aggregate.csv --winner-summary-csv /Users/seoki/Desktop/research/outputs/2026-04-04_all_models_seed_sweep_10seed/all_models_seed_sweep_winner_summary.csv --out-of-time-csv /Users/seoki/Desktop/research/outputs/2026-04-04_out_of_time_check_10seed/out_of_time_recommendation_check.csv --transfer-csv /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_check_10seed/transfer_recommendation_check.csv --reliability-region-summary-csv /Users/seoki/Desktop/research/outputs/2026-04-04_reliability_report_10seed/reliability_recommended_region_summary.csv --taxonomy-region-summary-csv /Users/seoki/Desktop/research/outputs/2026-04-04_error_taxonomy_10seed/error_taxonomy_region_summary.csv --output-prefix /Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed --significance-csv /Users/seoki/Desktop/research/docs/significance_report_2026-04-04_expanded_models_10seed.csv --threshold-robustness-summary-csv /Users/seoki/Desktop/research/docs/threshold_robustness_report_2026-04-04_expanded_models_10seed_summary.csv --unseen-area-summary-csv /Users/seoki/Desktop/research/docs/true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv --manuscript-freeze-packet-json /Users/seoki/Desktop/research/docs/manuscript_freeze_packet_2026-04-04_expanded_models_10seed.json --transfer-model-scan-json /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_model_scan_10seed/houston_transfer_model_scan.json --transfer-gap-summary-csv /Users/seoki/Desktop/research/outputs/2026-04-04_transfer_gap_diagnostics_10seed/transfer_gap_diagnostics_summary.csv --temporal-robust-summary-json /Users/seoki/Desktop/research/docs/temporal_robust_recommendation_2026-04-05_houston_10seed.json --out-of-time-threshold-policy-compare-json /Users/seoki/Desktop/research/docs/out_of_time_threshold_policy_compare_2026-04-05_10seed.json --transfer-policy-governance-lock-json /Users/seoki/Desktop/research/docs/transfer_policy_governance_lock_2026-04-05_10seed.json --transfer-policy-compare-json /Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_2026-04-05_10seed.json --transfer-policy-compare-all-models-json /Users/seoki/Desktop/research/docs/houston_transfer_policy_compare_all_models_2026-04-05_10seed.json --transfer-calibration-probe-json /Users/seoki/Desktop/research/docs/houston_transfer_calibration_probe_2026-04-05_10seed.json --external-validity-manuscript-assets-json /Users/seoki/Desktop/research/docs/external_validity_manuscript_assets_2026-04-05_10seed.json --multisource-transfer-model-scan-summary-json /Users/seoki/Desktop/research/docs/multisource_transfer_model_scan_summary_2026-04-05_10seed.json --multisource-transfer-governance-bridge-json /Users/seoki/Desktop/research/docs/multisource_transfer_governance_bridge_2026-04-05_10seed.json --data-algorithm-quality-review-json /Users/seoki/Desktop/research/docs/data_algorithm_quality_review_2026-04-05_10seed.json 
+summary_json=/Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.json
+summary_md=/Users/seoki/Desktop/research/docs/reviewer_quality_audit_2026-04-04_expanded_models_10seed.md
 === export_github_results_bundle_2026-04-04_expanded_10seed.sh ===
-timestamp_utc=2026-04-04T22:08:18Z
+timestamp_utc=2026-04-05T18:26:48Z
 command=env COMMAND_LOG_PATH=/Users/seoki/Desktop/research/outputs/2026-04-04_external_validity_command_log_10seed.txt INPUT_DATA_DIR=/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix bash examples/export_github_results_bundle_2026-04-04_expanded_10seed.sh 

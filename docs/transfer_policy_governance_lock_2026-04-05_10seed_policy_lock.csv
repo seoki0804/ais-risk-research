@@ -1,0 +1,4 @@
+region,dataset,in_time_model,out_of_time_threshold_policy,out_of_time_delta_f1,out_of_time_ece,out_of_time_combined_pass,source_transfer_model,source_transfer_calibration_method,source_transfer_metric_mode,source_transfer_negative_pairs,source_transfer_pair_count,source_transfer_max_target_ece,governance_status,governance_notes
+houston,houston_pooled_pairwise,hgbt,fixed_baseline_threshold,-0.02857142857142858,0.02404045858585858,True,rule_score,isotonic,fixed,0,2,0.06840750472573154,locked_transfer_only_override,"Use split governance: keep in-time recommendation path, apply calibrated transfer-only source policy."
+nola,nola_pooled_pairwise,hgbt,fixed_baseline_threshold,,,,hgbt,none,fixed,,,,locked_default_recommendation,No transfer override applied.
+seattle,seattle_pooled_pairwise,extra_trees,fixed_baseline_threshold,,,,extra_trees,none,fixed,,,,locked_default_recommendation,No transfer override applied.

@@ -1,0 +1,42 @@
+{
+  "status": "completed",
+  "input_dir": "/Users/seoki/Desktop/research/outputs/noaa_same_area_pooled_benchmark_61day_2026-03-18_leakfix",
+  "source_region": "houston",
+  "target_regions": [
+    "nola",
+    "seattle"
+  ],
+  "baseline_model": "hgbt",
+  "baseline_method": "none",
+  "override_model": "rule_score",
+  "override_method": "isotonic",
+  "random_seeds": [
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50
+  ],
+  "seed_count": 10,
+  "completed_seed_count": 10,
+  "baseline_combined_pass_fixed_count": 0,
+  "override_combined_pass_fixed_count": 10,
+  "override_better_negative_pair_count": 10,
+  "override_better_transfer_gate_count": 10,
+  "mean_source_f1_loss_override_vs_baseline": 0.9,
+  "max_source_f1_loss_override_vs_baseline": 0.9,
+  "mean_target_f1_gain_override_vs_baseline": -0.12248496993675695,
+  "max_override_target_ece": 0.06840750472573154,
+  "target_gate_stable": true,
+  "source_loss_disclosed": true,
+  "dq3_acceptance_met": true,
+  "per_seed_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_per_seed.csv",
+  "run_root": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed.md",
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed.json"
+}

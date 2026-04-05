@@ -1,0 +1,4 @@
+policy,dataset_count,completed_count,combined_pass_count,temporal_pass_count,ece_pass_count,in_time_regression_pass_count,mean_delta_f1,min_delta_f1,max_out_of_time_ece,max_in_time_regression_from_best_f1
+fixed_baseline_threshold,3,3,2,3,3,2,0.07106730176905618,-0.02857142857142858,0.03769154325259516,0.02154882154882154
+oot_oracle_threshold,3,3,2,3,3,2,0.08766292836468277,-0.02857142857142858,0.03769154325259516,0.02154882154882154
+oot_val_tuned,3,3,1,2,3,2,0.040198035533936305,-0.10129870129870133,0.03769154325259516,0.02154882154882154

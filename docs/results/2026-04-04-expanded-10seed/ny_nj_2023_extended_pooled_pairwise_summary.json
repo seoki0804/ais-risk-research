@@ -1,0 +1,78 @@
+{
+  "inputs": [
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230901/ny_nj_true_extension_2023-09-01/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230902/ny_nj_true_extension_2023-09-02/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230903/ny_nj_true_extension_2023-09-03/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230904/ny_nj_true_extension_2023-09-04/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230905/ny_nj_true_extension_2023-09-05/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230906/ny_nj_true_extension_2023-09-06/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230907/ny_nj_true_extension_2023-09-07/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230908/ny_nj_true_extension_2023-09-08/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230909/ny_nj_true_extension_2023-09-09/ny_nj_pairwise_dataset.csv",
+    "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20231008/ny_nj_true_extension_2023-10-08/ny_nj_pairwise_dataset.csv"
+  ],
+  "output": "/Users/seoki/Desktop/research/outputs/2026-04-05_r22_nynj_ext_overridepool_true_new_area_ny_nj_2023_extended_pooled/ny_nj_2023_extended_pooled_pairwise.csv",
+  "output_rows": 25802,
+  "file_counts": [
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230901/ny_nj_true_extension_2023-09-01/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-01",
+      "row_count": 2594,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230902/ny_nj_true_extension_2023-09-02/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-02",
+      "row_count": 3148,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230903/ny_nj_true_extension_2023-09-03/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-03",
+      "row_count": 3135,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230904/ny_nj_true_extension_2023-09-04/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-04",
+      "row_count": 2693,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230905/ny_nj_true_extension_2023-09-05/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-05",
+      "row_count": 2200,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230906/ny_nj_true_extension_2023-09-06/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-06",
+      "row_count": 2794,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230907/ny_nj_true_extension_2023-09-07/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-07",
+      "row_count": 2332,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230908/ny_nj_true_extension_2023-09-08/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-08",
+      "row_count": 2392,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20230909/ny_nj_true_extension_2023-09-09/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-09-09",
+      "row_count": 2665,
+      "status": "merged"
+    },
+    {
+      "path": "/Users/seoki/Desktop/research/outputs/2026-04-05_r21_nynj_override_true_new_area_ny_nj_20231008/ny_nj_true_extension_2023-10-08/ny_nj_pairwise_dataset.csv",
+      "source_date": "2023-10-08",
+      "row_count": 1849,
+      "status": "merged"
+    }
+  ]
+}

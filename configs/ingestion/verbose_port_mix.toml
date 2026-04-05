@@ -1,0 +1,15 @@
+[bundle]
+name = "verbose_port_mix"
+description = "Verbose-over-ground export with long-form headers and mixed port traffic filters."
+source_preset = "verbose_over_ground"
+
+[bundle.defaults]
+vessel_types = ["cargo", "tanker", "passenger", "service", "tug"]
+column_map = ""
+
+[bundle.source_preset_info]
+description = "Verbose headers such as Ship MMSI, Base Date Time, Speed Over Ground, Course Over Ground."
+default_column_map = "mmsi=Ship MMSI,timestamp=Base Date Time,lat=LATITUDE,lon=LONGITUDE,sog=Speed Over Ground,cog=Course Over Ground,heading=True Heading,vessel_type=Ship Type"
+
+[bundle.notes]
+items = ["Designed for exports using labels like Speed Over Ground and Course Over Ground.", "Useful when source files come from BI/reporting systems that expanded header names."]

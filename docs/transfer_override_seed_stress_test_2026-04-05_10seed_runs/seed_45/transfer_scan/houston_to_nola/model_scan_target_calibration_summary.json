@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "predictions_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_45/transfer_scan/houston_to_nola/model_scan_target_predictions.csv",
+  "model_names": [
+    "hgbt",
+    "rule_score"
+  ],
+  "bin_count": 10,
+  "models": {
+    "hgbt": {
+      "status": "completed",
+      "sample_count": 2963,
+      "skipped_rows": 0,
+      "brier_score": 0.030710859527418734,
+      "ece": 0.024564552143098273,
+      "mce": 0.522632,
+      "mean_score": 0.13371073574080325,
+      "positive_rate": 0.13972325345933176
+    },
+    "rule_score": {
+      "status": "completed",
+      "sample_count": 2963,
+      "skipped_rows": 0,
+      "brier_score": 0.07788238345763068,
+      "ece": 0.13984285116436032,
+      "mce": 0.2026489786780384,
+      "mean_score": 0.22486645966925414,
+      "positive_rate": 0.13972325345933176
+    }
+  },
+  "calibration_bin_rows": 20,
+  "summary_json_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_45/transfer_scan/houston_to_nola/model_scan_target_calibration_summary.json",
+  "summary_md_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_45/transfer_scan/houston_to_nola/model_scan_target_calibration_summary.md",
+  "calibration_bins_csv_path": "/Users/seoki/Desktop/research/docs/transfer_override_seed_stress_test_2026-04-05_10seed_runs/seed_45/transfer_scan/houston_to_nola/model_scan_target_calibration_bins.csv"
+}

@@ -7,13 +7,25 @@ __pycache__/
 # Local tool/runtime caches
 .playwright-cli/
 tmp/
+.tmp/
 
 # Large/generated artifacts (keep repository lean)
 output/
 outputs/**
+research_logs/
 
 # Allow curated small release artifacts if explicitly copied under docs/results
 !docs/results/**
 
 # Generated previews
 *.rendered.html
+
+# Local AIS datasets (very large) are not committed
+data/raw/**
+data/splits/**
+data/curated/**
+
+# Keep lightweight dataset metadata/templates
+!data/README.md
+!data/manifests/**
+!data/**/.gitkeep

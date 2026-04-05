@@ -1,0 +1,15 @@
+[bundle]
+name = "shipid_xy_demo"
+description = "Flat custom export with ShipId/Event Time/Y/X/Speed/Course columns, suited to demo and portfolio datasets."
+source_preset = "shipid_eventtime_xy"
+
+[bundle.defaults]
+vessel_types = ["cargo", "tanker", "passenger"]
+column_map = ""
+
+[bundle.source_preset_info]
+description = "Custom flat export with ShipId/Event Time/Y/X/Speed/Course columns."
+default_column_map = "mmsi=ShipId,timestamp=Event Time,lat=Y,lon=X,sog=Speed,cog=Course,heading=Heading,vessel_type=ShipCategory"
+
+[bundle.notes]
+items = ["Use this for simplified CSV exports where coordinate columns are Y/X and field names are not AIS-native.", "Add manual overrides only if heading or vessel type columns use different names."]

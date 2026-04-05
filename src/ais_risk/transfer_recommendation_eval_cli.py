@@ -30,6 +30,12 @@ def main() -> None:
     parser.add_argument("--split-strategy", default="own_ship", choices=["own_ship", "timestamp"], help="Source split strategy.")
     parser.add_argument("--train-fraction", type=float, default=0.6, help="Train fraction.")
     parser.add_argument("--val-fraction", type=float, default=0.2, help="Validation fraction.")
+    parser.add_argument(
+        "--threshold-grid-step",
+        type=float,
+        default=0.05,
+        help="Threshold sweep step size for source validation F1 selection.",
+    )
     parser.add_argument("--torch-device", default="auto", help="Torch device.")
     parser.add_argument("--random-seed", type=int, default=42, help="Random seed.")
     parser.add_argument("--calibration-bins", type=int, default=10, help="Calibration bins for target ECE/Brier.")
@@ -46,6 +52,7 @@ def main() -> None:
         split_strategy=args.split_strategy,
         train_fraction=float(args.train_fraction),
         val_fraction=float(args.val_fraction),
+        threshold_grid_step=float(args.threshold_grid_step),
         torch_device=args.torch_device,
         random_seed=int(args.random_seed),
         calibration_bins=int(args.calibration_bins),
