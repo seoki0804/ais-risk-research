@@ -138,7 +138,10 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "figure_2_transfer_delta_f1_heatmap_svg_path",
                 "figure_3_pipeline_overview_svg_path",
                 "figure_index_md_path",
+                "manuscript_draft_ko_md_path",
+                "manuscript_draft_en_md_path",
                 "manuscript_draft_md_path",
+                "manuscript_todo_md_path",
             }
             self.assertEqual(expected_keys, set(summary.keys()))
 
