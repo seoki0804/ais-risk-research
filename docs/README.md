@@ -37,6 +37,15 @@
 - [합리적 가정] 기본 시나리오는 `현재 속력`, `20% 감속`, `20% 증속` 3종이며, 자선의 `침로(Heading/COG)는 고정`한다.
 - [추가 검증 필요] 실제 대상 해역, 데이터 소스, 라이선스, 전문가 검증 채널은 착수 직후 확정해야 한다.
 
+## 논문 초안/도식 패키지
+
+- 논문 초안 v0.2: [manuscript_draft_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09.md)
+- 그림 인덱스: [figure_index.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_index.md)
+- 모델 패밀리 비교 도식(SVG): [figure_1_model_family_comparison.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_1_model_family_comparison.svg)
+- 전이 성능 히트맵(SVG): [figure_2_transfer_delta_f1_heatmap.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_2_transfer_delta_f1_heatmap.svg)
+- 연구 파이프라인 도식(SVG): [figure_3_pipeline_overview.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_3_pipeline_overview.svg)
+- 생성 명령: `examples/run_manuscript_enhancement_pack_2026-04-09.sh`
+
 ## 사용 순서
 
 1. `00`과 `01`로 범위와 가정, 성공조건을 확정한다.

@@ -1,0 +1,29 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='760' height='540' viewBox='0 0 760 540'>
+<style>text{font-family:Arial,sans-serif;fill:#1A202C}.small{font-size:12px}.title{font-size:20px;font-weight:700}.subtitle{font-size:12px;fill:#4A5568}</style>
+<text x='20' y='34' class='title'>Figure 2. Cross-Region Transfer ΔF1 Heatmap</text>
+<text x='20' y='54' class='subtitle'>Rows = source region, columns = target region (recommended model transfer)</text>
+<text x='156' y='184.00' class='small' text-anchor='end'>houston</text>
+<text x='156' y='304.00' class='small' text-anchor='end'>nola</text>
+<text x='156' y='424.00' class='small' text-anchor='end'>seattle</text>
+<text x='230.00' y='104' class='small' text-anchor='middle'>houston</text>
+<text x='350.00' y='104' class='small' text-anchor='middle'>nola</text>
+<text x='470.00' y='104' class='small' text-anchor='middle'>seattle</text>
+<rect x='170' y='120' width='120' height='120' fill='#EDF2F7' stroke='white' stroke-width='2'/>
+<text x='230.00' y='184.00' class='small' text-anchor='middle'>-</text>
+<rect x='290' y='120' width='120' height='120' fill='#E53E3E' stroke='white' stroke-width='2'/>
+<text x='350.00' y='184.00' class='small' text-anchor='middle'>-0.138</text>
+<rect x='410' y='120' width='120' height='120' fill='#C53030' stroke='white' stroke-width='2'/>
+<text x='470.00' y='184.00' class='small' text-anchor='middle'>-0.210</text>
+<rect x='170' y='240' width='120' height='120' fill='#2B6CB0' stroke='white' stroke-width='2'/>
+<text x='230.00' y='304.00' class='small' text-anchor='middle'>+0.321</text>
+<rect x='290' y='240' width='120' height='120' fill='#EDF2F7' stroke='white' stroke-width='2'/>
+<text x='350.00' y='304.00' class='small' text-anchor='middle'>-</text>
+<rect x='410' y='240' width='120' height='120' fill='#2B6CB0' stroke='white' stroke-width='2'/>
+<text x='470.00' y='304.00' class='small' text-anchor='middle'>+0.444</text>
+<rect x='170' y='360' width='120' height='120' fill='#BEE3F8' stroke='white' stroke-width='2'/>
+<text x='230.00' y='424.00' class='small' text-anchor='middle'>+0.002</text>
+<rect x='290' y='360' width='120' height='120' fill='#BEE3F8' stroke='white' stroke-width='2'/>
+<text x='350.00' y='424.00' class='small' text-anchor='middle'>+0.049</text>
+<rect x='410' y='360' width='120' height='120' fill='#EDF2F7' stroke='white' stroke-width='2'/>
+<text x='470.00' y='424.00' class='small' text-anchor='middle'>-</text>
+</svg>

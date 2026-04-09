@@ -1,0 +1,7 @@
+region,dataset,model_family,model_name,f1,ece,auroc
+houston,houston_pooled_pairwise,regional_raster_cnn,cnn_focal_temp,0.8315,0.1458,0.9910
+houston,houston_pooled_pairwise,tabular,hgbt,0.8286,0.0229,0.9833
+nola,nola_pooled_pairwise,regional_raster_cnn,cnn_weighted,0.4432,0.1019,0.9624
+nola,nola_pooled_pairwise,tabular,hgbt,0.6015,0.0237,0.9707
+seattle,seattle_pooled_pairwise,regional_raster_cnn,cnn_focal,0.8364,0.2791,0.9609
+seattle,seattle_pooled_pairwise,tabular,logreg,0.8214,0.0482,0.9679

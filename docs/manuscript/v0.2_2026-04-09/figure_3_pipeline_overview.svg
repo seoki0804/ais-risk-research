@@ -1,0 +1,23 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1060' height='340' viewBox='0 0 1060 340'>
+<style>text{font-family:Arial,sans-serif;fill:#1A202C}.title{font-size:20px;font-weight:700}.small{font-size:12px}</style>
+<text x='30' y='34' class='title'>Figure 3. End-to-End Research Pipeline</text>
+<rect x='40' y='90' width='170' height='88' rx='10' fill='#2D3748'/>
+<text x='125' y='126' text-anchor='middle' class='small' fill='white'>AIS Raw/Curated Data</text>
+<rect x='250' y='90' width='170' height='88' rx='10' fill='#2B6CB0'/>
+<text x='335' y='126' text-anchor='middle' class='small' fill='white'>Feature &amp; Pairwise Dataset</text>
+<rect x='500' y='90' width='170' height='88' rx='10' fill='#2F855A'/>
+<text x='585' y='126' text-anchor='middle' class='small' fill='white'>Multi-Model Training</text>
+<rect x='730' y='90' width='170' height='88' rx='10' fill='#DD6B20'/>
+<text x='815' y='126' text-anchor='middle' class='small' fill='white'>In/Out-of-Time + Transfer Eval</text>
+<rect x='930' y='90' width='170' height='88' rx='10' fill='#6B46C1'/>
+<text x='1015' y='126' text-anchor='middle' class='small' fill='white'>Governance + Manuscript Assets</text>
+<line x1='216' y1='134' x2='240' y2='134' stroke='#4A5568' stroke-width='3'/>
+<polygon points='240,128 250,134 240,140' fill='#4A5568'/>
+<line x1='426' y1='134' x2='490' y2='134' stroke='#4A5568' stroke-width='3'/>
+<polygon points='490,128 500,134 490,140' fill='#4A5568'/>
+<line x1='676' y1='134' x2='720' y2='134' stroke='#4A5568' stroke-width='3'/>
+<polygon points='720,128 730,134 720,140' fill='#4A5568'/>
+<line x1='906' y1='134' x2='920' y2='134' stroke='#4A5568' stroke-width='3'/>
+<polygon points='920,128 930,134 920,140' fill='#4A5568'/>
+<text x='40' y='250' class='small'>Output: model selection, transfer-risk diagnostics, calibrated risk visualization, and manuscript-ready evidence tables.</text>
+</svg>

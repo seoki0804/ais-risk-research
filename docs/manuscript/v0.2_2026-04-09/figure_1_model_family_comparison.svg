@@ -1,0 +1,37 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='980' height='520' viewBox='0 0 980 520'>
+<style>text{font-family:Arial,sans-serif;fill:#1A202C} .small{font-size:12px} .axis{font-size:11px;fill:#4A5568} .title{font-size:20px;font-weight:700} .subtitle{font-size:12px;fill:#4A5568}</style>
+<text x='100' y='34' class='title'>Figure 1. Region-wise Best Model Family Comparison (F1)</text>
+<text x='100' y='54' class='subtitle'>Best tabular vs best raster-CNN per region, using all_models_multiarea_leaderboard.csv</text>
+<line x1='100' y1='370.00' x2='930' y2='370.00' stroke='#E2E8F0' stroke-width='1'/>
+<text x='90' y='374.00' class='axis' text-anchor='end'>0.40</text>
+<line x1='100' y1='310.00' x2='930' y2='310.00' stroke='#E2E8F0' stroke-width='1'/>
+<text x='90' y='314.00' class='axis' text-anchor='end'>0.50</text>
+<line x1='100' y1='250.00' x2='930' y2='250.00' stroke='#E2E8F0' stroke-width='1'/>
+<text x='90' y='254.00' class='axis' text-anchor='end'>0.60</text>
+<line x1='100' y1='190.00' x2='930' y2='190.00' stroke='#E2E8F0' stroke-width='1'/>
+<text x='90' y='194.00' class='axis' text-anchor='end'>0.70</text>
+<line x1='100' y1='130.00' x2='930' y2='130.00' stroke='#E2E8F0' stroke-width='1'/>
+<text x='90' y='134.00' class='axis' text-anchor='end'>0.80</text>
+<line x1='100' y1='70.00' x2='930' y2='70.00' stroke='#E2E8F0' stroke-width='1'/>
+<text x='90' y='74.00' class='axis' text-anchor='end'>0.90</text>
+<rect x='100' y='70' width='830' height='330' fill='none' stroke='#A0AEC0' stroke-width='1'/>
+<rect x='189.33' y='112.86' width='44.00' height='287.14' fill='#2B6CB0' rx='3'/>
+<text x='211.33' y='106.86' class='small' text-anchor='middle'>0.829</text>
+<rect x='243.33' y='111.12' width='44.00' height='288.88' fill='#DD6B20' rx='3'/>
+<text x='265.33' y='105.12' class='small' text-anchor='middle'>0.831</text>
+<text x='238.33' y='424' class='small' text-anchor='middle'>houston</text>
+<rect x='466.00' y='249.10' width='44.00' height='150.90' fill='#2B6CB0' rx='3'/>
+<text x='488.00' y='243.10' class='small' text-anchor='middle'>0.602</text>
+<rect x='520.00' y='344.09' width='44.00' height='55.91' fill='#DD6B20' rx='3'/>
+<text x='542.00' y='338.09' class='small' text-anchor='middle'>0.443</text>
+<text x='515.00' y='424' class='small' text-anchor='middle'>nola</text>
+<rect x='742.67' y='117.14' width='44.00' height='282.86' fill='#2B6CB0' rx='3'/>
+<text x='764.67' y='111.14' class='small' text-anchor='middle'>0.821</text>
+<rect x='796.67' y='108.18' width='44.00' height='291.82' fill='#DD6B20' rx='3'/>
+<text x='818.67' y='102.18' class='small' text-anchor='middle'>0.836</text>
+<text x='791.67' y='424' class='small' text-anchor='middle'>seattle</text>
+<rect x='690' y='80' width='14' height='14' fill='#2B6CB0'/>
+<text x='712' y='92' class='small'>tabular (best)</text>
+<rect x='690' y='102' width='14' height='14' fill='#DD6B20'/>
+<text x='712' y='114' class='small'>regional_raster_cnn (best)</text>
+</svg>

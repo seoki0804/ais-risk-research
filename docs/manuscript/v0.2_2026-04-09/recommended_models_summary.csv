@@ -1,0 +1,4 @@
+region,dataset,model_family,model_name,f1_mean_10seed,ece_mean_10seed,f1_single_eval,ece_single_eval,auroc_single_eval,selection_rule
+houston,houston_pooled_pairwise,tabular,hgbt,0.8286,0.0229,0.8286,0.0229,0.9833,ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std
+nola,nola_pooled_pairwise,tabular,hgbt,0.6015,0.0237,0.6015,0.0237,0.9707,ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std
+seattle,seattle_pooled_pairwise,tabular,extra_trees,0.8174,0.0300,0.8148,0.0289,0.9690,ece_gate_then_max_f1_within_tolerance_then_min_ece_then_min_f1_std
