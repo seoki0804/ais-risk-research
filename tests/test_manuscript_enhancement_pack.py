@@ -157,6 +157,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "figure_captions_bilingual_md_path",
                 "submission_template_tex_path",
                 "consistency_report_md_path",
+                "completion_scorecard_md_path",
                 "prior_work_evidence_matrix_md_path",
                 "examiner_critical_todo_md_path",
                 "statistical_significance_appendix_md_path",
@@ -216,6 +217,10 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             parity_text = Path(summary["bilingual_parity_report_md_path"]).read_text(encoding="utf-8")
             self.assertIn("Bilingual Parity Report", parity_text)
             self.assertIn("Overall parity status", parity_text)
+
+            completion_text = Path(summary["completion_scorecard_md_path"]).read_text(encoding="utf-8")
+            self.assertIn("Manuscript Completion Scorecard", completion_text)
+            self.assertIn("Completion score", completion_text)
 
 
 if __name__ == "__main__":

@@ -142,6 +142,7 @@
 ## 11. 제출 준비 산출물
 - LaTeX 제출 템플릿: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - 정합성 점검 리포트: `manuscript_consistency_report_v0.2_2026-04-09.md`
+- 완성도 스코어카드: `manuscript_completion_scorecard_v0.2_2026-04-09.md`
 - 이중언어 패리티 리포트: `bilingual_parity_report_v0.2_2026-04-09.md`
 - 전이 반복-무작위화 부록: `transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`
 - Out-of-domain 검증 부록: `out_of_domain_validation_appendix_v0.2_2026-04-09.md`

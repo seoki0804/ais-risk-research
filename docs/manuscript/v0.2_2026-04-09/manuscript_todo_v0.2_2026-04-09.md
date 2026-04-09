@@ -14,6 +14,7 @@
 ## C. Submission Readiness
 - [x] Transform markdown draft to target venue template (Word/LaTeX) (`manuscript_submission_template_v0.2_2026-04-09.tex`).
 - [x] Final consistency pass between tables, figures, and manuscript claims (`manuscript_consistency_report_v0.2_2026-04-09.md` = PASS).
+- [x] Publish objective completion scorecard (`manuscript_completion_scorecard_v0.2_2026-04-09.md`).
 
 ## D. Reviewer-Critical Upgrades (Next Iteration)
 - [x] Build claim-to-citation matrix and connect it to manuscript narrative (`prior_work_evidence_matrix_v0.2_2026-04-09.md`).

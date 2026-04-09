@@ -142,6 +142,7 @@ Detailed terminology guidance is provided in `terminology_mapping_v0.2_2026-04-0
 ## 11. Submission-Readiness Artifacts
 - LaTeX venue template draft: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - Consistency audit report: `manuscript_consistency_report_v0.2_2026-04-09.md`
+- Completion scorecard: `manuscript_completion_scorecard_v0.2_2026-04-09.md`
 - Bilingual parity report: `bilingual_parity_report_v0.2_2026-04-09.md`
 - Transfer repeated-randomization appendix: `transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`
 - Out-of-domain validation appendix: `out_of_domain_validation_appendix_v0.2_2026-04-09.md`

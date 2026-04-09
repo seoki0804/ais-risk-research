@@ -2417,6 +2417,7 @@ def run_manuscript_enhancement_pack(
     figure_captions_path = output_root / "figure_captions_bilingual_v0.2_2026-04-09.md"
     submission_template_tex_path = output_root / "manuscript_submission_template_v0.2_2026-04-09.tex"
     consistency_report_path = output_root / "manuscript_consistency_report_v0.2_2026-04-09.md"
+    completion_scorecard_path = output_root / "manuscript_completion_scorecard_v0.2_2026-04-09.md"
     prior_work_matrix_path = output_root / "prior_work_evidence_matrix_v0.2_2026-04-09.md"
     examiner_review_todo_path = output_root / "examiner_critical_todo_v0.2_2026-04-09.md"
     significance_appendix_path = output_root / "statistical_significance_appendix_v0.2_2026-04-09.md"
@@ -2885,6 +2886,7 @@ def run_manuscript_enhancement_pack(
             "## 11. 제출 준비 산출물",
             f"- LaTeX 제출 템플릿: `{submission_template_tex_path.name}`",
             f"- 정합성 점검 리포트: `{consistency_report_path.name}`",
+            f"- 완성도 스코어카드: `{completion_scorecard_path.name}`",
             f"- 이중언어 패리티 리포트: `{bilingual_parity_report_path.name}`",
             f"- 전이 반복-무작위화 부록: `{transfer_repeated_randomization_appendix_path.name}`",
             f"- Out-of-domain 검증 부록: `{out_of_domain_validation_appendix_path.name}`",
@@ -3046,6 +3048,7 @@ def run_manuscript_enhancement_pack(
             "## 11. Submission-Readiness Artifacts",
             f"- LaTeX venue template draft: `{submission_template_tex_path.name}`",
             f"- Consistency audit report: `{consistency_report_path.name}`",
+            f"- Completion scorecard: `{completion_scorecard_path.name}`",
             f"- Bilingual parity report: `{bilingual_parity_report_path.name}`",
             f"- Transfer repeated-randomization appendix: `{transfer_repeated_randomization_appendix_path.name}`",
             f"- Out-of-domain validation appendix: `{out_of_domain_validation_appendix_path.name}`",
@@ -3463,6 +3466,7 @@ def run_manuscript_enhancement_pack(
                 "## C. Submission Readiness",
                 f"- [x] Transform markdown draft to target venue template (Word/LaTeX) (`{submission_template_tex_path.name}`).",
                 f"- [x] Final consistency pass between tables, figures, and manuscript claims (`{consistency_report_path.name}` = {consistency_status}).",
+                f"- [x] Publish objective completion scorecard (`{completion_scorecard_path.name}`).",
                 "",
                 "## D. Reviewer-Critical Upgrades (Next Iteration)",
                 f"- [x] Build claim-to-citation matrix and connect it to manuscript narrative (`{prior_work_matrix_path.name}`).",
@@ -3473,6 +3477,70 @@ def run_manuscript_enhancement_pack(
                 f"- [x] Expand out-of-domain validation scope (at least one additional area or time regime) (`{out_of_domain_validation_appendix_path.name}`).",
                 f"- [x] Add threshold utility analysis for operational decision tradeoff (`{threshold_utility_appendix_path.name}`).",
                 f"- [{'x' if bilingual_parity_status == 'PASS' else ' '}] Run final bilingual publication parity check (Korean/English) (`{bilingual_parity_report_path.name}` = {bilingual_parity_status}).",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    manuscript_todo_text = manuscript_todo_path.read_text(encoding="utf-8")
+    examiner_todo_text = examiner_review_todo_path.read_text(encoding="utf-8")
+    unchecked_manuscript_todo = len(re.findall(r"^- \\[ \\]", manuscript_todo_text, flags=re.MULTILINE))
+    unchecked_examiner_todo = len(re.findall(r"^- \\[ \\]", examiner_todo_text, flags=re.MULTILINE))
+
+    completion_checks = [
+        ("Consistency gate", consistency_status == "PASS", f"{consistency_pass_count}/{consistency_total_count}"),
+        ("Bilingual parity gate", bilingual_parity_status == "PASS", bilingual_parity_status),
+        ("Model-family significance", bool(significance_rows), f"rows={len(significance_rows)}"),
+        (
+            "Transfer bootstrap significance",
+            bool(transfer_significance_rows),
+            f"rows={len(transfer_significance_rows)}",
+        ),
+        (
+            "Transfer repeated-randomization significance",
+            bool(transfer_repeated_randomization_rows),
+            f"rows={len(transfer_repeated_randomization_rows)}",
+        ),
+        ("Out-of-domain expansion", bool(out_of_domain_summary_rows), f"rows={len(out_of_domain_summary_rows)}"),
+        ("Threshold utility analysis", bool(threshold_utility_operating_rows), f"rows={len(threshold_utility_operating_rows)}"),
+        (
+            "Related-work differential table",
+            len(related_work_differential_rows) >= 8,
+            f"rows={len(related_work_differential_rows)}",
+        ),
+        (
+            "TODO closure (manuscript + examiner)",
+            unchecked_manuscript_todo == 0 and unchecked_examiner_todo == 0,
+            f"unchecked={unchecked_manuscript_todo + unchecked_examiner_todo}",
+        ),
+    ]
+    completion_pass_count = sum(1 for _, passed, _ in completion_checks if passed)
+    completion_total_count = len(completion_checks)
+    completion_score_pct = round(100.0 * completion_pass_count / completion_total_count)
+    completion_status = "READY_FOR_SUBMISSION" if completion_score_pct >= 95 else "NEEDS_MORE_WORK"
+    completion_rows = [
+        f"| {name} | {'PASS' if passed else 'FAIL'} | {detail} |"
+        for name, passed, detail in completion_checks
+    ]
+    completion_scorecard_path.write_text(
+        "\n".join(
+            [
+                "# Manuscript Completion Scorecard v0.2 (2026-04-09)",
+                "",
+                f"- Completion score: **{completion_score_pct}%** ({completion_pass_count}/{completion_total_count})",
+                f"- Status: **{completion_status}**",
+                f"- Consistency: `{consistency_status}`",
+                f"- Bilingual parity: `{bilingual_parity_status}`",
+                f"- Unchecked TODO count: `{unchecked_manuscript_todo + unchecked_examiner_todo}`",
+                "",
+                "| Check | Status | Detail |",
+                "| --- | --- | --- |",
+                *completion_rows,
+                "",
+                "## Interpretation",
+                "- This scorecard is objective and artifact-based; each check maps to generated files in `docs/manuscript/v0.2_2026-04-09`.",
+                "- The score can decrease automatically if any gate regresses in future regeneration runs.",
                 "",
             ]
         ),
@@ -3506,6 +3574,7 @@ def run_manuscript_enhancement_pack(
         "figure_captions_bilingual_md_path": str(figure_captions_path),
         "submission_template_tex_path": str(submission_template_tex_path),
         "consistency_report_md_path": str(consistency_report_path),
+        "completion_scorecard_md_path": str(completion_scorecard_path),
         "prior_work_evidence_matrix_md_path": str(prior_work_matrix_path),
         "examiner_critical_todo_md_path": str(examiner_review_todo_path),
         "statistical_significance_appendix_md_path": str(significance_appendix_path),
