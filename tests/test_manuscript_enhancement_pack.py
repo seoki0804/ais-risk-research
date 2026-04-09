@@ -136,6 +136,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "transfer_summary_csv_path",
                 "transfer_uncertainty_summary_csv_path",
                 "transfer_route_significance_csv_path",
+                "transfer_route_repeated_randomization_significance_csv_path",
                 "out_of_domain_validation_detail_csv_path",
                 "out_of_domain_validation_summary_csv_path",
                 "threshold_utility_curve_csv_path",
@@ -160,6 +161,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "examiner_critical_todo_md_path",
                 "statistical_significance_appendix_md_path",
                 "transfer_route_significance_appendix_md_path",
+                "transfer_route_repeated_randomization_appendix_md_path",
                 "threshold_utility_appendix_md_path",
                 "out_of_domain_validation_appendix_md_path",
             }
@@ -196,6 +198,12 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             )
             self.assertIn("Transfer-Route Significance Appendix", transfer_significance_text)
             self.assertIn("Route-wise Results", transfer_significance_text)
+
+            transfer_repeated_text = Path(
+                summary["transfer_route_repeated_randomization_appendix_md_path"]
+            ).read_text(encoding="utf-8")
+            self.assertIn("Transfer-Route Repeated-Randomization Appendix", transfer_repeated_text)
+            self.assertIn("Route-wise Results", transfer_repeated_text)
 
             threshold_utility_text = Path(summary["threshold_utility_appendix_md_path"]).read_text(encoding="utf-8")
             self.assertIn("Threshold Utility Appendix", threshold_utility_text)

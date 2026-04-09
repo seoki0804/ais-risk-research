@@ -1,0 +1,7 @@
+source_region,target_region,recommended_model,observed_delta_f1,randomization_runs,bootstrap_per_run,delta_mean_across_runs,delta_ci95_pooled,p_two_sided_mean,p_two_sided_median,p_two_sided_median_holm,p_two_sided_max,direction_consistency,significant_runs,interpretation
+houston,nola,hgbt,-0.1383,25,800,-0.1383,"[-0.1630, -0.1149]",0.0000,0.0000,0.0000,0.0000,1.0000,25,statistically_supported_after_holm
+houston,seattle,hgbt,-0.2103,25,800,-0.2103,"[-0.2429, -0.1783]",0.0000,0.0000,0.0000,0.0000,1.0000,25,statistically_supported_after_holm
+nola,houston,hgbt,+0.3213,25,800,+0.3197,"[+0.2316, +0.4027]",0.0000,0.0000,0.0000,0.0000,1.0000,25,statistically_supported_after_holm
+nola,seattle,hgbt,+0.4439,25,800,+0.4420,"[+0.3588, +0.5199]",0.0000,0.0000,0.0000,0.0000,1.0000,25,statistically_supported_after_holm
+seattle,houston,extra_trees,+0.0021,25,800,+0.0020,"[-0.0971, +0.1092]",0.9705,0.9750,0.9750,1.0000,0.9600,0,not_conclusive_after_holm
+seattle,nola,extra_trees,+0.0488,25,800,+0.0488,"[-0.0404, +0.1489]",0.3115,0.3100,0.6200,0.3525,1.0000,0,not_conclusive_after_holm

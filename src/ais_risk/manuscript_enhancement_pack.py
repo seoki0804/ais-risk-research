@@ -640,6 +640,208 @@ def _estimate_transfer_delta_significance(
     }
 
 
+def _estimate_transfer_delta_repeated_randomization(
+    *,
+    transfer_row: dict[str, str],
+    n_runs: int = 25,
+    n_bootstrap_per_run: int = 800,
+) -> dict[str, str]:
+    model_name = str(transfer_row.get("recommended_model", "")).strip()
+    threshold = _to_float(transfer_row.get("threshold"), default=float("nan"))
+    observed_delta = _to_float(transfer_row.get("delta_f1"), default=float("nan"))
+    if not model_name or math.isnan(threshold):
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+
+    target_predictions_value = str(transfer_row.get("target_predictions_csv_path", "")).strip()
+    transfer_summary_value = str(transfer_row.get("transfer_summary_json_path", "")).strip()
+    if not target_predictions_value or not transfer_summary_value:
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+    target_predictions_path = Path(target_predictions_value)
+    transfer_summary_path = Path(transfer_summary_value)
+    if not target_predictions_path.exists() or not transfer_summary_path.exists():
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+    try:
+        summary_json = json.loads(transfer_summary_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+    source_predictions_value = str(summary_json.get("source_test_predictions_csv_path", "")).strip()
+    if not source_predictions_value:
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+    source_predictions_path = Path(source_predictions_value)
+    if not source_predictions_path.exists():
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+
+    source_labels, source_scores = _read_binary_labels_and_scores(
+        predictions_csv_path=source_predictions_path,
+        model_name=model_name,
+    )
+    target_labels, target_scores = _read_binary_labels_and_scores(
+        predictions_csv_path=target_predictions_path,
+        model_name=model_name,
+    )
+    if not source_labels or not target_labels:
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+
+    run_pvalues: list[float] = []
+    run_delta_means: list[float] = []
+    pooled_deltas: list[float] = []
+    significant_runs = 0
+    for run_idx in range(n_runs):
+        source_dist = _bootstrap_f1_distribution(
+            labels=source_labels,
+            scores=source_scores,
+            threshold=threshold,
+            n_bootstrap=n_bootstrap_per_run,
+            seed=1100 + (run_idx * 31),
+        )
+        target_dist = _bootstrap_f1_distribution(
+            labels=target_labels,
+            scores=target_scores,
+            threshold=threshold,
+            n_bootstrap=n_bootstrap_per_run,
+            seed=2100 + (run_idx * 37),
+        )
+        paired_count = min(len(source_dist), len(target_dist))
+        if paired_count == 0:
+            continue
+        deltas = [target_dist[i] - source_dist[i] for i in range(paired_count)]
+        if not deltas:
+            continue
+        pooled_deltas.extend(deltas)
+        delta_mean = sum(deltas) / len(deltas)
+        run_delta_means.append(delta_mean)
+        p_le_zero = sum(1 for value in deltas if value <= 0.0) / len(deltas)
+        p_ge_zero = sum(1 for value in deltas if value >= 0.0) / len(deltas)
+        p_two_sided = min(1.0, 2.0 * min(p_le_zero, p_ge_zero))
+        run_pvalues.append(p_two_sided)
+        if p_two_sided < 0.05:
+            significant_runs += 1
+
+    if not run_pvalues or not run_delta_means or not pooled_deltas:
+        return {
+            "randomization_runs": str(n_runs),
+            "bootstrap_per_run": str(n_bootstrap_per_run),
+            "delta_mean_across_runs": "n/a",
+            "delta_ci95_pooled": "n/a",
+            "p_two_sided_mean": "n/a",
+            "p_two_sided_median": "n/a",
+            "p_two_sided_max": "n/a",
+            "direction_consistency": "n/a",
+            "significant_runs": "0",
+            "interpretation": "not_available",
+        }
+
+    pooled_sorted = sorted(pooled_deltas)
+    p_sorted = sorted(run_pvalues)
+    delta_mean_across_runs = sum(run_delta_means) / len(run_delta_means)
+    ci_low = _quantile(pooled_sorted, 0.025)
+    ci_high = _quantile(pooled_sorted, 0.975)
+    p_mean = sum(run_pvalues) / len(run_pvalues)
+    p_median = _quantile(p_sorted, 0.5)
+    p_max = max(run_pvalues)
+    if math.isnan(observed_delta):
+        observed_delta = delta_mean_across_runs
+    if observed_delta >= 0:
+        direction_consistency = sum(1 for value in run_delta_means if value > 0.0) / len(run_delta_means)
+    else:
+        direction_consistency = sum(1 for value in run_delta_means if value < 0.0) / len(run_delta_means)
+    interpretation = "not_conclusive"
+    if p_median < 0.05 and direction_consistency >= 0.8:
+        interpretation = "statistically_supported_repeated_randomization"
+    elif p_median < 0.05:
+        interpretation = "statistically_supported_but_direction_unstable"
+
+    return {
+        "randomization_runs": str(len(run_pvalues)),
+        "bootstrap_per_run": str(n_bootstrap_per_run),
+        "delta_mean_across_runs": f"{delta_mean_across_runs:+.4f}",
+        "delta_ci95_pooled": f"[{ci_low:+.4f}, {ci_high:+.4f}]",
+        "p_two_sided_mean": f"{p_mean:.4f}",
+        "p_two_sided_median": f"{p_median:.4f}",
+        "p_two_sided_max": f"{p_max:.4f}",
+        "direction_consistency": f"{direction_consistency:.4f}",
+        "significant_runs": str(significant_runs),
+        "interpretation": interpretation,
+    }
+
+
 def _estimate_transfer_delta_ci95(
     *,
     transfer_row: dict[str, str],
@@ -1297,9 +1499,15 @@ def run_manuscript_enhancement_pack(
     transfer_rows_for_table: list[dict[str, object]] = []
     transfer_uncertainty_rows: list[dict[str, object]] = []
     transfer_significance_rows: list[dict[str, object]] = []
+    transfer_repeated_randomization_rows: list[dict[str, object]] = []
     for row in transfer_rows:
         ci = _estimate_transfer_delta_ci95(transfer_row=row, n_bootstrap=300)
         transfer_significance = _estimate_transfer_delta_significance(transfer_row=row, n_bootstrap=2000)
+        transfer_repeated_randomization = _estimate_transfer_delta_repeated_randomization(
+            transfer_row=row,
+            n_runs=25,
+            n_bootstrap_per_run=800,
+        )
         transfer_rows_for_table.append(
             {
                 "source_region": row.get("source_region", ""),
@@ -1336,6 +1544,41 @@ def run_manuscript_enhancement_pack(
                 "interpretation": transfer_significance["interpretation"],
             }
         )
+        transfer_repeated_randomization_rows.append(
+            {
+                "source_region": row.get("source_region", ""),
+                "target_region": row.get("target_region", ""),
+                "recommended_model": row.get("recommended_model", ""),
+                "observed_delta_f1": f"{_to_float(row.get('delta_f1')):+.4f}",
+                "randomization_runs": transfer_repeated_randomization["randomization_runs"],
+                "bootstrap_per_run": transfer_repeated_randomization["bootstrap_per_run"],
+                "delta_mean_across_runs": transfer_repeated_randomization["delta_mean_across_runs"],
+                "delta_ci95_pooled": transfer_repeated_randomization["delta_ci95_pooled"],
+                "p_two_sided_mean": transfer_repeated_randomization["p_two_sided_mean"],
+                "p_two_sided_median": transfer_repeated_randomization["p_two_sided_median"],
+                "p_two_sided_max": transfer_repeated_randomization["p_two_sided_max"],
+                "direction_consistency": transfer_repeated_randomization["direction_consistency"],
+                "significant_runs": transfer_repeated_randomization["significant_runs"],
+                "interpretation": transfer_repeated_randomization["interpretation"],
+            }
+        )
+
+    if transfer_repeated_randomization_rows:
+        repeated_pvalues = [
+            _to_float(row.get("p_two_sided_median"), default=1.0)
+            for row in transfer_repeated_randomization_rows
+        ]
+        repeated_holm = _holm_adjusted(repeated_pvalues)
+        for idx, row in enumerate(transfer_repeated_randomization_rows):
+            holm_value = repeated_holm[idx]
+            row["p_two_sided_median_holm"] = f"{holm_value:.4f}"
+            direction_consistency = _to_float(row.get("direction_consistency"), default=0.0)
+            if holm_value < 0.05 and direction_consistency >= 0.8:
+                row["interpretation"] = "statistically_supported_after_holm"
+            elif holm_value < 0.05:
+                row["interpretation"] = "statistically_supported_after_holm_but_direction_unstable"
+            else:
+                row["interpretation"] = "not_conclusive_after_holm"
 
     high_uncertainty_routes: list[tuple[str, str, float]] = []
     for row in transfer_uncertainty_rows:
@@ -1592,6 +1835,9 @@ def run_manuscript_enhancement_pack(
     transfer_csv_path = output_root / "transfer_core_summary.csv"
     transfer_uncertainty_csv_path = output_root / "transfer_uncertainty_summary.csv"
     transfer_significance_csv_path = output_root / "transfer_route_significance_summary.csv"
+    transfer_repeated_randomization_csv_path = (
+        output_root / "transfer_route_repeated_randomization_significance_summary.csv"
+    )
     out_of_domain_detail_csv_path = output_root / "out_of_domain_validation_detail_summary.csv"
     out_of_domain_summary_csv_path = output_root / "out_of_domain_validation_summary.csv"
     ablation_csv_path = output_root / "ablation_tabular_vs_cnn_summary.csv"
@@ -1665,6 +1911,27 @@ def run_manuscript_enhancement_pack(
             "bootstrap_p_two_sided",
             "direction_probability",
             "n_bootstrap",
+            "interpretation",
+        ],
+    )
+    _write_csv(
+        transfer_repeated_randomization_csv_path,
+        transfer_repeated_randomization_rows,
+        [
+            "source_region",
+            "target_region",
+            "recommended_model",
+            "observed_delta_f1",
+            "randomization_runs",
+            "bootstrap_per_run",
+            "delta_mean_across_runs",
+            "delta_ci95_pooled",
+            "p_two_sided_mean",
+            "p_two_sided_median",
+            "p_two_sided_median_holm",
+            "p_two_sided_max",
+            "direction_consistency",
+            "significant_runs",
             "interpretation",
         ],
     )
@@ -1851,6 +2118,7 @@ def run_manuscript_enhancement_pack(
                 f"  - `./{recommended_csv_path.name}`",
                 f"  - `./{transfer_csv_path.name}`",
                 f"  - `./{transfer_uncertainty_csv_path.name}`",
+                f"  - `./{transfer_repeated_randomization_csv_path.name}`",
                 f"  - `./{out_of_domain_detail_csv_path.name}`",
                 f"  - `./{out_of_domain_summary_csv_path.name}`",
                 f"  - `./{ablation_csv_path.name}`",
@@ -2078,6 +2346,7 @@ def run_manuscript_enhancement_pack(
             transfer_csv_path,
             transfer_uncertainty_csv_path,
             transfer_significance_csv_path,
+            transfer_repeated_randomization_csv_path,
             out_of_domain_detail_csv_path,
             out_of_domain_summary_csv_path,
             ablation_csv_path,
@@ -2152,6 +2421,9 @@ def run_manuscript_enhancement_pack(
     examiner_review_todo_path = output_root / "examiner_critical_todo_v0.2_2026-04-09.md"
     significance_appendix_path = output_root / "statistical_significance_appendix_v0.2_2026-04-09.md"
     transfer_significance_appendix_path = output_root / "transfer_route_significance_appendix_v0.2_2026-04-09.md"
+    transfer_repeated_randomization_appendix_path = (
+        output_root / "transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md"
+    )
     threshold_utility_appendix_path = output_root / "threshold_utility_appendix_v0.2_2026-04-09.md"
     out_of_domain_validation_appendix_path = output_root / "out_of_domain_validation_appendix_v0.2_2026-04-09.md"
     bilingual_parity_report_path = output_root / "bilingual_parity_report_v0.2_2026-04-09.md"
@@ -2413,6 +2685,49 @@ def run_manuscript_enhancement_pack(
         transfer_significance_ko_lines = ["- transfer-route significance rows were not generated."]
         transfer_significance_en_lines = ["- transfer-route significance rows were not generated."]
 
+    if transfer_repeated_randomization_rows:
+        transfer_repeated_randomization_md_table = _markdown_table(
+            transfer_repeated_randomization_rows,
+            [
+                "source_region",
+                "target_region",
+                "recommended_model",
+                "observed_delta_f1",
+                "randomization_runs",
+                "delta_mean_across_runs",
+                "delta_ci95_pooled",
+                "p_two_sided_median",
+                "p_two_sided_median_holm",
+                "direction_consistency",
+                "significant_runs",
+                "interpretation",
+            ],
+        )
+        transfer_repeated_randomization_ko_lines = [
+            f"- {row['source_region']}->{row['target_region']}: median p={row['p_two_sided_median']}, "
+            f"Holm p={row['p_two_sided_median_holm']}, direction_consistency={row['direction_consistency']}, "
+            f"runs_sig={row['significant_runs']}/{row['randomization_runs']}"
+            for row in transfer_repeated_randomization_rows
+        ]
+        transfer_repeated_randomization_en_lines = [
+            f"- {row['source_region']}->{row['target_region']}: median p={row['p_two_sided_median']}, "
+            f"Holm p={row['p_two_sided_median_holm']}, direction_consistency={row['direction_consistency']}, "
+            f"sig_runs={row['significant_runs']}/{row['randomization_runs']}"
+            for row in transfer_repeated_randomization_rows
+        ]
+    else:
+        transfer_repeated_randomization_md_table = (
+            "| source_region | target_region | recommended_model | observed_delta_f1 | randomization_runs | "
+            "delta_mean_across_runs | delta_ci95_pooled | p_two_sided_median | p_two_sided_median_holm | "
+            "direction_consistency | significant_runs | interpretation |\n"
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n"
+            "| n/a | n/a | n/a | n/a | 0 | n/a | n/a | n/a | n/a | n/a | 0 | not_available |"
+        )
+        transfer_repeated_randomization_ko_lines = ["- repeated-randomization 전이 경로 유의성 행이 생성되지 않았다."]
+        transfer_repeated_randomization_en_lines = [
+            "- Repeated-randomization transfer-significance rows were not generated."
+        ]
+
     ko_text = "\n".join(
         [
             "# AIS 기반 충돌위험 히트맵 논문 초안 v0.2 (Korean)",
@@ -2511,6 +2826,7 @@ def run_manuscript_enhancement_pack(
             f"- LaTeX 제출 템플릿: `{submission_template_tex_path.name}`",
             f"- 정합성 점검 리포트: `{consistency_report_path.name}`",
             f"- 이중언어 패리티 리포트: `{bilingual_parity_report_path.name}`",
+            f"- 전이 반복-무작위화 부록: `{transfer_repeated_randomization_appendix_path.name}`",
             f"- Out-of-domain 검증 부록: `{out_of_domain_validation_appendix_path.name}`",
             f"- 정합성 자동 점검 결과: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
             "",
@@ -2541,7 +2857,16 @@ def run_manuscript_enhancement_pack(
             "핵심 해석:",
             *transfer_significance_ko_lines,
             "",
-            "## 16. 임계값 유틸리티 부록 (운영 비용 프로파일)",
+            "## 16. 전이 경로 반복-무작위화 통계 부록",
+            f"- 반복-무작위화 유의성 CSV: `{transfer_repeated_randomization_csv_path.name}`",
+            f"- 부록 문서: `{transfer_repeated_randomization_appendix_path.name}`",
+            "",
+            transfer_repeated_randomization_md_table,
+            "",
+            "핵심 해석:",
+            *transfer_repeated_randomization_ko_lines,
+            "",
+            "## 17. 임계값 유틸리티 부록 (운영 비용 프로파일)",
             f"- 유틸리티 곡선 CSV: `{threshold_utility_curve_csv_path.name}`",
             f"- 운영점 요약 CSV: `{threshold_utility_operating_csv_path.name}`",
             f"- 유틸리티 부록 문서: `{threshold_utility_appendix_path.name}`",
@@ -2652,6 +2977,7 @@ def run_manuscript_enhancement_pack(
             f"- LaTeX venue template draft: `{submission_template_tex_path.name}`",
             f"- Consistency audit report: `{consistency_report_path.name}`",
             f"- Bilingual parity report: `{bilingual_parity_report_path.name}`",
+            f"- Transfer repeated-randomization appendix: `{transfer_repeated_randomization_appendix_path.name}`",
             f"- Out-of-domain validation appendix: `{out_of_domain_validation_appendix_path.name}`",
             f"- Automated consistency status: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
             "",
@@ -2682,7 +3008,16 @@ def run_manuscript_enhancement_pack(
             "Key interpretation:",
             *transfer_significance_en_lines,
             "",
-            "## 16. Threshold Utility Appendix (Operational Cost Profile)",
+            "## 16. Transfer-Route Repeated-Randomization Appendix",
+            f"- Repeated-randomization significance CSV: `{transfer_repeated_randomization_csv_path.name}`",
+            f"- Appendix document: `{transfer_repeated_randomization_appendix_path.name}`",
+            "",
+            transfer_repeated_randomization_md_table,
+            "",
+            "Key interpretation:",
+            *transfer_repeated_randomization_en_lines,
+            "",
+            "## 17. Threshold Utility Appendix (Operational Cost Profile)",
             f"- Utility-curve CSV: `{threshold_utility_curve_csv_path.name}`",
             f"- Operating-point CSV: `{threshold_utility_operating_csv_path.name}`",
             f"- Utility appendix document: `{threshold_utility_appendix_path.name}`",
@@ -2809,6 +3144,7 @@ def run_manuscript_enhancement_pack(
                 rf"\item \texttt{{{_escape_latex(transfer_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(transfer_uncertainty_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(transfer_significance_csv_path.name)}}}",
+                rf"\item \texttt{{{_escape_latex(transfer_repeated_randomization_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(out_of_domain_detail_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(out_of_domain_summary_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(ablation_csv_path.name)}}}",
@@ -2912,7 +3248,36 @@ def run_manuscript_enhancement_pack(
                 "",
                 "## Limitations",
                 "- This appendix is based on single-run route artifacts and bootstrap resampling.",
-                "- Full repeated-randomization (multi-run) transfer significance is still an open next-step item.",
+                f"- Repeated-randomization companion appendix is reported separately (`{transfer_repeated_randomization_appendix_path.name}`).",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    transfer_repeated_randomization_appendix_path.write_text(
+        "\n".join(
+            [
+                "# Transfer-Route Repeated-Randomization Appendix v0.2 (2026-04-09)",
+                "",
+                "This appendix reports repeated-randomization significance for transfer-route delta F1.",
+                f"Data source: `{results_root}` and linked transfer prediction files.",
+                "",
+                "## Test Design",
+                "- Unit of analysis: route-level transfer pair (source->target).",
+                "- Statistic: delta F1 (target - source) under fixed threshold transfer.",
+                "- Repeated-randomization protocol: 25 runs x 800 stratified bootstrap draws per run.",
+                "- Reported p-values: run-wise two-sided p summarized by mean/median/max.",
+                "- Multiple-comparison control: Holm correction on route-level median p-values.",
+                "",
+                "## Route-wise Results",
+                transfer_repeated_randomization_md_table,
+                "",
+                "## Interpretation Notes",
+                *transfer_repeated_randomization_en_lines,
+                "",
+                "## Limitations",
+                "- This protocol remains resampling-based and does not replace external-regime validation.",
+                "- Route counts are limited by available transfer artifacts in the current release.",
                 "",
             ]
         ),
@@ -2977,7 +3342,7 @@ def run_manuscript_enhancement_pack(
                 "",
                 "## Critical Findings (Objective Reviewer View)",
                 "1. **Novelty framing risk (high)**: the manuscript currently lacks an explicit related-work differential table.",
-                "2. **Statistical evidence risk (medium)**: family-level significance appendix is now attached, but transfer-route repeated-randomization testing is still pending.",
+                "2. **Statistical evidence risk (low-medium)**: family-level and transfer-route repeated-randomization appendices are attached, but broader external regimes remain limited.",
                 "3. **External validity risk (medium)**: transfer analysis is strong across three regions, but global regime diversity is still limited.",
                 "4. **Operational interpretation risk (low-medium)**: threshold utility appendix is attached, but deployment-profile calibration still needs stakeholder-specific tuning.",
                 "5. **Labeling protocol clarity risk (medium)**: near-miss/collision-proxy linkage is implied but not fully formalized against prior literature.",
@@ -2989,7 +3354,7 @@ def run_manuscript_enhancement_pack(
                 "  - Acceptance: report p-values with multiple-comparison control and effect-size-oriented interpretation notes.",
                 f"- [x] Add bootstrap-based transfer-route significance summary (`{transfer_significance_appendix_path.name}`).",
                 "  - Acceptance: route-level table includes CI95, two-sided p-value, and direction probability.",
-                "- [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.",
+                f"- [x] Extend significance testing to transfer deltas with repeated-randomization protocol (`{transfer_repeated_randomization_appendix_path.name}`).",
                 "  - Acceptance: route-level significance table includes repeated runs and corrected p-values.",
                 f"- [x] Add one additional out-of-domain test split (new area/year) for robustness (`{out_of_domain_validation_appendix_path.name}`).",
                 "  - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.",
@@ -3030,7 +3395,7 @@ def run_manuscript_enhancement_pack(
                 f"- [ ] Close examiner-critical gaps with acceptance criteria (`{examiner_review_todo_path.name}`).",
                 f"- [x] Add formal significance testing for model-family comparison (`{significance_appendix_path.name}`, Holm-corrected p-values).",
                 f"- [x] Add bootstrap-based transfer-route significance summary (`{transfer_significance_appendix_path.name}`).",
-                "- [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.",
+                f"- [x] Extend formal significance testing to repeated-randomization transfer-route comparisons (`{transfer_repeated_randomization_appendix_path.name}`).",
                 f"- [x] Expand out-of-domain validation scope (at least one additional area or time regime) (`{out_of_domain_validation_appendix_path.name}`).",
                 f"- [x] Add threshold utility analysis for operational decision tradeoff (`{threshold_utility_appendix_path.name}`).",
                 f"- [{'x' if bilingual_parity_status == 'PASS' else ' '}] Run final bilingual publication parity check (Korean/English) (`{bilingual_parity_report_path.name}` = {bilingual_parity_status}).",
@@ -3046,6 +3411,7 @@ def run_manuscript_enhancement_pack(
         "transfer_summary_csv_path": str(transfer_csv_path),
         "transfer_uncertainty_summary_csv_path": str(transfer_uncertainty_csv_path),
         "transfer_route_significance_csv_path": str(transfer_significance_csv_path),
+        "transfer_route_repeated_randomization_significance_csv_path": str(transfer_repeated_randomization_csv_path),
         "out_of_domain_validation_detail_csv_path": str(out_of_domain_detail_csv_path),
         "out_of_domain_validation_summary_csv_path": str(out_of_domain_summary_csv_path),
         "threshold_utility_curve_csv_path": str(threshold_utility_curve_csv_path),
@@ -3070,6 +3436,9 @@ def run_manuscript_enhancement_pack(
         "examiner_critical_todo_md_path": str(examiner_review_todo_path),
         "statistical_significance_appendix_md_path": str(significance_appendix_path),
         "transfer_route_significance_appendix_md_path": str(transfer_significance_appendix_path),
+        "transfer_route_repeated_randomization_appendix_md_path": str(
+            transfer_repeated_randomization_appendix_path
+        ),
         "threshold_utility_appendix_md_path": str(threshold_utility_appendix_path),
         "out_of_domain_validation_appendix_md_path": str(out_of_domain_validation_appendix_path),
     }

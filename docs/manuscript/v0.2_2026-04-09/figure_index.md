@@ -7,6 +7,7 @@
   - `./recommended_models_summary.csv`
   - `./transfer_core_summary.csv`
   - `./transfer_uncertainty_summary.csv`
+  - `./transfer_route_repeated_randomization_significance_summary.csv`
   - `./out_of_domain_validation_detail_summary.csv`
   - `./out_of_domain_validation_summary.csv`
   - `./ablation_tabular_vs_cnn_summary.csv`

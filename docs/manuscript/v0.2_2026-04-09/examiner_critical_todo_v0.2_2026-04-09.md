@@ -2,7 +2,7 @@
 
 ## Critical Findings (Objective Reviewer View)
 1. **Novelty framing risk (high)**: the manuscript currently lacks an explicit related-work differential table.
-2. **Statistical evidence risk (medium)**: family-level significance appendix is now attached, but transfer-route repeated-randomization testing is still pending.
+2. **Statistical evidence risk (low-medium)**: family-level and transfer-route repeated-randomization appendices are attached, but broader external regimes remain limited.
 3. **External validity risk (medium)**: transfer analysis is strong across three regions, but global regime diversity is still limited.
 4. **Operational interpretation risk (low-medium)**: threshold utility appendix is attached, but deployment-profile calibration still needs stakeholder-specific tuning.
 5. **Labeling protocol clarity risk (medium)**: near-miss/collision-proxy linkage is implied but not fully formalized against prior literature.
@@ -14,7 +14,7 @@
   - Acceptance: report p-values with multiple-comparison control and effect-size-oriented interpretation notes.
 - [x] Add bootstrap-based transfer-route significance summary (`transfer_route_significance_appendix_v0.2_2026-04-09.md`).
   - Acceptance: route-level table includes CI95, two-sided p-value, and direction probability.
-- [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.
+- [x] Extend significance testing to transfer deltas with repeated-randomization protocol (`transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`).
   - Acceptance: route-level significance table includes repeated runs and corrected p-values.
 - [x] Add one additional out-of-domain test split (new area/year) for robustness (`out_of_domain_validation_appendix_v0.2_2026-04-09.md`).
   - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.

@@ -29,4 +29,4 @@ Data source: `docs/results/2026-04-04-expanded-10seed` and linked transfer predi
 
 ## Limitations
 - This appendix is based on single-run route artifacts and bootstrap resampling.
-- Full repeated-randomization (multi-run) transfer significance is still an open next-step item.
+- Repeated-randomization companion appendix is reported separately (`transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`).

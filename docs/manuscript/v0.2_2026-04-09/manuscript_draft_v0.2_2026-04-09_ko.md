@@ -137,6 +137,7 @@
 - LaTeX 제출 템플릿: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - 정합성 점검 리포트: `manuscript_consistency_report_v0.2_2026-04-09.md`
 - 이중언어 패리티 리포트: `bilingual_parity_report_v0.2_2026-04-09.md`
+- 전이 반복-무작위화 부록: `transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`
 - Out-of-domain 검증 부록: `out_of_domain_validation_appendix_v0.2_2026-04-09.md`
 - 정합성 자동 점검 결과: `PASS` (6/6)
 
@@ -185,7 +186,28 @@
 - seattle->houston: ΔF1=+0.0021, bootstrap p=0.9670, direction_prob=0.5165
 - seattle->nola: ΔF1=+0.0488, bootstrap p=0.2960, direction_prob=0.8520
 
-## 16. 임계값 유틸리티 부록 (운영 비용 프로파일)
+## 16. 전이 경로 반복-무작위화 통계 부록
+- 반복-무작위화 유의성 CSV: `transfer_route_repeated_randomization_significance_summary.csv`
+- 부록 문서: `transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`
+
+| source_region | target_region | recommended_model | observed_delta_f1 | randomization_runs | delta_mean_across_runs | delta_ci95_pooled | p_two_sided_median | p_two_sided_median_holm | direction_consistency | significant_runs | interpretation |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| houston | nola | hgbt | -0.1383 | 25 | -0.1383 | [-0.1630, -0.1149] | 0.0000 | 0.0000 | 1.0000 | 25 | statistically_supported_after_holm |
+| houston | seattle | hgbt | -0.2103 | 25 | -0.2103 | [-0.2429, -0.1783] | 0.0000 | 0.0000 | 1.0000 | 25 | statistically_supported_after_holm |
+| nola | houston | hgbt | +0.3213 | 25 | +0.3197 | [+0.2316, +0.4027] | 0.0000 | 0.0000 | 1.0000 | 25 | statistically_supported_after_holm |
+| nola | seattle | hgbt | +0.4439 | 25 | +0.4420 | [+0.3588, +0.5199] | 0.0000 | 0.0000 | 1.0000 | 25 | statistically_supported_after_holm |
+| seattle | houston | extra_trees | +0.0021 | 25 | +0.0020 | [-0.0971, +0.1092] | 0.9750 | 0.9750 | 0.9600 | 0 | not_conclusive_after_holm |
+| seattle | nola | extra_trees | +0.0488 | 25 | +0.0488 | [-0.0404, +0.1489] | 0.3100 | 0.6200 | 1.0000 | 0 | not_conclusive_after_holm |
+
+핵심 해석:
+- houston->nola: median p=0.0000, Holm p=0.0000, direction_consistency=1.0000, runs_sig=25/25
+- houston->seattle: median p=0.0000, Holm p=0.0000, direction_consistency=1.0000, runs_sig=25/25
+- nola->houston: median p=0.0000, Holm p=0.0000, direction_consistency=1.0000, runs_sig=25/25
+- nola->seattle: median p=0.0000, Holm p=0.0000, direction_consistency=1.0000, runs_sig=25/25
+- seattle->houston: median p=0.9750, Holm p=0.9750, direction_consistency=0.9600, runs_sig=0/25
+- seattle->nola: median p=0.3100, Holm p=0.6200, direction_consistency=1.0000, runs_sig=0/25
+
+## 17. 임계값 유틸리티 부록 (운영 비용 프로파일)
 - 유틸리티 곡선 CSV: `threshold_utility_curve_summary.csv`
 - 운영점 요약 CSV: `threshold_utility_operating_points.csv`
 - 유틸리티 부록 문서: `threshold_utility_appendix_v0.2_2026-04-09.md`
