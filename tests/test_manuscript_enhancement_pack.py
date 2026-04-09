@@ -135,6 +135,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "family_summary_csv_path",
                 "transfer_summary_csv_path",
                 "transfer_uncertainty_summary_csv_path",
+                "transfer_route_significance_csv_path",
                 "ablation_tabular_vs_cnn_csv_path",
                 "model_family_significance_csv_path",
                 "figure_1_model_family_comparison_svg_path",
@@ -152,6 +153,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "prior_work_evidence_matrix_md_path",
                 "examiner_critical_todo_md_path",
                 "statistical_significance_appendix_md_path",
+                "transfer_route_significance_appendix_md_path",
             }
             self.assertEqual(expected_keys, set(summary.keys()))
 
@@ -180,6 +182,12 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             significance_text = Path(summary["statistical_significance_appendix_md_path"]).read_text(encoding="utf-8")
             self.assertIn("Statistical Significance Appendix", significance_text)
             self.assertIn("Test Design", significance_text)
+
+            transfer_significance_text = Path(summary["transfer_route_significance_appendix_md_path"]).read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("Transfer-Route Significance Appendix", transfer_significance_text)
+            self.assertIn("Route-wise Results", transfer_significance_text)
 
 
 if __name__ == "__main__":

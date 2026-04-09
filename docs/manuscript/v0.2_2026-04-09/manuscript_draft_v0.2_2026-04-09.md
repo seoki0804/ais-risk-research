@@ -144,3 +144,24 @@
 - houston: ΔF1=+0.0089 (Holm p=0.3359), ΔECE=-0.1446 (Holm p=0.0060)
 - nola: ΔF1=+0.1559 (Holm p=0.0117), ΔECE=-0.0870 (Holm p=0.0060)
 - seattle: ΔF1=+0.0136 (Holm p=0.0117), ΔECE=-0.2572 (Holm p=0.0060)
+
+## 15. 전이 경로 통계 부록(bootstrap)
+- 전이 경로 유의성 CSV: `transfer_route_significance_summary.csv`
+- 부록 문서: `transfer_route_significance_appendix_v0.2_2026-04-09.md`
+
+| source_region | target_region | recommended_model | observed_delta_f1 | bootstrap_delta_ci95 | bootstrap_p_two_sided | direction_probability | interpretation |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| houston | nola | hgbt | -0.1383 | [-0.1634, -0.1152] | 0.0000 | 1.0000 | statistically_supported_negative_transfer |
+| houston | seattle | hgbt | -0.2103 | [-0.2413, -0.1767] | 0.0000 | 1.0000 | statistically_supported_negative_transfer |
+| nola | houston | hgbt | +0.3213 | [+0.2332, +0.3986] | 0.0000 | 1.0000 | statistically_supported_positive_transfer |
+| nola | seattle | hgbt | +0.4439 | [+0.3545, +0.5174] | 0.0000 | 1.0000 | statistically_supported_positive_transfer |
+| seattle | houston | extra_trees | +0.0021 | [-0.0977, +0.1154] | 0.9670 | 0.5165 | not_conclusive |
+| seattle | nola | extra_trees | +0.0488 | [-0.0393, +0.1521] | 0.2960 | 0.8520 | not_conclusive |
+
+핵심 해석:
+- houston->nola: ΔF1=-0.1383, bootstrap p=0.0000, direction_prob=1.0000
+- houston->seattle: ΔF1=-0.2103, bootstrap p=0.0000, direction_prob=1.0000
+- nola->houston: ΔF1=+0.3213, bootstrap p=0.0000, direction_prob=1.0000
+- nola->seattle: ΔF1=+0.4439, bootstrap p=0.0000, direction_prob=1.0000
+- seattle->houston: ΔF1=+0.0021, bootstrap p=0.9670, direction_prob=0.5165
+- seattle->nola: ΔF1=+0.0488, bootstrap p=0.2960, direction_prob=0.8520

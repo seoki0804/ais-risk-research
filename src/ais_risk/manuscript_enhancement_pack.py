@@ -458,6 +458,187 @@ def _bootstrap_f1_ci95(
     return _quantile(bootstrap_values, 0.025), _quantile(bootstrap_values, 0.975)
 
 
+def _bootstrap_f1_distribution(
+    *,
+    labels: list[int],
+    scores: list[float],
+    threshold: float,
+    n_bootstrap: int = 1000,
+    seed: int = 42,
+) -> list[float]:
+    if not labels or len(labels) != len(scores):
+        return []
+    n = len(labels)
+    predictions = [1 if score >= threshold else 0 for score in scores]
+    positive_indices = [idx for idx, label in enumerate(labels) if label == 1]
+    negative_indices = [idx for idx, label in enumerate(labels) if label == 0]
+    rng = random.Random(seed)
+    values: list[float] = []
+    for _ in range(n_bootstrap):
+        sampled_labels: list[int] = []
+        sampled_predictions: list[int] = []
+        if positive_indices and negative_indices:
+            for _ in range(len(positive_indices)):
+                idx = positive_indices[rng.randrange(len(positive_indices))]
+                sampled_labels.append(labels[idx])
+                sampled_predictions.append(predictions[idx])
+            for _ in range(len(negative_indices)):
+                idx = negative_indices[rng.randrange(len(negative_indices))]
+                sampled_labels.append(labels[idx])
+                sampled_predictions.append(predictions[idx])
+        else:
+            for _ in range(n):
+                idx = rng.randrange(n)
+                sampled_labels.append(labels[idx])
+                sampled_predictions.append(predictions[idx])
+        values.append(_f1_from_labels_predictions(sampled_labels, sampled_predictions))
+    return values
+
+
+def _estimate_transfer_delta_significance(
+    *,
+    transfer_row: dict[str, str],
+    n_bootstrap: int = 2000,
+) -> dict[str, str]:
+    model_name = str(transfer_row.get("recommended_model", "")).strip()
+    threshold = _to_float(transfer_row.get("threshold"), default=float("nan"))
+    observed_delta = _to_float(transfer_row.get("delta_f1"), default=float("nan"))
+    if not model_name or math.isnan(threshold):
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+
+    target_predictions_value = str(transfer_row.get("target_predictions_csv_path", "")).strip()
+    transfer_summary_value = str(transfer_row.get("transfer_summary_json_path", "")).strip()
+    if not target_predictions_value or not transfer_summary_value:
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+    target_predictions_path = Path(target_predictions_value)
+    transfer_summary_path = Path(transfer_summary_value)
+    if not target_predictions_path.exists() or not transfer_summary_path.exists():
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+    try:
+        summary_json = json.loads(transfer_summary_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+    source_predictions_value = str(summary_json.get("source_test_predictions_csv_path", "")).strip()
+    if not source_predictions_value:
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+    source_predictions_path = Path(source_predictions_value)
+    if not source_predictions_path.exists():
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+
+    source_labels, source_scores = _read_binary_labels_and_scores(
+        predictions_csv_path=source_predictions_path,
+        model_name=model_name,
+    )
+    target_labels, target_scores = _read_binary_labels_and_scores(
+        predictions_csv_path=target_predictions_path,
+        model_name=model_name,
+    )
+    if not source_labels or not target_labels:
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+
+    source_dist = _bootstrap_f1_distribution(
+        labels=source_labels,
+        scores=source_scores,
+        threshold=threshold,
+        n_bootstrap=n_bootstrap,
+        seed=101,
+    )
+    target_dist = _bootstrap_f1_distribution(
+        labels=target_labels,
+        scores=target_scores,
+        threshold=threshold,
+        n_bootstrap=n_bootstrap,
+        seed=202,
+    )
+    if not source_dist or not target_dist:
+        return {
+            "bootstrap_delta_mean": "n/a",
+            "bootstrap_delta_ci95": "n/a",
+            "bootstrap_p_two_sided": "n/a",
+            "direction_probability": "n/a",
+            "n_bootstrap": str(n_bootstrap),
+            "interpretation": "not_available",
+        }
+    paired_count = min(len(source_dist), len(target_dist))
+    deltas = [target_dist[i] - source_dist[i] for i in range(paired_count)]
+    deltas_sorted = sorted(deltas)
+    delta_mean = sum(deltas) / len(deltas)
+    ci_low = _quantile(deltas_sorted, 0.025)
+    ci_high = _quantile(deltas_sorted, 0.975)
+    p_le_zero = sum(1 for value in deltas if value <= 0.0) / len(deltas)
+    p_ge_zero = sum(1 for value in deltas if value >= 0.0) / len(deltas)
+    p_two_sided = min(1.0, 2.0 * min(p_le_zero, p_ge_zero))
+    if math.isnan(observed_delta):
+        observed_delta = delta_mean
+    if observed_delta >= 0:
+        direction_prob = sum(1 for value in deltas if value > 0.0) / len(deltas)
+        direction_note = "positive_transfer"
+    else:
+        direction_prob = sum(1 for value in deltas if value < 0.0) / len(deltas)
+        direction_note = "negative_transfer"
+    if p_two_sided < 0.05:
+        interpretation = f"statistically_supported_{direction_note}"
+    else:
+        interpretation = "not_conclusive"
+    return {
+        "bootstrap_delta_mean": f"{delta_mean:+.4f}",
+        "bootstrap_delta_ci95": f"[{ci_low:+.4f}, {ci_high:+.4f}]",
+        "bootstrap_p_two_sided": f"{p_two_sided:.4f}",
+        "direction_probability": f"{direction_prob:.4f}",
+        "n_bootstrap": str(n_bootstrap),
+        "interpretation": interpretation,
+    }
+
+
 def _estimate_transfer_delta_ci95(
     *,
     transfer_row: dict[str, str],
@@ -877,8 +1058,10 @@ def run_manuscript_enhancement_pack(
 
     transfer_rows_for_table: list[dict[str, object]] = []
     transfer_uncertainty_rows: list[dict[str, object]] = []
+    transfer_significance_rows: list[dict[str, object]] = []
     for row in transfer_rows:
         ci = _estimate_transfer_delta_ci95(transfer_row=row, n_bootstrap=300)
+        transfer_significance = _estimate_transfer_delta_significance(transfer_row=row, n_bootstrap=2000)
         transfer_rows_for_table.append(
             {
                 "source_region": row.get("source_region", ""),
@@ -899,6 +1082,20 @@ def run_manuscript_enhancement_pack(
                 "target_f1_ci95": ci["target_f1_ci95"],
                 "delta_f1_ci95": ci["delta_f1_ci95"],
                 "ci_method": ci["ci_method"],
+            }
+        )
+        transfer_significance_rows.append(
+            {
+                "source_region": row.get("source_region", ""),
+                "target_region": row.get("target_region", ""),
+                "recommended_model": row.get("recommended_model", ""),
+                "observed_delta_f1": f"{_to_float(row.get('delta_f1')):+.4f}",
+                "bootstrap_delta_mean": transfer_significance["bootstrap_delta_mean"],
+                "bootstrap_delta_ci95": transfer_significance["bootstrap_delta_ci95"],
+                "bootstrap_p_two_sided": transfer_significance["bootstrap_p_two_sided"],
+                "direction_probability": transfer_significance["direction_probability"],
+                "n_bootstrap": transfer_significance["n_bootstrap"],
+                "interpretation": transfer_significance["interpretation"],
             }
         )
 
@@ -966,6 +1163,7 @@ def run_manuscript_enhancement_pack(
     family_csv_path = output_root / "best_family_by_region_summary.csv"
     transfer_csv_path = output_root / "transfer_core_summary.csv"
     transfer_uncertainty_csv_path = output_root / "transfer_uncertainty_summary.csv"
+    transfer_significance_csv_path = output_root / "transfer_route_significance_summary.csv"
     ablation_csv_path = output_root / "ablation_tabular_vs_cnn_summary.csv"
     significance_csv_path = output_root / "model_family_significance_summary.csv"
 
@@ -1020,6 +1218,22 @@ def run_manuscript_enhancement_pack(
             "target_f1_ci95",
             "delta_f1_ci95",
             "ci_method",
+        ],
+    )
+    _write_csv(
+        transfer_significance_csv_path,
+        transfer_significance_rows,
+        [
+            "source_region",
+            "target_region",
+            "recommended_model",
+            "observed_delta_f1",
+            "bootstrap_delta_mean",
+            "bootstrap_delta_ci95",
+            "bootstrap_p_two_sided",
+            "direction_probability",
+            "n_bootstrap",
+            "interpretation",
         ],
     )
     _write_csv(
@@ -1299,6 +1513,7 @@ def run_manuscript_enhancement_pack(
     prior_work_matrix_path = output_root / "prior_work_evidence_matrix_v0.2_2026-04-09.md"
     examiner_review_todo_path = output_root / "examiner_critical_todo_v0.2_2026-04-09.md"
     significance_appendix_path = output_root / "statistical_significance_appendix_v0.2_2026-04-09.md"
+    transfer_significance_appendix_path = output_root / "transfer_route_significance_appendix_v0.2_2026-04-09.md"
 
     terminology_rows = [
         {
@@ -1523,6 +1738,40 @@ def run_manuscript_enhancement_pack(
         significance_generation_note_ko = "raw seed rows unavailable"
         significance_generation_note_en = "raw seed rows unavailable"
 
+    if transfer_significance_rows:
+        transfer_significance_md_table = _markdown_table(
+            transfer_significance_rows,
+            [
+                "source_region",
+                "target_region",
+                "recommended_model",
+                "observed_delta_f1",
+                "bootstrap_delta_ci95",
+                "bootstrap_p_two_sided",
+                "direction_probability",
+                "interpretation",
+            ],
+        )
+        transfer_significance_ko_lines = [
+            f"- {row['source_region']}->{row['target_region']}: ΔF1={row['observed_delta_f1']}, "
+            f"bootstrap p={row['bootstrap_p_two_sided']}, direction_prob={row['direction_probability']}"
+            for row in transfer_significance_rows
+        ]
+        transfer_significance_en_lines = [
+            f"- {row['source_region']}->{row['target_region']}: ΔF1={row['observed_delta_f1']}, "
+            f"bootstrap p={row['bootstrap_p_two_sided']}, direction_prob={row['direction_probability']}"
+            for row in transfer_significance_rows
+        ]
+    else:
+        transfer_significance_md_table = (
+            "| source_region | target_region | recommended_model | observed_delta_f1 | bootstrap_delta_ci95 | "
+            "bootstrap_p_two_sided | direction_probability | interpretation |\n"
+            "| --- | --- | --- | --- | --- | --- | --- | --- |\n"
+            "| n/a | n/a | n/a | n/a | n/a | n/a | n/a | not_available |"
+        )
+        transfer_significance_ko_lines = ["- transfer-route significance rows were not generated."]
+        transfer_significance_en_lines = ["- transfer-route significance rows were not generated."]
+
     ko_text = "\n".join(
         [
             "# AIS 기반 충돌위험 히트맵 논문 초안 v0.2 (Korean)",
@@ -1628,6 +1877,15 @@ def run_manuscript_enhancement_pack(
             "",
             "핵심 해석:",
             *significance_ko_lines,
+            "",
+            "## 15. 전이 경로 통계 부록(bootstrap)",
+            f"- 전이 경로 유의성 CSV: `{transfer_significance_csv_path.name}`",
+            f"- 부록 문서: `{transfer_significance_appendix_path.name}`",
+            "",
+            transfer_significance_md_table,
+            "",
+            "핵심 해석:",
+            *transfer_significance_ko_lines,
             "",
         ]
     )
@@ -1737,6 +1995,15 @@ def run_manuscript_enhancement_pack(
             "",
             "Key interpretation:",
             *significance_en_lines,
+            "",
+            "## 15. Transfer-Route Significance Appendix (bootstrap)",
+            f"- Transfer-route significance CSV: `{transfer_significance_csv_path.name}`",
+            f"- Appendix document: `{transfer_significance_appendix_path.name}`",
+            "",
+            transfer_significance_md_table,
+            "",
+            "Key interpretation:",
+            *transfer_significance_en_lines,
             "",
         ]
     )
@@ -1922,6 +2189,34 @@ def run_manuscript_enhancement_pack(
         ),
         encoding="utf-8",
     )
+    transfer_significance_appendix_path.write_text(
+        "\n".join(
+            [
+                "# Transfer-Route Significance Appendix v0.2 (2026-04-09)",
+                "",
+                "This appendix reports bootstrap-based transfer-route significance using source/target prediction CSV pairs.",
+                f"Data source: `{results_root}` and linked transfer prediction files.",
+                "",
+                "## Test Design",
+                "- Unit of analysis: route-level transfer pair (source->target).",
+                "- Statistic: delta F1 (target - source) under fixed threshold transfer.",
+                "- Bootstrap protocol: stratified bootstrap on source and target prediction sets (n=2000).",
+                "- Evidence fields: CI95, two-sided bootstrap p-value vs zero, and direction probability.",
+                "",
+                "## Route-wise Results",
+                transfer_significance_md_table,
+                "",
+                "## Interpretation Notes",
+                *transfer_significance_en_lines,
+                "",
+                "## Limitations",
+                "- This appendix is based on single-run route artifacts and bootstrap resampling.",
+                "- Full repeated-randomization (multi-run) transfer significance is still an open next-step item.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
     examiner_review_todo_path.write_text(
         "\n".join(
             [
@@ -1939,6 +2234,8 @@ def run_manuscript_enhancement_pack(
                 "  - Acceptance: manuscript includes a compact table that references `prior_work_evidence_matrix_v0.2_2026-04-09.md` IDs (`RW-01`~`RW-13`).",
                 f"- [x] Add significance test appendix for tabular vs raster-CNN (`{significance_appendix_path.name}`).",
                 "  - Acceptance: report p-values with multiple-comparison control and effect-size-oriented interpretation notes.",
+                f"- [x] Add bootstrap-based transfer-route significance summary (`{transfer_significance_appendix_path.name}`).",
+                "  - Acceptance: route-level table includes CI95, two-sided p-value, and direction probability.",
                 "- [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.",
                 "  - Acceptance: route-level significance table includes repeated runs and corrected p-values.",
                 "- [ ] Add one additional out-of-domain test split (new area/year) for robustness.",
@@ -1979,7 +2276,8 @@ def run_manuscript_enhancement_pack(
                 f"- [x] Build claim-to-citation matrix and connect it to manuscript narrative (`{prior_work_matrix_path.name}`).",
                 f"- [ ] Close examiner-critical gaps with acceptance criteria (`{examiner_review_todo_path.name}`).",
                 f"- [x] Add formal significance testing for model-family comparison (`{significance_appendix_path.name}`, Holm-corrected p-values).",
-                "- [ ] Extend formal significance testing to transfer-route comparisons.",
+                f"- [x] Add bootstrap-based transfer-route significance summary (`{transfer_significance_appendix_path.name}`).",
+                "- [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.",
                 "- [ ] Expand out-of-domain validation scope (at least one additional area or time regime).",
                 "- [ ] Add threshold utility analysis for operational decision tradeoff.",
                 "- [ ] Run final bilingual publication parity check (Korean/English).",
@@ -1994,6 +2292,7 @@ def run_manuscript_enhancement_pack(
         "family_summary_csv_path": str(family_csv_path),
         "transfer_summary_csv_path": str(transfer_csv_path),
         "transfer_uncertainty_summary_csv_path": str(transfer_uncertainty_csv_path),
+        "transfer_route_significance_csv_path": str(transfer_significance_csv_path),
         "ablation_tabular_vs_cnn_csv_path": str(ablation_csv_path),
         "model_family_significance_csv_path": str(significance_csv_path),
         "figure_1_model_family_comparison_svg_path": str(fig_model_family),
@@ -2011,4 +2310,5 @@ def run_manuscript_enhancement_pack(
         "prior_work_evidence_matrix_md_path": str(prior_work_matrix_path),
         "examiner_critical_todo_md_path": str(examiner_review_todo_path),
         "statistical_significance_appendix_md_path": str(significance_appendix_path),
+        "transfer_route_significance_appendix_md_path": str(transfer_significance_appendix_path),
     }

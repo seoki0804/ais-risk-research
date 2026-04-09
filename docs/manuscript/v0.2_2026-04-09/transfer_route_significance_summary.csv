@@ -1,0 +1,7 @@
+source_region,target_region,recommended_model,observed_delta_f1,bootstrap_delta_mean,bootstrap_delta_ci95,bootstrap_p_two_sided,direction_probability,n_bootstrap,interpretation
+houston,nola,hgbt,-0.1383,-0.1386,"[-0.1634, -0.1152]",0.0000,1.0000,2000,statistically_supported_negative_transfer
+houston,seattle,hgbt,-0.2103,-0.2096,"[-0.2413, -0.1767]",0.0000,1.0000,2000,statistically_supported_negative_transfer
+nola,houston,hgbt,+0.3213,+0.3188,"[+0.2332, +0.3986]",0.0000,1.0000,2000,statistically_supported_positive_transfer
+nola,seattle,hgbt,+0.4439,+0.4413,"[+0.3545, +0.5174]",0.0000,1.0000,2000,statistically_supported_positive_transfer
+seattle,houston,extra_trees,+0.0021,+0.0038,"[-0.0977, +0.1154]",0.9670,0.5165,2000,not_conclusive
+seattle,nola,extra_trees,+0.0488,+0.0504,"[-0.0393, +0.1521]",0.2960,0.8520,2000,not_conclusive

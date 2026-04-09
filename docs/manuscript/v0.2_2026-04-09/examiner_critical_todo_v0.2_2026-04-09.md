@@ -12,6 +12,8 @@
   - Acceptance: manuscript includes a compact table that references `prior_work_evidence_matrix_v0.2_2026-04-09.md` IDs (`RW-01`~`RW-13`).
 - [x] Add significance test appendix for tabular vs raster-CNN (`statistical_significance_appendix_v0.2_2026-04-09.md`).
   - Acceptance: report p-values with multiple-comparison control and effect-size-oriented interpretation notes.
+- [x] Add bootstrap-based transfer-route significance summary (`transfer_route_significance_appendix_v0.2_2026-04-09.md`).
+  - Acceptance: route-level table includes CI95, two-sided p-value, and direction probability.
 - [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.
   - Acceptance: route-level significance table includes repeated runs and corrected p-values.
 - [ ] Add one additional out-of-domain test split (new area/year) for robustness.
