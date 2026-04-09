@@ -53,6 +53,7 @@
 - 정합성 리포트 DOCX: [manuscript_consistency_report_v0.2_2026-04-09.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_consistency_report_v0.2_2026-04-09.docx)
 - 제출 번들 ZIP: [submission_bundle_v0.2_2026-04-09.zip](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/submission_bundle_v0.2_2026-04-09.zip)
 - 제출 번들 매니페스트(SHA-256): [submission_bundle_manifest_v0.2_2026-04-09.txt](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/submission_bundle_manifest_v0.2_2026-04-09.txt)
+- 제출 preflight 리포트: [manuscript_submission_preflight_report_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_submission_preflight_report_v0.2_2026-04-09.md)
 - 그림 인덱스: [figure_index.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_index.md)
 - 모델 패밀리 비교 도식(SVG): [figure_1_model_family_comparison.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_1_model_family_comparison.svg)
 - 전이 성능 히트맵(SVG): [figure_2_transfer_delta_f1_heatmap.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_2_transfer_delta_f1_heatmap.svg)

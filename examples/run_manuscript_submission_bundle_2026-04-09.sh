@@ -7,6 +7,7 @@ BUNDLE_NAME="submission_bundle_v0.2_2026-04-09.zip"
 BUNDLE_PATH="$MANUSCRIPT_DIR/$BUNDLE_NAME"
 MANIFEST_NAME="submission_bundle_manifest_v0.2_2026-04-09.txt"
 MANIFEST_PATH="$MANUSCRIPT_DIR/$MANIFEST_NAME"
+PREFLIGHT_REPORT_NAME="manuscript_submission_preflight_report_v0.2_2026-04-09.md"
 
 FILES=(
   manuscript_draft_v0.2_2026-04-09_en.md
@@ -81,3 +82,12 @@ python "$ROOT_DIR/examples/verify_manuscript_submission_bundle_2026-04-09.py" \
   --manuscript-dir "$MANUSCRIPT_DIR" \
   --bundle-name "$BUNDLE_NAME" \
   --manifest-name "$MANIFEST_NAME"
+
+python "$ROOT_DIR/examples/generate_manuscript_submission_preflight_report_2026-04-09.py" \
+  --root-dir "$ROOT_DIR" \
+  --manuscript-dir "$MANUSCRIPT_DIR" \
+  --bundle-name "$BUNDLE_NAME" \
+  --manifest-name "$MANIFEST_NAME" \
+  --report-name "$PREFLIGHT_REPORT_NAME"
+
+echo "submission_preflight_report_path=docs/manuscript/v0.2_2026-04-09/$PREFLIGHT_REPORT_NAME"

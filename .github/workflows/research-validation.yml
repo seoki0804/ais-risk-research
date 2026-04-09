@@ -49,7 +49,8 @@ jobs:
             tests/test_transfer_override_seed_stress_test.py \
             tests/test_transfer_policy_governance_lock.py \
             tests/test_manuscript_enhancement_pack.py \
-            tests/test_submission_bundle_verify_script.py
+            tests/test_submission_bundle_verify_script.py \
+            tests/test_submission_preflight_report_script.py
 
       - name: Build and verify manuscript submission bundle
         id: submission_bundle
@@ -71,6 +72,7 @@ jobs:
             docs/manuscript/v0.2_2026-04-09/submission_bundle_v0.2_2026-04-09.zip
             docs/manuscript/v0.2_2026-04-09/submission_bundle_manifest_v0.2_2026-04-09.txt
             docs/manuscript/v0.2_2026-04-09/manuscript_consistency_report_v0.2_2026-04-09.md
+            docs/manuscript/v0.2_2026-04-09/manuscript_submission_preflight_report_v0.2_2026-04-09.md
           if-no-files-found: error
 
       - name: Append submission summary
