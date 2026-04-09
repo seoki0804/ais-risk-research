@@ -142,6 +142,8 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "manuscript_draft_en_md_path",
                 "manuscript_draft_md_path",
                 "manuscript_todo_md_path",
+                "terminology_mapping_md_path",
+                "figure_captions_bilingual_md_path",
             }
             self.assertEqual(expected_keys, set(summary.keys()))
 

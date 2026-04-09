@@ -3,8 +3,8 @@
 ## A. Bilingual Draft Preparation
 - [x] Prepare Korean manuscript draft file (`*_ko.md`).
 - [x] Prepare English manuscript draft file (`*_en.md`).
-- [ ] Harmonize terminology mapping (KOR/ENG) for risk, transfer, and calibration terms.
-- [ ] Build bilingual figure-caption pairs (KOR/ENG) for all core figures.
+- [x] Harmonize terminology mapping (KOR/ENG) for risk, transfer, and calibration terms (`terminology_mapping_v0.2_2026-04-09.md`).
+- [x] Build bilingual figure-caption pairs (KOR/ENG) for all core figures (`figure_captions_bilingual_v0.2_2026-04-09.md`).
 
 ## B. Scientific Strengthening
 - [ ] Expand Methods section with data filtering, split policy, and threshold governance protocol.

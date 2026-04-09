@@ -42,6 +42,8 @@
 - 논문 초안 v0.2 (Korean): [manuscript_draft_v0.2_2026-04-09_ko.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_ko.md)
 - 논문 초안 v0.2 (English): [manuscript_draft_v0.2_2026-04-09_en.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_en.md)
 - 논문 TODO: [manuscript_todo_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_todo_v0.2_2026-04-09.md)
+- 용어 매핑(KOR/ENG): [terminology_mapping_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/terminology_mapping_v0.2_2026-04-09.md)
+- 이중언어 그림 캡션: [figure_captions_bilingual_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_captions_bilingual_v0.2_2026-04-09.md)
 - 그림 인덱스: [figure_index.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_index.md)
 - 모델 패밀리 비교 도식(SVG): [figure_1_model_family_comparison.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_1_model_family_comparison.svg)
 - 전이 성능 히트맵(SVG): [figure_2_transfer_delta_f1_heatmap.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_2_transfer_delta_f1_heatmap.svg)

@@ -451,6 +451,71 @@ def run_manuscript_enhancement_pack(
     manuscript_draft_en_path = output_root / "manuscript_draft_v0.2_2026-04-09_en.md"
     manuscript_draft_path = output_root / "manuscript_draft_v0.2_2026-04-09.md"
     manuscript_todo_path = output_root / "manuscript_todo_v0.2_2026-04-09.md"
+    terminology_mapping_path = output_root / "terminology_mapping_v0.2_2026-04-09.md"
+    figure_captions_path = output_root / "figure_captions_bilingual_v0.2_2026-04-09.md"
+
+    terminology_rows = [
+        {
+            "concept": "Collision Risk Heatmap",
+            "korean_term": "충돌위험 히트맵",
+            "english_term": "collision-risk heatmap",
+            "usage_note_ko": "공간 격자에서 상대 위험도를 색상 강도로 표현한 지도",
+            "usage_note_en": "A map that encodes relative risk intensity over spatial grids.",
+        },
+        {
+            "concept": "Safety Contour",
+            "korean_term": "안전도 등고선",
+            "english_term": "safety contour",
+            "usage_note_ko": "동일 위험 임계값을 연결한 곡선; 의사결정 경계로 사용",
+            "usage_note_en": "A curve connecting equal-risk thresholds for decision boundaries.",
+        },
+        {
+            "concept": "Cross-Region Transfer",
+            "korean_term": "교차 해역 전이",
+            "english_term": "cross-region transfer",
+            "usage_note_ko": "source 해역 학습모델을 target 해역에 적용한 일반화 성능 평가",
+            "usage_note_en": "Generalization test applying a source-region-trained model to a target region.",
+        },
+        {
+            "concept": "Domain Shift",
+            "korean_term": "도메인 시프트",
+            "english_term": "domain shift",
+            "usage_note_ko": "학습/적용 해역 분포 차이로 성능이 변하는 현상",
+            "usage_note_en": "Performance drift caused by source-target distribution mismatch.",
+        },
+        {
+            "concept": "Expected Calibration Error",
+            "korean_term": "기대 보정 오차",
+            "english_term": "expected calibration error (ECE)",
+            "usage_note_ko": "예측 확률과 실제 빈도의 불일치 정도; 낮을수록 바람직",
+            "usage_note_en": "Mismatch between predicted confidence and empirical frequency; lower is better.",
+        },
+        {
+            "concept": "Threshold Governance",
+            "korean_term": "임계값 거버넌스",
+            "english_term": "threshold governance",
+            "usage_note_ko": "운영 임계값 변경 시 근거/승인/추적 규칙",
+            "usage_note_en": "Policy for rationale, approval, and traceability of threshold changes.",
+        },
+        {
+            "concept": "Own Ship",
+            "korean_term": "자선(own ship)",
+            "english_term": "own ship",
+            "usage_note_ko": "분석 기준 선박. 최초 등장 시 자선(own ship)으로 병기",
+            "usage_note_en": "Reference vessel in analysis; write as 자선(own ship) on first Korean mention.",
+        },
+        {
+            "concept": "Rule Baseline",
+            "korean_term": "규칙 기반 기준선",
+            "english_term": "rule baseline",
+            "usage_note_ko": "모델 성능 비교를 위한 비학습 규칙 기반 참조선",
+            "usage_note_en": "Non-learning reference baseline for model-comparison benchmarking.",
+        },
+    ]
+    terminology_md_table = _markdown_table(
+        terminology_rows,
+        ["concept", "korean_term", "english_term", "usage_note_ko", "usage_note_en"],
+    )
 
     ko_text = "\n".join(
         [
@@ -481,12 +546,21 @@ def run_manuscript_enhancement_pack(
             f"- Figure 2: ![transfer-heatmap]({fig_transfer_heatmap.name})",
             f"- Figure 3: ![pipeline]({fig_pipeline.name})",
             "",
-            "## 6. 시나리오 시각화 근거",
+            "## 6. 용어 매핑 (KOR/ENG)",
+            "",
+            terminology_md_table,
+            "",
+            f"상세 용어 가이드는 `{terminology_mapping_path.name}`를 따른다.",
+            "",
+            "## 7. 이중언어 그림 캡션",
+            f"- KOR/ENG 캡션 세트: `{figure_captions_path.name}`",
+            "",
+            "## 8. 시나리오 시각화 근거",
             "- Houston scenario: `../../results/2026-04-04-expanded-10seed/houston_report_figure.svg`",
             "- NOLA scenario: `../../results/2026-04-04-expanded-10seed/nola_report_figure.svg`",
             "- Seattle scenario: `../../results/2026-04-04-expanded-10seed/seattle_report_figure.svg`",
             "",
-            "## 7. 제출 포맷 메모",
+            "## 9. 제출 포맷 메모",
             "- 현 단계에서는 `docs`에 원고를 작성/버전관리하는 방식이 적합하다.",
             "- 최종 제출은 저널/학회 템플릿(Word/LaTeX)으로 변환하되, 내용 원천은 `docs/manuscript`를 single source로 유지한다.",
             "",
@@ -522,12 +596,21 @@ def run_manuscript_enhancement_pack(
             f"- Figure 2: ![transfer-heatmap]({fig_transfer_heatmap.name})",
             f"- Figure 3: ![pipeline]({fig_pipeline.name})",
             "",
-            "## 6. Scenario Visualization Evidence",
+            "## 6. Terminology Mapping (KOR/ENG)",
+            "",
+            terminology_md_table,
+            "",
+            f"Detailed terminology guidance is provided in `{terminology_mapping_path.name}`.",
+            "",
+            "## 7. Bilingual Figure Captions",
+            f"- KOR/ENG caption set: `{figure_captions_path.name}`",
+            "",
+            "## 8. Scenario Visualization Evidence",
             "- Houston scenario: `../../results/2026-04-04-expanded-10seed/houston_report_figure.svg`",
             "- NOLA scenario: `../../results/2026-04-04-expanded-10seed/nola_report_figure.svg`",
             "- Seattle scenario: `../../results/2026-04-04-expanded-10seed/seattle_report_figure.svg`",
             "",
-            "## 7. Submission Format Note",
+            "## 9. Submission Format Note",
             "- At this stage, authoring in `docs` is practical and reproducible.",
             "- For venue submission, convert to the target template (Word/LaTeX) while keeping `docs/manuscript` as the single source of truth.",
             "",
@@ -537,6 +620,57 @@ def run_manuscript_enhancement_pack(
     manuscript_draft_ko_path.write_text(ko_text, encoding="utf-8")
     manuscript_draft_en_path.write_text(en_text, encoding="utf-8")
     manuscript_draft_path.write_text(ko_text, encoding="utf-8")
+    terminology_mapping_path.write_text(
+        "\n".join(
+            [
+                "# Terminology Mapping v0.2 (KOR/ENG)",
+                "",
+                "This glossary standardizes manuscript wording across Korean and English drafts.",
+                "",
+                terminology_md_table,
+                "",
+                "## Style Rules",
+                "- First mention in Korean draft: write `자선(own ship)` and then use `자선` consistently.",
+                "- Use `ECE` with expanded form at first mention: `expected calibration error (ECE)`.",
+                "- Use `교차 해역 전이` as the default Korean label for transfer analysis sections.",
+                "- Keep `domain shift` untranslated when emphasizing distribution mismatch mechanism.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    figure_captions_path.write_text(
+        "\n".join(
+            [
+                "# Figure Captions v0.2 (KOR/ENG)",
+                "",
+                "## Figure 1",
+                f"- Path: `./{fig_model_family.name}`",
+                "- KOR: 해역별 최고 성능 모델 패밀리(F1) 비교. 각 해역에서 tabular과 regional_raster_cnn의 최고 성능 모델을 비교해 기준 모델 채택 근거를 제시한다.",
+                "- ENG: Region-wise comparison of best-performing model families (F1). For each region, the best tabular and best regional_raster_cnn candidates are contrasted to justify final model-family selection.",
+                "",
+                "## Figure 2",
+                f"- Path: `./{fig_transfer_heatmap.name}`",
+                "- KOR: 교차 해역 전이 ΔF1 히트맵. 행은 source, 열은 target이며 음수 구간은 도메인 시프트 취약 구간을 의미한다.",
+                "- ENG: Cross-region transfer ΔF1 heatmap. Rows indicate source regions and columns indicate target regions; negative cells indicate domain-shift-sensitive transfer routes.",
+                "",
+                "## Figure 3",
+                f"- Path: `./{fig_pipeline.name}`",
+                "- KOR: 데이터 수집부터 모델 학습, 전이 검증, 원고 산출물 생성까지의 엔드투엔드 연구 파이프라인.",
+                "- ENG: End-to-end research pipeline from data curation to model training, transfer evaluation, and manuscript-ready asset generation.",
+                "",
+                "## Scenario Visuals (Existing)",
+                "- Houston KOR: Houston 시나리오 위험도 히트맵/등고선 결과로 고위험 구역의 공간 집중을 보여준다.",
+                "- Houston ENG: Houston scenario heatmap/contour output showing spatial concentration of high-risk zones.",
+                "- NOLA KOR: NOLA 시나리오에서 전이 적용 후 위험도 분포 변화를 비교한다.",
+                "- NOLA ENG: NOLA scenario visualization comparing risk distribution shifts under transferred models.",
+                "- Seattle KOR: Seattle 시나리오의 경계 조건에서 모델 보정 품질과 위험도 표현 일관성을 점검한다.",
+                "- Seattle ENG: Seattle scenario used to inspect calibration quality and consistency of risk representation under boundary conditions.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
 
     manuscript_todo_path.write_text(
         "\n".join(
@@ -546,8 +680,8 @@ def run_manuscript_enhancement_pack(
                 "## A. Bilingual Draft Preparation",
                 "- [x] Prepare Korean manuscript draft file (`*_ko.md`).",
                 "- [x] Prepare English manuscript draft file (`*_en.md`).",
-                "- [ ] Harmonize terminology mapping (KOR/ENG) for risk, transfer, and calibration terms.",
-                "- [ ] Build bilingual figure-caption pairs (KOR/ENG) for all core figures.",
+                f"- [x] Harmonize terminology mapping (KOR/ENG) for risk, transfer, and calibration terms (`{terminology_mapping_path.name}`).",
+                f"- [x] Build bilingual figure-caption pairs (KOR/ENG) for all core figures (`{figure_captions_path.name}`).",
                 "",
                 "## B. Scientific Strengthening",
                 "- [ ] Expand Methods section with data filtering, split policy, and threshold governance protocol.",
@@ -575,4 +709,6 @@ def run_manuscript_enhancement_pack(
         "manuscript_draft_en_md_path": str(manuscript_draft_en_path),
         "manuscript_draft_md_path": str(manuscript_draft_path),
         "manuscript_todo_md_path": str(manuscript_todo_path),
+        "terminology_mapping_md_path": str(terminology_mapping_path),
+        "figure_captions_bilingual_md_path": str(figure_captions_path),
     }
