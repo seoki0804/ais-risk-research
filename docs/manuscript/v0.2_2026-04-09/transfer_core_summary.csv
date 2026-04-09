@@ -1,7 +1,7 @@
-source_region,target_region,recommended_model,delta_f1,target_ece,target_auroc
-houston,nola,hgbt,-0.1383,0.0246,0.9824
-houston,seattle,hgbt,-0.2103,0.0428,0.9691
-nola,houston,hgbt,+0.3213,0.0159,0.9736
-nola,seattle,hgbt,+0.4439,0.0260,0.9763
-seattle,houston,extra_trees,+0.0021,0.0332,0.9777
-seattle,nola,extra_trees,+0.0488,0.0272,0.9850
+source_region,target_region,recommended_model,delta_f1,delta_f1_ci95,target_ece,target_auroc
+houston,nola,hgbt,-0.1383,"[-0.1651, -0.1145]",0.0246,0.9824
+houston,seattle,hgbt,-0.2103,"[-0.2395, -0.1788]",0.0428,0.9691
+nola,houston,hgbt,+0.3213,"[+0.2019, +0.4309]",0.0159,0.9736
+nola,seattle,hgbt,+0.4439,"[+0.3361, +0.5407]",0.0260,0.9763
+seattle,houston,extra_trees,+0.0021,"[-0.1367, +0.1413]",0.0332,0.9777
+seattle,nola,extra_trees,+0.0488,"[-0.0671, +0.1705]",0.0272,0.9850

@@ -7,9 +7,9 @@
 - [x] Build bilingual figure-caption pairs (KOR/ENG) for all core figures (`figure_captions_bilingual_v0.2_2026-04-09.md`).
 
 ## B. Scientific Strengthening
-- [ ] Expand Methods section with data filtering, split policy, and threshold governance protocol.
-- [ ] Add explicit uncertainty/confidence interval sentences next to every key quantitative claim.
-- [ ] Add ablation-focused paragraph for tabular vs raster-CNN behavior by region.
+- [x] Expand Methods section with data filtering, split policy, and threshold governance protocol (Section 2 in KO/EN drafts).
+- [x] Add explicit uncertainty/confidence interval sentences next to key quantitative claims (Sections 3.1 and 4.1, plus transfer uncertainty table).
+- [x] Add ablation-focused paragraph for tabular vs raster-CNN behavior by region (Section 5 + ablation summary CSV).
 
 ## C. Submission Readiness
 - [ ] Transform markdown draft to target venue template (Word/LaTeX).

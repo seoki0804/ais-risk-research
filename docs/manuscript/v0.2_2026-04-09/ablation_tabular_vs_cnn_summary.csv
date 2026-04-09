@@ -1,0 +1,4 @@
+region,tabular_model,tabular_f1,tabular_ece,raster_cnn_model,raster_cnn_f1,raster_cnn_ece,delta_f1_tabular_minus_cnn,delta_ece_tabular_minus_cnn,interpretation
+houston,hgbt,0.8286,0.0229,cnn_focal_temp,0.8315,0.1458,-0.0029,-0.1229,trade-off or near-tie between families
+nola,hgbt,0.6015,0.0237,cnn_weighted,0.4432,0.1019,+0.1583,-0.0783,tabular dominates both discrimination and calibration
+seattle,logreg,0.8214,0.0482,cnn_focal,0.8364,0.2791,-0.0149,-0.2310,trade-off or near-tie between families

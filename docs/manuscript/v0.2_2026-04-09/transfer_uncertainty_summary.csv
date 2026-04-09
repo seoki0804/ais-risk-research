@@ -1,0 +1,7 @@
+source_region,target_region,recommended_model,source_f1_ci95,target_f1_ci95,delta_f1_ci95,ci_method
+houston,nola,hgbt,"[1.0000, 1.0000]","[0.8349, 0.8855]","[-0.1651, -0.1145]",bootstrap(n=300)
+houston,seattle,hgbt,"[1.0000, 1.0000]","[0.7605, 0.8212]","[-0.2395, -0.1788]",bootstrap(n=300)
+nola,houston,hgbt,"[0.3462, 0.4935]","[0.6954, 0.7771]","[+0.2019, +0.4309]",bootstrap(n=300)
+nola,seattle,hgbt,"[0.3462, 0.4935]","[0.8296, 0.8869]","[+0.3361, +0.5407]",bootstrap(n=300)
+seattle,houston,extra_trees,"[0.7088, 0.8916]","[0.7548, 0.8502]","[-0.1367, +0.1413]",bootstrap(n=300)
+seattle,nola,extra_trees,"[0.7088, 0.8916]","[0.8244, 0.8794]","[-0.0671, +0.1705]",bootstrap(n=300)

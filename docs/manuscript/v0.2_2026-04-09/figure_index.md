@@ -3,6 +3,11 @@
 - Figure 1: `./figure_1_model_family_comparison.svg`
 - Figure 2: `./figure_2_transfer_delta_f1_heatmap.svg`
 - Figure 3: `./figure_3_pipeline_overview.svg`
+- Quantitative appendix tables:
+  - `./recommended_models_summary.csv`
+  - `./transfer_core_summary.csv`
+  - `./transfer_uncertainty_summary.csv`
+  - `./ablation_tabular_vs_cnn_summary.csv`
 - Existing scenario visuals:
   - `../../results/2026-04-04-expanded-10seed/houston_report_figure.svg`
   - `../../results/2026-04-04-expanded-10seed/nola_report_figure.svg`

@@ -134,6 +134,8 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "recommended_summary_csv_path",
                 "family_summary_csv_path",
                 "transfer_summary_csv_path",
+                "transfer_uncertainty_summary_csv_path",
+                "ablation_tabular_vs_cnn_csv_path",
                 "figure_1_model_family_comparison_svg_path",
                 "figure_2_transfer_delta_f1_heatmap_svg_path",
                 "figure_3_pipeline_overview_svg_path",
@@ -149,6 +151,12 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
 
             for key, value in summary.items():
                 self.assertTrue(Path(value).exists(), msg=f"Missing output for {key}: {value}")
+
+            todo_text = Path(summary["manuscript_todo_md_path"]).read_text(encoding="utf-8")
+            self.assertIn("## B. Scientific Strengthening", todo_text)
+            self.assertIn("- [x] Expand Methods section", todo_text)
+            self.assertIn("- [x] Add explicit uncertainty/confidence interval sentences", todo_text)
+            self.assertIn("- [x] Add ablation-focused paragraph", todo_text)
 
 
 if __name__ == "__main__":
