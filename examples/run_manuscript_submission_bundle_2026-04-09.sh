@@ -26,15 +26,19 @@ FILES=(
   figure_1_model_family_comparison.svg
   figure_2_transfer_delta_f1_heatmap.svg
   figure_3_pipeline_overview.svg
+  figure_4_threshold_utility_curve.svg
   recommended_models_summary.csv
   best_family_by_region_summary.csv
   transfer_core_summary.csv
   transfer_uncertainty_summary.csv
   transfer_route_significance_summary.csv
+  threshold_utility_curve_summary.csv
+  threshold_utility_operating_points.csv
   ablation_tabular_vs_cnn_summary.csv
   model_family_significance_summary.csv
   statistical_significance_appendix_v0.2_2026-04-09.md
   transfer_route_significance_appendix_v0.2_2026-04-09.md
+  threshold_utility_appendix_v0.2_2026-04-09.md
 )
 
 "$ROOT_DIR/examples/run_manuscript_enhancement_pack_2026-04-09.sh"

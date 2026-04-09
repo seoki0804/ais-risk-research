@@ -976,6 +976,197 @@ def _build_family_significance_rows(raw_rows: list[dict[str, str]]) -> list[dict
     return rows
 
 
+def _confusion_counts(labels: list[int], predictions: list[int]) -> tuple[int, int, int, int]:
+    tp = fp = tn = fn = 0
+    for label, pred in zip(labels, predictions):
+        if pred == 1 and label == 1:
+            tp += 1
+        elif pred == 1 and label == 0:
+            fp += 1
+        elif pred == 0 and label == 0:
+            tn += 1
+        elif pred == 0 and label == 1:
+            fn += 1
+    return tp, fp, tn, fn
+
+
+def _safe_div(numerator: float, denominator: float) -> float:
+    if denominator == 0:
+        return 0.0
+    return numerator / denominator
+
+
+def _compute_threshold_utility_rows(
+    *,
+    region: str,
+    dataset: str,
+    model_name: str,
+    labels: list[int],
+    scores: list[float],
+    fn_weight: float,
+    fp_weight: float,
+    utility_profile: str,
+) -> list[dict[str, object]]:
+    if not labels or len(labels) != len(scores):
+        return []
+    n = len(labels)
+    positive_count = sum(1 for label in labels if label == 1)
+    negative_count = n - positive_count
+    normalizer = max(fn_weight * max(positive_count, 1) + fp_weight * max(negative_count, 1), 1.0)
+
+    thresholds = [round(idx / 100.0, 2) for idx in range(0, 101)]
+    rows: list[dict[str, object]] = []
+    for threshold in thresholds:
+        predictions = [1 if score >= threshold else 0 for score in scores]
+        tp, fp, tn, fn = _confusion_counts(labels, predictions)
+        precision = _safe_div(tp, tp + fp)
+        recall = _safe_div(tp, tp + fn)
+        f1 = _safe_div(2.0 * precision * recall, precision + recall)
+        weighted_cost = _safe_div(fn_weight * fn + fp_weight * fp, n)
+        weighted_cost_norm = _safe_div(fn_weight * fn + fp_weight * fp, normalizer)
+        rows.append(
+            {
+                "region": region,
+                "dataset": dataset,
+                "model_name": model_name,
+                "threshold": f"{threshold:.2f}",
+                "tp": tp,
+                "fp": fp,
+                "tn": tn,
+                "fn": fn,
+                "precision": f"{precision:.4f}",
+                "recall": f"{recall:.4f}",
+                "f1": f"{f1:.4f}",
+                "weighted_cost_per_sample": f"{weighted_cost:.6f}",
+                "weighted_cost_normalized": f"{weighted_cost_norm:.6f}",
+                "utility_profile": utility_profile,
+                "fn_weight": f"{fn_weight:.2f}",
+                "fp_weight": f"{fp_weight:.2f}",
+                "n_samples": n,
+                "positive_count": positive_count,
+                "negative_count": negative_count,
+            }
+        )
+    return rows
+
+
+def _render_threshold_utility_curve_svg(
+    *,
+    curve_rows: list[dict[str, object]],
+    operating_rows: list[dict[str, object]],
+    output_path: Path,
+) -> None:
+    if not curve_rows:
+        output_path.write_text("<svg xmlns='http://www.w3.org/2000/svg' width='800' height='120'></svg>", encoding="utf-8")
+        return
+
+    rows_by_region: dict[str, list[dict[str, object]]] = {}
+    for row in curve_rows:
+        region = str(row.get("region", "")).strip()
+        if not region:
+            continue
+        rows_by_region.setdefault(region, []).append(row)
+    regions = sorted(rows_by_region)
+    if not regions:
+        output_path.write_text("<svg xmlns='http://www.w3.org/2000/svg' width='800' height='120'></svg>", encoding="utf-8")
+        return
+
+    for region in regions:
+        rows_by_region[region].sort(key=lambda row: _to_float(row.get("threshold"), default=0.0))
+
+    all_costs = [
+        _to_float(row.get("weighted_cost_normalized"), default=float("nan"))
+        for row in curve_rows
+        if not math.isnan(_to_float(row.get("weighted_cost_normalized"), default=float("nan")))
+    ]
+    if not all_costs:
+        output_path.write_text("<svg xmlns='http://www.w3.org/2000/svg' width='800' height='120'></svg>", encoding="utf-8")
+        return
+    y_min = 0.0
+    y_max = max(0.05, max(all_costs) * 1.08)
+
+    width = 980
+    height = 560
+    margin_left = 90
+    margin_right = 50
+    margin_top = 80
+    margin_bottom = 90
+    chart_w = width - margin_left - margin_right
+    chart_h = height - margin_top - margin_bottom
+
+    color_map = {
+        "houston": "#2B6CB0",
+        "nola": "#DD6B20",
+        "seattle": "#2F855A",
+    }
+
+    def x_of(threshold: float) -> float:
+        return margin_left + chart_w * threshold
+
+    def y_of(cost: float) -> float:
+        ratio = _safe_div(cost - y_min, y_max - y_min)
+        return margin_top + chart_h * (1.0 - ratio)
+
+    parts: list[str] = [
+        f"<svg xmlns='http://www.w3.org/2000/svg' width='{width}' height='{height}' viewBox='0 0 {width} {height}'>",
+        "<style>text{font-family:Arial,sans-serif;fill:#1A202C}.title{font-size:20px;font-weight:700}.small{font-size:12px}.axis{font-size:11px;fill:#4A5568}</style>",
+        "<text x='30' y='34' class='title'>Figure 4. Threshold Utility Curve (Cost-Sensitive Profile)</text>",
+        "<text x='30' y='54' class='small'>Profile: FN weight = 5, FP weight = 1; y-axis = normalized weighted cost</text>",
+    ]
+
+    for tick in [0.0, 0.25, 0.5, 0.75, 1.0]:
+        x = x_of(tick)
+        parts.append(f"<line x1='{x:.2f}' y1='{margin_top}' x2='{x:.2f}' y2='{margin_top + chart_h}' stroke='#EDF2F7' stroke-width='1'/>")
+        parts.append(f"<text x='{x:.2f}' y='{margin_top + chart_h + 22}' class='axis' text-anchor='middle'>{tick:.2f}</text>")
+    for tick in [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]:
+        cost = y_min + (y_max - y_min) * tick
+        y = y_of(cost)
+        parts.append(f"<line x1='{margin_left}' y1='{y:.2f}' x2='{margin_left + chart_w}' y2='{y:.2f}' stroke='#EDF2F7' stroke-width='1'/>")
+        parts.append(f"<text x='{margin_left - 10}' y='{y + 4:.2f}' class='axis' text-anchor='end'>{cost:.3f}</text>")
+
+    parts.append(
+        f"<rect x='{margin_left}' y='{margin_top}' width='{chart_w}' height='{chart_h}' fill='none' stroke='#A0AEC0' stroke-width='1'/>"
+    )
+    parts.append(f"<text x='{margin_left + chart_w/2:.2f}' y='{height - 24}' class='small' text-anchor='middle'>Threshold</text>")
+    parts.append(f"<text x='24' y='{margin_top + chart_h/2:.2f}' class='small' transform='rotate(-90 24 {margin_top + chart_h/2:.2f})' text-anchor='middle'>Normalized Cost</text>")
+
+    for region in regions:
+        rows = rows_by_region[region]
+        points: list[str] = []
+        for row in rows:
+            threshold = _to_float(row.get("threshold"), default=0.0)
+            cost = _to_float(row.get("weighted_cost_normalized"), default=0.0)
+            points.append(f"{x_of(threshold):.2f},{y_of(cost):.2f}")
+        color = color_map.get(region, "#4A5568")
+        parts.append(f"<polyline points='{' '.join(points)}' fill='none' stroke='{color}' stroke-width='2.5'/>")
+
+    operating_by_region = {str(row.get("region", "")): row for row in operating_rows}
+    for region, row in operating_by_region.items():
+        color = color_map.get(region, "#4A5568")
+        governed_t = _to_float(row.get("governed_threshold"), default=0.0)
+        governed_cost = _to_float(row.get("governed_weighted_cost_normalized"), default=0.0)
+        opt_t = _to_float(row.get("utility_opt_threshold"), default=0.0)
+        opt_cost = _to_float(row.get("opt_weighted_cost_normalized"), default=0.0)
+        parts.append(f"<circle cx='{x_of(governed_t):.2f}' cy='{y_of(governed_cost):.2f}' r='4' fill='{color}'/>")
+        parts.append(f"<circle cx='{x_of(opt_t):.2f}' cy='{y_of(opt_cost):.2f}' r='4' fill='white' stroke='{color}' stroke-width='2'/>")
+
+    legend_x = margin_left + chart_w - 255
+    legend_y = margin_top + 14
+    for i, region in enumerate(regions):
+        color = color_map.get(region, "#4A5568")
+        y = legend_y + i * 20
+        parts.append(f"<line x1='{legend_x}' y1='{y}' x2='{legend_x + 20}' y2='{y}' stroke='{color}' stroke-width='2.5'/>")
+        parts.append(f"<text x='{legend_x + 28}' y='{y + 4}' class='small'>{_escape_xml(region)}</text>")
+    parts.append(f"<circle cx='{legend_x}' cy='{legend_y + 72}' r='4' fill='#1A202C'/>")
+    parts.append(f"<text x='{legend_x + 12}' y='{legend_y + 76}' class='small'>governed threshold</text>")
+    parts.append(f"<circle cx='{legend_x}' cy='{legend_y + 92}' r='4' fill='white' stroke='#1A202C' stroke-width='2'/>")
+    parts.append(f"<text x='{legend_x + 12}' y='{legend_y + 96}' class='small'>utility-opt threshold</text>")
+
+    parts.append("</svg>")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text("\n".join(parts), encoding="utf-8")
+
+
 def _interval_width(interval_text: str) -> float | None:
     value = interval_text.strip()
     if not value.startswith("[") or not value.endswith("]"):
@@ -1157,6 +1348,82 @@ def run_manuscript_enhancement_pack(
     seed_raw_rows = _load_seed_sweep_raw_rows(results_root)
     significance_rows = _build_family_significance_rows(seed_raw_rows)
 
+    utility_profile_label = "miss_sensitive_fn5_fp1"
+    utility_fn_weight = 5.0
+    utility_fp_weight = 1.0
+    threshold_utility_curve_rows: list[dict[str, object]] = []
+    threshold_utility_operating_rows: list[dict[str, object]] = []
+    for rec_row in recommendation_rows:
+        dataset = str(rec_row.get("dataset", "")).strip()
+        model_name = str(rec_row.get("model_name", "")).strip()
+        if not dataset or not model_name:
+            continue
+        matched = by_dataset_model.get((dataset, model_name), {})
+        predictions_path_text = str(matched.get("predictions_csv_path", "")).strip()
+        if not predictions_path_text:
+            continue
+        predictions_path = Path(predictions_path_text)
+        labels, scores = _read_binary_labels_and_scores(predictions_csv_path=predictions_path, model_name=model_name)
+        if not labels or not scores:
+            continue
+        region = _dataset_to_region(dataset)
+        curve_rows = _compute_threshold_utility_rows(
+            region=region,
+            dataset=dataset,
+            model_name=model_name,
+            labels=labels,
+            scores=scores,
+            fn_weight=utility_fn_weight,
+            fp_weight=utility_fp_weight,
+            utility_profile=utility_profile_label,
+        )
+        if not curve_rows:
+            continue
+        threshold_utility_curve_rows.extend(curve_rows)
+
+        governed_threshold = _to_float(matched.get("threshold"), default=0.5)
+        governed_row = min(
+            curve_rows,
+            key=lambda row: abs(_to_float(row.get("threshold"), default=0.5) - governed_threshold),
+        )
+        optimal_row = min(curve_rows, key=lambda row: _to_float(row.get("weighted_cost_per_sample"), default=1e9))
+        governed_cost = _to_float(governed_row.get("weighted_cost_per_sample"), default=0.0)
+        optimal_cost = _to_float(optimal_row.get("weighted_cost_per_sample"), default=0.0)
+        governed_f1 = _to_float(governed_row.get("f1"), default=0.0)
+        optimal_f1 = _to_float(optimal_row.get("f1"), default=0.0)
+        cost_reduction_pct = 0.0
+        if governed_cost > 0:
+            cost_reduction_pct = (governed_cost - optimal_cost) / governed_cost * 100.0
+
+        threshold_utility_operating_rows.append(
+            {
+                "region": region,
+                "dataset": dataset,
+                "model_name": model_name,
+                "governed_threshold": f"{_to_float(governed_row.get('threshold')):.2f}",
+                "utility_opt_threshold": f"{_to_float(optimal_row.get('threshold')):.2f}",
+                "threshold_shift": f"{(_to_float(optimal_row.get('threshold')) - _to_float(governed_row.get('threshold'))):+.2f}",
+                "governed_f1": f"{governed_f1:.4f}",
+                "opt_f1": f"{optimal_f1:.4f}",
+                "f1_delta_opt_minus_governed": f"{(optimal_f1 - governed_f1):+.4f}",
+                "governed_weighted_cost_per_sample": f"{governed_cost:.6f}",
+                "opt_weighted_cost_per_sample": f"{optimal_cost:.6f}",
+                "governed_weighted_cost_normalized": f"{_to_float(governed_row.get('weighted_cost_normalized')):.6f}",
+                "opt_weighted_cost_normalized": f"{_to_float(optimal_row.get('weighted_cost_normalized')):.6f}",
+                "cost_reduction_pct": f"{cost_reduction_pct:+.2f}",
+                "governed_fp": int(_to_float(governed_row.get("fp"))),
+                "governed_fn": int(_to_float(governed_row.get("fn"))),
+                "opt_fp": int(_to_float(optimal_row.get("fp"))),
+                "opt_fn": int(_to_float(optimal_row.get("fn"))),
+                "utility_profile": utility_profile_label,
+                "fn_weight": f"{utility_fn_weight:.2f}",
+                "fp_weight": f"{utility_fp_weight:.2f}",
+                "n_samples": int(_to_float(governed_row.get("n_samples"))),
+                "positive_count": int(_to_float(governed_row.get("positive_count"))),
+                "negative_count": int(_to_float(governed_row.get("negative_count"))),
+            }
+        )
+
     output_root.mkdir(parents=True, exist_ok=True)
 
     recommended_csv_path = output_root / "recommended_models_summary.csv"
@@ -1166,6 +1433,8 @@ def run_manuscript_enhancement_pack(
     transfer_significance_csv_path = output_root / "transfer_route_significance_summary.csv"
     ablation_csv_path = output_root / "ablation_tabular_vs_cnn_summary.csv"
     significance_csv_path = output_root / "model_family_significance_summary.csv"
+    threshold_utility_curve_csv_path = output_root / "threshold_utility_curve_summary.csv"
+    threshold_utility_operating_csv_path = output_root / "threshold_utility_operating_points.csv"
 
     _write_csv(
         recommended_csv_path,
@@ -1279,14 +1548,75 @@ def run_manuscript_enhancement_pack(
             "interpretation",
         ],
     )
+    _write_csv(
+        threshold_utility_curve_csv_path,
+        threshold_utility_curve_rows,
+        [
+            "region",
+            "dataset",
+            "model_name",
+            "threshold",
+            "tp",
+            "fp",
+            "tn",
+            "fn",
+            "precision",
+            "recall",
+            "f1",
+            "weighted_cost_per_sample",
+            "weighted_cost_normalized",
+            "utility_profile",
+            "fn_weight",
+            "fp_weight",
+            "n_samples",
+            "positive_count",
+            "negative_count",
+        ],
+    )
+    _write_csv(
+        threshold_utility_operating_csv_path,
+        threshold_utility_operating_rows,
+        [
+            "region",
+            "dataset",
+            "model_name",
+            "governed_threshold",
+            "utility_opt_threshold",
+            "threshold_shift",
+            "governed_f1",
+            "opt_f1",
+            "f1_delta_opt_minus_governed",
+            "governed_weighted_cost_per_sample",
+            "opt_weighted_cost_per_sample",
+            "governed_weighted_cost_normalized",
+            "opt_weighted_cost_normalized",
+            "cost_reduction_pct",
+            "governed_fp",
+            "governed_fn",
+            "opt_fp",
+            "opt_fn",
+            "utility_profile",
+            "fn_weight",
+            "fp_weight",
+            "n_samples",
+            "positive_count",
+            "negative_count",
+        ],
+    )
 
     fig_model_family = output_root / "figure_1_model_family_comparison.svg"
     fig_transfer_heatmap = output_root / "figure_2_transfer_delta_f1_heatmap.svg"
     fig_pipeline = output_root / "figure_3_pipeline_overview.svg"
+    fig_threshold_utility = output_root / "figure_4_threshold_utility_curve.svg"
 
     _render_grouped_bar_svg(family_best_rows, fig_model_family)
     _render_transfer_heatmap_svg(transfer_rows, fig_transfer_heatmap)
     _render_pipeline_svg(fig_pipeline)
+    _render_threshold_utility_curve_svg(
+        curve_rows=threshold_utility_curve_rows,
+        operating_rows=threshold_utility_operating_rows,
+        output_path=fig_threshold_utility,
+    )
 
     scenario_columns = [
         "region",
@@ -1386,6 +1716,23 @@ def run_manuscript_enhancement_pack(
             "interpretation",
         ],
     )
+    threshold_utility_md_table = _markdown_table(
+        threshold_utility_operating_rows,
+        [
+            "region",
+            "model_name",
+            "governed_threshold",
+            "utility_opt_threshold",
+            "threshold_shift",
+            "governed_f1",
+            "opt_f1",
+            "cost_reduction_pct",
+            "governed_fp",
+            "governed_fn",
+            "opt_fp",
+            "opt_fn",
+        ],
+    )
 
     ablation_ko_lines: list[str] = []
     ablation_en_lines: list[str] = []
@@ -1419,6 +1766,16 @@ def run_manuscript_enhancement_pack(
             f"- {region}: ΔF1(tabular-cnn)={delta_f1_value:+.4f} ({f1_phrase_en}), "
             f"ΔECE(tabular-cnn)={delta_ece_value:+.4f} ({ece_phrase_en})."
         )
+    threshold_utility_ko_lines = [
+        f"- {row['region']}: governed={row['governed_threshold']} -> utility-opt={row['utility_opt_threshold']}, "
+        f"비용절감={row['cost_reduction_pct']}%, F1변화={row['f1_delta_opt_minus_governed']}"
+        for row in threshold_utility_operating_rows
+    ]
+    threshold_utility_en_lines = [
+        f"- {row['region']}: governed={row['governed_threshold']} -> utility-opt={row['utility_opt_threshold']}, "
+        f"cost_reduction={row['cost_reduction_pct']}%, F1_delta={row['f1_delta_opt_minus_governed']}"
+        for row in threshold_utility_operating_rows
+    ]
 
     # Consistency checks for manuscript claims and artifact linkage.
     recommended_by_region = {
@@ -1449,9 +1806,26 @@ def run_manuscript_enhancement_pack(
         and transfer_by_route.get(("seattle", "nola"), 0.0) > -0.1
     )
     figure_assets_ok = all(path.exists() for path in [fig_model_family, fig_transfer_heatmap, fig_pipeline])
+    utility_assets_ok = all(
+        path.exists()
+        for path in [
+            fig_threshold_utility,
+            threshold_utility_curve_csv_path,
+            threshold_utility_operating_csv_path,
+        ]
+    )
     summary_tables_ok = all(
         path.exists()
-        for path in [recommended_csv_path, transfer_csv_path, transfer_uncertainty_csv_path, ablation_csv_path]
+        for path in [
+            recommended_csv_path,
+            transfer_csv_path,
+            transfer_uncertainty_csv_path,
+            transfer_significance_csv_path,
+            ablation_csv_path,
+            significance_csv_path,
+            threshold_utility_curve_csv_path,
+            threshold_utility_operating_csv_path,
+        ]
     )
 
     consistency_checks = [
@@ -1476,9 +1850,14 @@ def run_manuscript_enhancement_pack(
             "figure_1/2/3 svg files present",
         ),
         (
+            "Threshold utility assets exist",
+            utility_assets_ok,
+            "figure_4 + threshold utility csv artifacts present",
+        ),
+        (
             "Core quantitative tables exist",
             summary_tables_ok,
-            "recommended/transfer/uncertainty/ablation csv files present",
+            "recommended/transfer/significance/ablation/utility csv files present",
         ),
     ]
     consistency_pass_count = sum(1 for _, passed, _ in consistency_checks if passed)
@@ -1514,6 +1893,7 @@ def run_manuscript_enhancement_pack(
     examiner_review_todo_path = output_root / "examiner_critical_todo_v0.2_2026-04-09.md"
     significance_appendix_path = output_root / "statistical_significance_appendix_v0.2_2026-04-09.md"
     transfer_significance_appendix_path = output_root / "transfer_route_significance_appendix_v0.2_2026-04-09.md"
+    threshold_utility_appendix_path = output_root / "threshold_utility_appendix_v0.2_2026-04-09.md"
 
     terminology_rows = [
         {
@@ -1836,6 +2216,7 @@ def run_manuscript_enhancement_pack(
             f"- Figure 1: ![model-family]({fig_model_family.name})",
             f"- Figure 2: ![transfer-heatmap]({fig_transfer_heatmap.name})",
             f"- Figure 3: ![pipeline]({fig_pipeline.name})",
+            f"- Figure 4: ![threshold-utility]({fig_threshold_utility.name})",
             "",
             "## 7. 용어 매핑 (KOR/ENG)",
             "",
@@ -1886,6 +2267,16 @@ def run_manuscript_enhancement_pack(
             "",
             "핵심 해석:",
             *transfer_significance_ko_lines,
+            "",
+            "## 16. 임계값 유틸리티 부록 (운영 비용 프로파일)",
+            f"- 유틸리티 곡선 CSV: `{threshold_utility_curve_csv_path.name}`",
+            f"- 운영점 요약 CSV: `{threshold_utility_operating_csv_path.name}`",
+            f"- 유틸리티 부록 문서: `{threshold_utility_appendix_path.name}`",
+            "",
+            threshold_utility_md_table,
+            "",
+            "핵심 해석:",
+            *threshold_utility_ko_lines,
             "",
         ]
     )
@@ -1954,6 +2345,7 @@ def run_manuscript_enhancement_pack(
             f"- Figure 1: ![model-family]({fig_model_family.name})",
             f"- Figure 2: ![transfer-heatmap]({fig_transfer_heatmap.name})",
             f"- Figure 3: ![pipeline]({fig_pipeline.name})",
+            f"- Figure 4: ![threshold-utility]({fig_threshold_utility.name})",
             "",
             "## 7. Terminology Mapping (KOR/ENG)",
             "",
@@ -2005,6 +2397,16 @@ def run_manuscript_enhancement_pack(
             "Key interpretation:",
             *transfer_significance_en_lines,
             "",
+            "## 16. Threshold Utility Appendix (Operational Cost Profile)",
+            f"- Utility-curve CSV: `{threshold_utility_curve_csv_path.name}`",
+            f"- Operating-point CSV: `{threshold_utility_operating_csv_path.name}`",
+            f"- Utility appendix document: `{threshold_utility_appendix_path.name}`",
+            "",
+            threshold_utility_md_table,
+            "",
+            "Key interpretation:",
+            *threshold_utility_en_lines,
+            "",
         ]
     )
 
@@ -2049,6 +2451,11 @@ def run_manuscript_enhancement_pack(
                 f"- Path: `./{fig_pipeline.name}`",
                 "- KOR: 데이터 수집부터 모델 학습, 전이 검증, 원고 산출물 생성까지의 엔드투엔드 연구 파이프라인.",
                 "- ENG: End-to-end research pipeline from data curation to model training, transfer evaluation, and manuscript-ready asset generation.",
+                "",
+                "## Figure 4",
+                f"- Path: `./{fig_threshold_utility.name}`",
+                "- KOR: FN 가중치(5) 중심 운영 비용 프로파일에서 임계값 변화에 따른 정규화 비용 곡선과 governed/utility-opt 운영점을 비교한다.",
+                "- ENG: Normalized cost-vs-threshold curves under FN-heavy profile (FN=5, FP=1) with governed and utility-opt operating points.",
                 "",
                 "## Scenario Visuals (Existing)",
                 "- Houston KOR: Houston 시나리오 위험도 히트맵/등고선 결과로 고위험 구역의 공간 집중을 보여준다.",
@@ -2106,6 +2513,7 @@ def run_manuscript_enhancement_pack(
                 rf"\item Figure 1 source: \texttt{{{_escape_latex(fig_model_family.name)}}}",
                 rf"\item Figure 2 source: \texttt{{{_escape_latex(fig_transfer_heatmap.name)}}}",
                 rf"\item Figure 3 source: \texttt{{{_escape_latex(fig_pipeline.name)}}}",
+                rf"\item Figure 4 source: \texttt{{{_escape_latex(fig_threshold_utility.name)}}}",
                 r"\end{itemize}",
                 r"\section{Reproducibility Notes}",
                 r"Core evidence tables:",
@@ -2113,7 +2521,10 @@ def run_manuscript_enhancement_pack(
                 rf"\item \texttt{{{_escape_latex(recommended_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(transfer_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(transfer_uncertainty_csv_path.name)}}}",
+                rf"\item \texttt{{{_escape_latex(transfer_significance_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(ablation_csv_path.name)}}}",
+                rf"\item \texttt{{{_escape_latex(significance_csv_path.name)}}}",
+                rf"\item \texttt{{{_escape_latex(threshold_utility_operating_csv_path.name)}}}",
                 r"\end{itemize}",
                 r"\end{document}",
                 "",
@@ -2217,6 +2628,31 @@ def run_manuscript_enhancement_pack(
         ),
         encoding="utf-8",
     )
+    threshold_utility_appendix_path.write_text(
+        "\n".join(
+            [
+                "# Threshold Utility Appendix v0.2 (2026-04-09)",
+                "",
+                "This appendix evaluates operating-threshold tradeoffs under a miss-sensitive profile.",
+                "Cost profile: FN weight = 5, FP weight = 1 (normalized per-region).",
+                "",
+                "## Operating-Point Summary",
+                threshold_utility_md_table,
+                "",
+                "## Region Interpretation",
+                *threshold_utility_en_lines,
+                "",
+                "## Figure Link",
+                f"- Utility curve: `{fig_threshold_utility.name}`",
+                "",
+                "## Limitations",
+                "- Cost profile weights are policy assumptions and should be adapted to stakeholder risk preference.",
+                "- Utility analysis is based on current recommendation models and available prediction artifacts.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
     examiner_review_todo_path.write_text(
         "\n".join(
             [
@@ -2226,7 +2662,7 @@ def run_manuscript_enhancement_pack(
                 "1. **Novelty framing risk (high)**: the manuscript currently lacks an explicit related-work differential table.",
                 "2. **Statistical evidence risk (medium)**: family-level significance appendix is now attached, but transfer-route repeated-randomization testing is still pending.",
                 "3. **External validity risk (medium)**: transfer analysis is strong across three regions, but global regime diversity is still limited.",
-                "4. **Operational interpretation risk (medium)**: threshold governance is defined, but cost-sensitive operational tradeoff analysis is missing.",
+                "4. **Operational interpretation risk (low-medium)**: threshold utility appendix is attached, but deployment-profile calibration still needs stakeholder-specific tuning.",
                 "5. **Labeling protocol clarity risk (medium)**: near-miss/collision-proxy linkage is implied but not fully formalized against prior literature.",
                 "",
                 "## Detailed TODO with Acceptance Criteria",
@@ -2240,8 +2676,8 @@ def run_manuscript_enhancement_pack(
                 "  - Acceptance: route-level significance table includes repeated runs and corrected p-values.",
                 "- [ ] Add one additional out-of-domain test split (new area/year) for robustness.",
                 "  - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.",
-                "- [ ] Add threshold utility analysis (false-alarm vs miss-risk tradeoff).",
-                "  - Acceptance: include one operating-point table and one curve-based figure aligned with deployment profile.",
+                f"- [x] Add threshold utility analysis (`{threshold_utility_appendix_path.name}`) for false-alarm vs miss-risk tradeoff.",
+                "  - Acceptance: operating-point table + curve-based figure are attached with explicit cost profile.",
                 "- [ ] Clarify label-generation policy with near-miss proxy grounding.",
                 "  - Acceptance: Methods section provides deterministic event rule and cites at least one AIS near-miss paper (`RW-03`).",
                 "- [ ] Final bilingual publication pass (Korean + English).",
@@ -2279,7 +2715,7 @@ def run_manuscript_enhancement_pack(
                 f"- [x] Add bootstrap-based transfer-route significance summary (`{transfer_significance_appendix_path.name}`).",
                 "- [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.",
                 "- [ ] Expand out-of-domain validation scope (at least one additional area or time regime).",
-                "- [ ] Add threshold utility analysis for operational decision tradeoff.",
+                f"- [x] Add threshold utility analysis for operational decision tradeoff (`{threshold_utility_appendix_path.name}`).",
                 "- [ ] Run final bilingual publication parity check (Korean/English).",
                 "",
             ]
@@ -2293,11 +2729,14 @@ def run_manuscript_enhancement_pack(
         "transfer_summary_csv_path": str(transfer_csv_path),
         "transfer_uncertainty_summary_csv_path": str(transfer_uncertainty_csv_path),
         "transfer_route_significance_csv_path": str(transfer_significance_csv_path),
+        "threshold_utility_curve_csv_path": str(threshold_utility_curve_csv_path),
+        "threshold_utility_operating_points_csv_path": str(threshold_utility_operating_csv_path),
         "ablation_tabular_vs_cnn_csv_path": str(ablation_csv_path),
         "model_family_significance_csv_path": str(significance_csv_path),
         "figure_1_model_family_comparison_svg_path": str(fig_model_family),
         "figure_2_transfer_delta_f1_heatmap_svg_path": str(fig_transfer_heatmap),
         "figure_3_pipeline_overview_svg_path": str(fig_pipeline),
+        "figure_4_threshold_utility_curve_svg_path": str(fig_threshold_utility),
         "figure_index_md_path": str(figure_index_path),
         "manuscript_draft_ko_md_path": str(manuscript_draft_ko_path),
         "manuscript_draft_en_md_path": str(manuscript_draft_en_path),
@@ -2311,4 +2750,5 @@ def run_manuscript_enhancement_pack(
         "examiner_critical_todo_md_path": str(examiner_review_todo_path),
         "statistical_significance_appendix_md_path": str(significance_appendix_path),
         "transfer_route_significance_appendix_md_path": str(transfer_significance_appendix_path),
+        "threshold_utility_appendix_md_path": str(threshold_utility_appendix_path),
     }

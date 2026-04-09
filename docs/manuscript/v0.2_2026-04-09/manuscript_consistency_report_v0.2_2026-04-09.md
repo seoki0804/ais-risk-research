@@ -1,6 +1,6 @@
 # Manuscript Consistency Report v0.2 (2026-04-09)
 
-- Overall status: **PASS** (5/5)
+- Overall status: **PASS** (6/6)
 - Generated from: `docs/results/2026-04-04-expanded-10seed`
 
 | Check | Status | Detail |
@@ -9,7 +9,8 @@
 | ECE gate claim holds for all selected models | PASS | all ece_mean_10seed <= 0.1 |
 | Transfer-sign narrative matches computed deltas | PASS | Houston negative, NOLA positive, Seattle near-neutral/positive |
 | Core figure assets exist | PASS | figure_1/2/3 svg files present |
-| Core quantitative tables exist | PASS | recommended/transfer/uncertainty/ablation csv files present |
+| Threshold utility assets exist | PASS | figure_4 + threshold utility csv artifacts present |
+| Core quantitative tables exist | PASS | recommended/transfer/significance/ablation/utility csv files present |
 
 ## Reviewer-Facing Notes
 - Transfer CI is computed from source/target prediction CSV via bootstrap.

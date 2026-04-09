@@ -46,6 +46,8 @@
 - 이중언어 그림 캡션: [figure_captions_bilingual_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_captions_bilingual_v0.2_2026-04-09.md)
 - 전이 불확실성 요약(CSV): [transfer_uncertainty_summary.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/transfer_uncertainty_summary.csv)
 - 전이 경로 유의성 요약(CSV): [transfer_route_significance_summary.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/transfer_route_significance_summary.csv)
+- 임계값 유틸리티 곡선 요약(CSV): [threshold_utility_curve_summary.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/threshold_utility_curve_summary.csv)
+- 임계값 운영점 요약(CSV): [threshold_utility_operating_points.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/threshold_utility_operating_points.csv)
 - tabular vs CNN 절제요약(CSV): [ablation_tabular_vs_cnn_summary.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/ablation_tabular_vs_cnn_summary.csv)
 - 모델 패밀리 유의성 요약(CSV): [model_family_significance_summary.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/model_family_significance_summary.csv)
 - LaTeX 제출 템플릿: [manuscript_submission_template_v0.2_2026-04-09.tex](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_submission_template_v0.2_2026-04-09.tex)
@@ -54,6 +56,7 @@
 - 심사관 관점 TODO: [examiner_critical_todo_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/examiner_critical_todo_v0.2_2026-04-09.md)
 - 통계 유의성 부록: [statistical_significance_appendix_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/statistical_significance_appendix_v0.2_2026-04-09.md)
 - 전이 경로 유의성 부록: [transfer_route_significance_appendix_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/transfer_route_significance_appendix_v0.2_2026-04-09.md)
+- 임계값 유틸리티 부록: [threshold_utility_appendix_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/threshold_utility_appendix_v0.2_2026-04-09.md)
 - 영문 원고 DOCX: [manuscript_draft_v0.2_2026-04-09_en.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_en.docx)
 - 국문 원고 DOCX: [manuscript_draft_v0.2_2026-04-09_ko.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_ko.docx)
 - 정합성 리포트 DOCX: [manuscript_consistency_report_v0.2_2026-04-09.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_consistency_report_v0.2_2026-04-09.docx)
@@ -64,6 +67,7 @@
 - 모델 패밀리 비교 도식(SVG): [figure_1_model_family_comparison.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_1_model_family_comparison.svg)
 - 전이 성능 히트맵(SVG): [figure_2_transfer_delta_f1_heatmap.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_2_transfer_delta_f1_heatmap.svg)
 - 연구 파이프라인 도식(SVG): [figure_3_pipeline_overview.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_3_pipeline_overview.svg)
+- 임계값 유틸리티 곡선 도식(SVG): [figure_4_threshold_utility_curve.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_4_threshold_utility_curve.svg)
 - 생성 명령: `examples/run_manuscript_enhancement_pack_2026-04-09.sh`
 - DOCX 변환 명령: `examples/run_manuscript_docx_export_2026-04-09.sh`
 - 제출 번들 생성 명령: `examples/run_manuscript_submission_bundle_2026-04-09.sh`

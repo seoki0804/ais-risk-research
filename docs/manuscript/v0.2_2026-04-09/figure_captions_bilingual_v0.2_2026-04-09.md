@@ -15,6 +15,11 @@
 - KOR: 데이터 수집부터 모델 학습, 전이 검증, 원고 산출물 생성까지의 엔드투엔드 연구 파이프라인.
 - ENG: End-to-end research pipeline from data curation to model training, transfer evaluation, and manuscript-ready asset generation.
 
+## Figure 4
+- Path: `./figure_4_threshold_utility_curve.svg`
+- KOR: FN 가중치(5) 중심 운영 비용 프로파일에서 임계값 변화에 따른 정규화 비용 곡선과 governed/utility-opt 운영점을 비교한다.
+- ENG: Normalized cost-vs-threshold curves under FN-heavy profile (FN=5, FP=1) with governed and utility-opt operating points.
+
 ## Scenario Visuals (Existing)
 - Houston KOR: Houston 시나리오 위험도 히트맵/등고선 결과로 고위험 구역의 공간 집중을 보여준다.
 - Houston ENG: Houston scenario heatmap/contour output showing spatial concentration of high-risk zones.

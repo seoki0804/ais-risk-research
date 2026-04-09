@@ -88,6 +88,7 @@
 - Figure 1: ![model-family](figure_1_model_family_comparison.svg)
 - Figure 2: ![transfer-heatmap](figure_2_transfer_delta_f1_heatmap.svg)
 - Figure 3: ![pipeline](figure_3_pipeline_overview.svg)
+- Figure 4: ![threshold-utility](figure_4_threshold_utility_curve.svg)
 
 ## 7. 용어 매핑 (KOR/ENG)
 
@@ -119,7 +120,7 @@
 ## 11. 제출 준비 산출물
 - LaTeX 제출 템플릿: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - 정합성 점검 리포트: `manuscript_consistency_report_v0.2_2026-04-09.md`
-- 정합성 자동 점검 결과: `PASS` (5/5)
+- 정합성 자동 점검 결과: `PASS` (6/6)
 
 ## 12. 선행연구 근거 매트릭스
 - 근거 매트릭스: `prior_work_evidence_matrix_v0.2_2026-04-09.md`
@@ -165,3 +166,19 @@
 - nola->seattle: ΔF1=+0.4439, bootstrap p=0.0000, direction_prob=1.0000
 - seattle->houston: ΔF1=+0.0021, bootstrap p=0.9670, direction_prob=0.5165
 - seattle->nola: ΔF1=+0.0488, bootstrap p=0.2960, direction_prob=0.8520
+
+## 16. 임계값 유틸리티 부록 (운영 비용 프로파일)
+- 유틸리티 곡선 CSV: `threshold_utility_curve_summary.csv`
+- 운영점 요약 CSV: `threshold_utility_operating_points.csv`
+- 유틸리티 부록 문서: `threshold_utility_appendix_v0.2_2026-04-09.md`
+
+| region | model_name | governed_threshold | utility_opt_threshold | threshold_shift | governed_f1 | opt_f1 | cost_reduction_pct | governed_fp | governed_fn | opt_fp | opt_fn |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| houston | hgbt | 0.95 | 0.05 | -0.90 | 0.8286 | 0.8372 | +46.43 | 1 | 11 | 10 | 4 |
+| nola | hgbt | 0.35 | 0.38 | +0.03 | 0.6015 | 0.6250 | +5.38 | 43 | 10 | 38 | 10 |
+| seattle | extra_trees | 0.60 | 0.36 | -0.24 | 0.8148 | 0.8308 | +47.50 | 5 | 15 | 17 | 5 |
+
+핵심 해석:
+- houston: governed=0.95 -> utility-opt=0.05, 비용절감=+46.43%, F1변화=+0.0086
+- nola: governed=0.35 -> utility-opt=0.38, 비용절감=+5.38%, F1변화=+0.0235
+- seattle: governed=0.60 -> utility-opt=0.36, 비용절감=+47.50%, F1변화=+0.0160

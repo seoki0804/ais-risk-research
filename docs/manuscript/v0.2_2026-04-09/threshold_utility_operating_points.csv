@@ -1,0 +1,4 @@
+region,dataset,model_name,governed_threshold,utility_opt_threshold,threshold_shift,governed_f1,opt_f1,f1_delta_opt_minus_governed,governed_weighted_cost_per_sample,opt_weighted_cost_per_sample,governed_weighted_cost_normalized,opt_weighted_cost_normalized,cost_reduction_pct,governed_fp,governed_fn,opt_fp,opt_fn,utility_profile,fn_weight,fp_weight,n_samples,positive_count,negative_count
+houston,houston_pooled_pairwise,hgbt,0.95,0.05,-0.90,0.8286,0.8372,+0.0086,0.132075,0.070755,0.095890,0.051370,+46.43,1,11,10,4,miss_sensitive_fn5_fp1,5.00,1.00,424,40,384
+nola,nola_pooled_pairwise,hgbt,0.35,0.38,+0.03,0.6015,0.6250,+0.0235,0.067834,0.064187,0.059198,0.056015,+5.38,43,10,38,10,miss_sensitive_fn5_fp1,5.00,1.00,1371,50,1321
+seattle,seattle_pooled_pairwise,extra_trees,0.60,0.36,-0.24,0.8148,0.8308,+0.0160,0.190024,0.099762,0.121766,0.063927,+47.50,5,15,17,5,miss_sensitive_fn5_fp1,5.00,1.00,421,59,362

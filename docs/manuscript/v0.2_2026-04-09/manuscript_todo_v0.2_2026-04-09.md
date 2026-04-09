@@ -22,5 +22,5 @@
 - [x] Add bootstrap-based transfer-route significance summary (`transfer_route_significance_appendix_v0.2_2026-04-09.md`).
 - [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.
 - [ ] Expand out-of-domain validation scope (at least one additional area or time regime).
-- [ ] Add threshold utility analysis for operational decision tradeoff.
+- [x] Add threshold utility analysis for operational decision tradeoff (`threshold_utility_appendix_v0.2_2026-04-09.md`).
 - [ ] Run final bilingual publication parity check (Korean/English).
