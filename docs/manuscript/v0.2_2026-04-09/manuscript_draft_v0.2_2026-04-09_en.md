@@ -120,6 +120,7 @@ Detailed terminology guidance is provided in `terminology_mapping_v0.2_2026-04-0
 ## 11. Submission-Readiness Artifacts
 - LaTeX venue template draft: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - Consistency audit report: `manuscript_consistency_report_v0.2_2026-04-09.md`
+- Bilingual parity report: `bilingual_parity_report_v0.2_2026-04-09.md`
 - Automated consistency status: `PASS` (6/6)
 
 ## 12. Prior-Work Evidence Matrix

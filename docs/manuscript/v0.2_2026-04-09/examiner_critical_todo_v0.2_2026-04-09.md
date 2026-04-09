@@ -22,5 +22,5 @@
   - Acceptance: operating-point table + curve-based figure are attached with explicit cost profile.
 - [ ] Clarify label-generation policy with near-miss proxy grounding.
   - Acceptance: Methods section provides deterministic event rule and cites at least one AIS near-miss paper (`RW-03`).
-- [ ] Final bilingual publication pass (Korean + English).
-  - Acceptance: KO/EN drafts have section/figure/table parity and terminology consistency check log.
+- [x] Final bilingual publication pass (Korean + English).
+  - Acceptance: KO/EN drafts have section/figure/table parity and terminology consistency check log (`bilingual_parity_report_v0.2_2026-04-09.md` = PASS).

@@ -42,6 +42,7 @@
 - 논문 초안 v0.2 (Korean): [manuscript_draft_v0.2_2026-04-09_ko.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_ko.md)
 - 논문 초안 v0.2 (English): [manuscript_draft_v0.2_2026-04-09_en.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_en.md)
 - 논문 TODO: [manuscript_todo_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_todo_v0.2_2026-04-09.md)
+- 한영 패리티 리포트: [bilingual_parity_report_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/bilingual_parity_report_v0.2_2026-04-09.md)
 - 용어 매핑(KOR/ENG): [terminology_mapping_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/terminology_mapping_v0.2_2026-04-09.md)
 - 이중언어 그림 캡션: [figure_captions_bilingual_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_captions_bilingual_v0.2_2026-04-09.md)
 - 전이 불확실성 요약(CSV): [transfer_uncertainty_summary.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/transfer_uncertainty_summary.csv)

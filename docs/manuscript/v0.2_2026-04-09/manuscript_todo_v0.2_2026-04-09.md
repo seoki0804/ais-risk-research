@@ -23,4 +23,4 @@
 - [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.
 - [ ] Expand out-of-domain validation scope (at least one additional area or time regime).
 - [x] Add threshold utility analysis for operational decision tradeoff (`threshold_utility_appendix_v0.2_2026-04-09.md`).
-- [ ] Run final bilingual publication parity check (Korean/English).
+- [x] Run final bilingual publication parity check (Korean/English) (`bilingual_parity_report_v0.2_2026-04-09.md` = PASS).

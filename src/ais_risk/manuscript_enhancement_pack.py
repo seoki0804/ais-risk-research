@@ -4,6 +4,7 @@ import csv
 import json
 import math
 import random
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -1167,6 +1168,52 @@ def _render_threshold_utility_curve_svg(
     output_path.write_text("\n".join(parts), encoding="utf-8")
 
 
+def _extract_h2_numbers(markdown_text: str) -> list[str]:
+    values: list[str] = []
+    for line in markdown_text.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("## "):
+            continue
+        match = re.match(r"^##\s+(\d+)\.", stripped)
+        if match:
+            values.append(match.group(1))
+    return values
+
+
+def _extract_svg_references(markdown_text: str) -> list[str]:
+    references = re.findall(r"\(([^)]+\.svg)\)", markdown_text)
+    return sorted(set(references))
+
+
+def _build_bilingual_parity_report(ko_text: str, en_text: str) -> tuple[str, str]:
+    ko_h2 = _extract_h2_numbers(ko_text)
+    en_h2 = _extract_h2_numbers(en_text)
+    ko_svgs = _extract_svg_references(ko_text)
+    en_svgs = _extract_svg_references(en_text)
+
+    h2_count_match = len(ko_h2) == len(en_h2)
+    h2_sequence_match = ko_h2 == en_h2
+    svg_reference_match = ko_svgs == en_svgs
+    overall_pass = h2_count_match and h2_sequence_match and svg_reference_match
+    status = "PASS" if overall_pass else "FAIL"
+
+    report = "\n".join(
+        [
+            "# Bilingual Parity Report v0.2 (2026-04-09)",
+            "",
+            f"- Overall parity status: **{status}**",
+            "",
+            "| Check | Status | Detail |",
+            "| --- | --- | --- |",
+            f"| H2 section count match | {'PASS' if h2_count_match else 'FAIL'} | ko={len(ko_h2)}, en={len(en_h2)} |",
+            f"| H2 section index sequence match | {'PASS' if h2_sequence_match else 'FAIL'} | ko={ko_h2}, en={en_h2} |",
+            f"| SVG reference set match | {'PASS' if svg_reference_match else 'FAIL'} | ko={ko_svgs}, en={en_svgs} |",
+            "",
+        ]
+    )
+    return status, report
+
+
 def _interval_width(interval_text: str) -> float | None:
     value = interval_text.strip()
     if not value.startswith("[") or not value.endswith("]"):
@@ -1894,6 +1941,7 @@ def run_manuscript_enhancement_pack(
     significance_appendix_path = output_root / "statistical_significance_appendix_v0.2_2026-04-09.md"
     transfer_significance_appendix_path = output_root / "transfer_route_significance_appendix_v0.2_2026-04-09.md"
     threshold_utility_appendix_path = output_root / "threshold_utility_appendix_v0.2_2026-04-09.md"
+    bilingual_parity_report_path = output_root / "bilingual_parity_report_v0.2_2026-04-09.md"
 
     terminology_rows = [
         {
@@ -2239,6 +2287,7 @@ def run_manuscript_enhancement_pack(
             "## 11. 제출 준비 산출물",
             f"- LaTeX 제출 템플릿: `{submission_template_tex_path.name}`",
             f"- 정합성 점검 리포트: `{consistency_report_path.name}`",
+            f"- 이중언어 패리티 리포트: `{bilingual_parity_report_path.name}`",
             f"- 정합성 자동 점검 결과: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
             "",
             "## 12. 선행연구 근거 매트릭스",
@@ -2368,6 +2417,7 @@ def run_manuscript_enhancement_pack(
             "## 11. Submission-Readiness Artifacts",
             f"- LaTeX venue template draft: `{submission_template_tex_path.name}`",
             f"- Consistency audit report: `{consistency_report_path.name}`",
+            f"- Bilingual parity report: `{bilingual_parity_report_path.name}`",
             f"- Automated consistency status: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
             "",
             "## 12. Prior-Work Evidence Matrix",
@@ -2413,6 +2463,8 @@ def run_manuscript_enhancement_pack(
     manuscript_draft_ko_path.write_text(ko_text, encoding="utf-8")
     manuscript_draft_en_path.write_text(en_text, encoding="utf-8")
     manuscript_draft_path.write_text(ko_text, encoding="utf-8")
+    bilingual_parity_status, bilingual_parity_report_text = _build_bilingual_parity_report(ko_text, en_text)
+    bilingual_parity_report_path.write_text(bilingual_parity_report_text, encoding="utf-8")
     terminology_mapping_path.write_text(
         "\n".join(
             [
@@ -2680,8 +2732,8 @@ def run_manuscript_enhancement_pack(
                 "  - Acceptance: operating-point table + curve-based figure are attached with explicit cost profile.",
                 "- [ ] Clarify label-generation policy with near-miss proxy grounding.",
                 "  - Acceptance: Methods section provides deterministic event rule and cites at least one AIS near-miss paper (`RW-03`).",
-                "- [ ] Final bilingual publication pass (Korean + English).",
-                "  - Acceptance: KO/EN drafts have section/figure/table parity and terminology consistency check log.",
+                f"- [{'x' if bilingual_parity_status == 'PASS' else ' '}] Final bilingual publication pass (Korean + English).",
+                f"  - Acceptance: KO/EN drafts have section/figure/table parity and terminology consistency check log (`{bilingual_parity_report_path.name}` = {bilingual_parity_status}).",
                 "",
             ]
         ),
@@ -2716,7 +2768,7 @@ def run_manuscript_enhancement_pack(
                 "- [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.",
                 "- [ ] Expand out-of-domain validation scope (at least one additional area or time regime).",
                 f"- [x] Add threshold utility analysis for operational decision tradeoff (`{threshold_utility_appendix_path.name}`).",
-                "- [ ] Run final bilingual publication parity check (Korean/English).",
+                f"- [{'x' if bilingual_parity_status == 'PASS' else ' '}] Run final bilingual publication parity check (Korean/English) (`{bilingual_parity_report_path.name}` = {bilingual_parity_status}).",
                 "",
             ]
         ),
@@ -2742,6 +2794,7 @@ def run_manuscript_enhancement_pack(
         "manuscript_draft_en_md_path": str(manuscript_draft_en_path),
         "manuscript_draft_md_path": str(manuscript_draft_path),
         "manuscript_todo_md_path": str(manuscript_todo_path),
+        "bilingual_parity_report_md_path": str(bilingual_parity_report_path),
         "terminology_mapping_md_path": str(terminology_mapping_path),
         "figure_captions_bilingual_md_path": str(figure_captions_path),
         "submission_template_tex_path": str(submission_template_tex_path),

@@ -120,6 +120,7 @@
 ## 11. 제출 준비 산출물
 - LaTeX 제출 템플릿: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - 정합성 점검 리포트: `manuscript_consistency_report_v0.2_2026-04-09.md`
+- 이중언어 패리티 리포트: `bilingual_parity_report_v0.2_2026-04-09.md`
 - 정합성 자동 점검 결과: `PASS` (6/6)
 
 ## 12. 선행연구 근거 매트릭스

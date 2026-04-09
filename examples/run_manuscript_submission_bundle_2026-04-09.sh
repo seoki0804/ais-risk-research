@@ -16,6 +16,7 @@ FILES=(
   manuscript_draft_v0.2_2026-04-09_ko.docx
   manuscript_submission_template_v0.2_2026-04-09.tex
   manuscript_todo_v0.2_2026-04-09.md
+  bilingual_parity_report_v0.2_2026-04-09.md
   prior_work_evidence_matrix_v0.2_2026-04-09.md
   examiner_critical_todo_v0.2_2026-04-09.md
   manuscript_consistency_report_v0.2_2026-04-09.md

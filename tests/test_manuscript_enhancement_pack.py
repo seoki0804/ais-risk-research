@@ -149,6 +149,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "manuscript_draft_en_md_path",
                 "manuscript_draft_md_path",
                 "manuscript_todo_md_path",
+                "bilingual_parity_report_md_path",
                 "terminology_mapping_md_path",
                 "figure_captions_bilingual_md_path",
                 "submission_template_tex_path",
@@ -196,6 +197,10 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             threshold_utility_text = Path(summary["threshold_utility_appendix_md_path"]).read_text(encoding="utf-8")
             self.assertIn("Threshold Utility Appendix", threshold_utility_text)
             self.assertIn("Operating-Point Summary", threshold_utility_text)
+
+            parity_text = Path(summary["bilingual_parity_report_md_path"]).read_text(encoding="utf-8")
+            self.assertIn("Bilingual Parity Report", parity_text)
+            self.assertIn("Overall parity status", parity_text)
 
 
 if __name__ == "__main__":
