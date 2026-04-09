@@ -52,6 +52,31 @@ jobs:
             tests/test_submission_bundle_verify_script.py
 
       - name: Build and verify manuscript submission bundle
+        id: submission_bundle
         run: |
-          ./examples/run_manuscript_submission_bundle_2026-04-09.sh
-          ./examples/run_manuscript_submission_verify_2026-04-09.sh
+          ./examples/run_manuscript_submission_bundle_2026-04-09.sh | tee submission_bundle_build.log
+          ./examples/run_manuscript_submission_verify_2026-04-09.sh | tee submission_bundle_verify.log
+          BUNDLE_SHA="$(grep '^verified_bundle_zip_sha256=' submission_bundle_verify.log | tail -n1 | cut -d'=' -f2-)"
+          if [[ -z "$BUNDLE_SHA" ]]; then
+            echo "Failed to parse bundle SHA from verification output."
+            exit 1
+          fi
+          echo "bundle_sha256=$BUNDLE_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Upload manuscript submission bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: manuscript-submission-bundle-v0.2-2026-04-09
+          path: |
+            docs/manuscript/v0.2_2026-04-09/submission_bundle_v0.2_2026-04-09.zip
+            docs/manuscript/v0.2_2026-04-09/submission_bundle_manifest_v0.2_2026-04-09.txt
+            docs/manuscript/v0.2_2026-04-09/manuscript_consistency_report_v0.2_2026-04-09.md
+          if-no-files-found: error
+
+      - name: Append submission summary
+        run: |
+          {
+            echo "### Manuscript Submission Bundle"
+            echo "- Bundle SHA-256: \`${{ steps.submission_bundle.outputs.bundle_sha256 }}\`"
+            echo "- Artifact: \`manuscript-submission-bundle-v0.2-2026-04-09\`"
+          } >> "$GITHUB_STEP_SUMMARY"
