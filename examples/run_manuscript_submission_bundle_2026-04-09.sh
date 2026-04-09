@@ -33,6 +33,8 @@ FILES=(
   transfer_core_summary.csv
   transfer_uncertainty_summary.csv
   transfer_route_significance_summary.csv
+  out_of_domain_validation_detail_summary.csv
+  out_of_domain_validation_summary.csv
   threshold_utility_curve_summary.csv
   threshold_utility_operating_points.csv
   ablation_tabular_vs_cnn_summary.csv
@@ -40,6 +42,7 @@ FILES=(
   statistical_significance_appendix_v0.2_2026-04-09.md
   transfer_route_significance_appendix_v0.2_2026-04-09.md
   threshold_utility_appendix_v0.2_2026-04-09.md
+  out_of_domain_validation_appendix_v0.2_2026-04-09.md
 )
 
 "$ROOT_DIR/examples/run_manuscript_enhancement_pack_2026-04-09.sh"

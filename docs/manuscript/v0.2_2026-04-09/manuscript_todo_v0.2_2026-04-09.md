@@ -21,6 +21,6 @@
 - [x] Add formal significance testing for model-family comparison (`statistical_significance_appendix_v0.2_2026-04-09.md`, Holm-corrected p-values).
 - [x] Add bootstrap-based transfer-route significance summary (`transfer_route_significance_appendix_v0.2_2026-04-09.md`).
 - [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.
-- [ ] Expand out-of-domain validation scope (at least one additional area or time regime).
+- [x] Expand out-of-domain validation scope (at least one additional area or time regime) (`out_of_domain_validation_appendix_v0.2_2026-04-09.md`).
 - [x] Add threshold utility analysis for operational decision tradeoff (`threshold_utility_appendix_v0.2_2026-04-09.md`).
 - [x] Run final bilingual publication parity check (Korean/English) (`bilingual_parity_report_v0.2_2026-04-09.md` = PASS).

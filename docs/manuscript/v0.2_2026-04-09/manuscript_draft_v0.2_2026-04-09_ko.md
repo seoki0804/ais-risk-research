@@ -71,6 +71,22 @@
 - 해석 주의: transfer CI는 source/target prediction CSV 기반 bootstrap 추정치다.
 - 추가 주의(고불확실성 경로): 고불확실성 경로 없음.
 
+### 4.2 Out-of-domain 검증 확장 (추가 해역/연도 전이)
+- 상세 CSV: `out_of_domain_validation_detail_summary.csv`
+- 요약 CSV: `out_of_domain_validation_summary.csv`
+
+| evidence_type | split | row_count | region_count | hgbt_f1_mean | hgbt_f1_min | hgbt_f1_max | hgbt_minus_logreg_f1_mean | negative_delta_count | support_low_count |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| cross_year_transfer | own_ship | 6 | 3 | 0.7479 | 0.6281 | 0.8830 | +0.1378 | 1 | 0 |
+| true_unseen_area | own_ship | 4 | 4 | 0.7293 | 0.6667 | 0.7789 | +0.1460 | 0 | 0 |
+| true_unseen_area | timestamp | 4 | 4 | 0.6357 | 0.3333 | 0.8462 | -0.0521 | 0 | 0 |
+
+핵심 해석:
+- cross_year_transfer / own_ship: 평균 F1=0.7479, 모델간 평균Δ=+0.1378, 음수Δ 건수=1, low-support=0
+- true_unseen_area / own_ship: 평균 F1=0.7293, 모델간 평균Δ=+0.1460, 음수Δ 건수=0, low-support=0
+- true_unseen_area / timestamp: 평균 F1=0.6357, 모델간 평균Δ=-0.0521, 음수Δ 건수=0, low-support=0
+- 원본 요약 교차점검: true_area_row_count=8, transfer_row_count=6, true_area_low_support_count=0
+
 ## 5. 절제분석: tabular vs raster-CNN
 
 | region | tabular_model | tabular_f1 | raster_cnn_model | raster_cnn_f1 | delta_f1_tabular_minus_cnn | tabular_ece | raster_cnn_ece | delta_ece_tabular_minus_cnn | interpretation |
@@ -121,6 +137,7 @@
 - LaTeX 제출 템플릿: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - 정합성 점검 리포트: `manuscript_consistency_report_v0.2_2026-04-09.md`
 - 이중언어 패리티 리포트: `bilingual_parity_report_v0.2_2026-04-09.md`
+- Out-of-domain 검증 부록: `out_of_domain_validation_appendix_v0.2_2026-04-09.md`
 - 정합성 자동 점검 결과: `PASS` (6/6)
 
 ## 12. 선행연구 근거 매트릭스

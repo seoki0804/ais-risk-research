@@ -16,3 +16,4 @@
 - Transfer CI is computed from source/target prediction CSV via bootstrap.
 - Houston-source transfer is negative with narrow CI in this run, supporting domain-shift caution.
 - Seattle transfer routes include zero in CI, so the claim is limited to near-neutral/weak-positive behavior.
+- Out-of-domain expansion artifacts are attached (`out_of_domain_validation_detail_summary.csv`, `out_of_domain_validation_summary.csv`).

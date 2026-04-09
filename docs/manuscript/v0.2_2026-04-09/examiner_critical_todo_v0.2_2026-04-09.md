@@ -16,7 +16,7 @@
   - Acceptance: route-level table includes CI95, two-sided p-value, and direction probability.
 - [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.
   - Acceptance: route-level significance table includes repeated runs and corrected p-values.
-- [ ] Add one additional out-of-domain test split (new area/year) for robustness.
+- [x] Add one additional out-of-domain test split (new area/year) for robustness (`out_of_domain_validation_appendix_v0.2_2026-04-09.md`).
   - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.
 - [x] Add threshold utility analysis (`threshold_utility_appendix_v0.2_2026-04-09.md`) for false-alarm vs miss-risk tradeoff.
   - Acceptance: operating-point table + curve-based figure are attached with explicit cost profile.

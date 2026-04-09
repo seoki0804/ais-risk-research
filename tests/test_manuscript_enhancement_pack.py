@@ -136,6 +136,8 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "transfer_summary_csv_path",
                 "transfer_uncertainty_summary_csv_path",
                 "transfer_route_significance_csv_path",
+                "out_of_domain_validation_detail_csv_path",
+                "out_of_domain_validation_summary_csv_path",
                 "threshold_utility_curve_csv_path",
                 "threshold_utility_operating_points_csv_path",
                 "ablation_tabular_vs_cnn_csv_path",
@@ -159,6 +161,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "statistical_significance_appendix_md_path",
                 "transfer_route_significance_appendix_md_path",
                 "threshold_utility_appendix_md_path",
+                "out_of_domain_validation_appendix_md_path",
             }
             self.assertEqual(expected_keys, set(summary.keys()))
 
@@ -197,6 +200,10 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             threshold_utility_text = Path(summary["threshold_utility_appendix_md_path"]).read_text(encoding="utf-8")
             self.assertIn("Threshold Utility Appendix", threshold_utility_text)
             self.assertIn("Operating-Point Summary", threshold_utility_text)
+
+            out_of_domain_text = Path(summary["out_of_domain_validation_appendix_md_path"]).read_text(encoding="utf-8")
+            self.assertIn("Out-of-Domain Validation Appendix", out_of_domain_text)
+            self.assertIn("Aggregated Summary", out_of_domain_text)
 
             parity_text = Path(summary["bilingual_parity_report_md_path"]).read_text(encoding="utf-8")
             self.assertIn("Bilingual Parity Report", parity_text)

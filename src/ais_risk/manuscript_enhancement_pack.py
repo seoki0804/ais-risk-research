@@ -1395,6 +1395,120 @@ def run_manuscript_enhancement_pack(
     seed_raw_rows = _load_seed_sweep_raw_rows(results_root)
     significance_rows = _build_family_significance_rows(seed_raw_rows)
 
+    def _first_existing(candidates: list[Path]) -> Path | None:
+        for candidate in candidates:
+            if candidate.exists():
+                return candidate
+        return None
+
+    out_of_domain_detail_source_path = _first_existing(
+        [
+            results_root / "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_detail.csv",
+            *sorted(results_root.glob("true_unseen_area_evidence_report*_detail.csv")),
+        ]
+    )
+    out_of_domain_summary_source_path = _first_existing(
+        [
+            results_root / "true_unseen_area_evidence_report_2026-04-04_expanded_models_10seed_summary.csv",
+            *sorted(results_root.glob("true_unseen_area_evidence_report*_summary.csv")),
+        ]
+    )
+    out_of_domain_detail_source_rows = (
+        _read_csv(out_of_domain_detail_source_path) if out_of_domain_detail_source_path else []
+    )
+    out_of_domain_summary_source_rows = (
+        _read_csv(out_of_domain_summary_source_path) if out_of_domain_summary_source_path else []
+    )
+
+    out_of_domain_detail_rows: list[dict[str, object]] = []
+    for idx, row in enumerate(out_of_domain_detail_source_rows):
+        hgbt_f1 = _to_float(row.get("hgbt_f1"), default=float("nan"))
+        hgbt_minus_logreg = _to_float(row.get("hgbt_minus_logreg_f1"), default=float("nan"))
+        hgbt_delta_f1 = _to_float(row.get("hgbt_delta_f1"), default=float("nan"))
+        threshold = _to_float(row.get("hgbt_threshold"), default=float("nan"))
+        support_flag = str(row.get("test_positive_support_flag", "")).strip()
+        pred_path_text = str(row.get("predictions_csv_path", "")).strip()
+        pred_path = Path(pred_path_text) if pred_path_text else None
+
+        f1_ci95 = "n/a"
+        ci_method = "not_available"
+        if pred_path and pred_path.exists() and not math.isnan(threshold):
+            labels, scores = _read_binary_labels_and_scores(predictions_csv_path=pred_path, model_name="hgbt")
+            ci = _bootstrap_f1_ci95(
+                labels=labels,
+                scores=scores,
+                threshold=threshold,
+                n_bootstrap=500,
+                seed=500 + idx,
+            )
+            if ci is not None:
+                f1_ci95 = f"[{ci[0]:.4f}, {ci[1]:.4f}]"
+                ci_method = "bootstrap(n=500)"
+
+        out_of_domain_detail_rows.append(
+            {
+                "evidence_type": str(row.get("evidence_type", "")).strip(),
+                "scope": str(row.get("scope", "")).strip(),
+                "region": str(row.get("region", "")).strip(),
+                "split": str(row.get("split", "")).strip(),
+                "direction": str(row.get("direction", "")).strip(),
+                "row_count": int(_to_float(row.get("row_count"), default=0.0)),
+                "test_rows": int(_to_float(row.get("test_rows"), default=0.0)),
+                "test_positive_count": int(_to_float(row.get("test_positive_count"), default=0.0)),
+                "test_positive_support_flag": support_flag or "n/a",
+                "hgbt_f1": "n/a" if math.isnan(hgbt_f1) else f"{hgbt_f1:.4f}",
+                "hgbt_f1_ci95": f1_ci95,
+                "hgbt_minus_logreg_f1": "n/a" if math.isnan(hgbt_minus_logreg) else f"{hgbt_minus_logreg:+.4f}",
+                "hgbt_delta_f1": "n/a" if math.isnan(hgbt_delta_f1) else f"{hgbt_delta_f1:+.4f}",
+                "hgbt_threshold": "n/a" if math.isnan(threshold) else f"{threshold:.2f}",
+                "ci_method": ci_method,
+            }
+        )
+
+    grouped_out_of_domain: dict[tuple[str, str], list[dict[str, object]]] = {}
+    for row in out_of_domain_detail_rows:
+        key = (str(row.get("evidence_type", "")), str(row.get("split", "")))
+        grouped_out_of_domain.setdefault(key, []).append(row)
+
+    out_of_domain_summary_rows: list[dict[str, object]] = []
+    for (evidence_type, split), rows in sorted(grouped_out_of_domain.items()):
+        f1_values = [
+            _to_float(row.get("hgbt_f1"), default=float("nan"))
+            for row in rows
+            if str(row.get("hgbt_f1")) != "n/a"
+        ]
+        compare_values = [
+            _to_float(row.get("hgbt_minus_logreg_f1"), default=float("nan"))
+            for row in rows
+            if str(row.get("hgbt_minus_logreg_f1")) != "n/a"
+        ]
+        delta_values = [
+            _to_float(row.get("hgbt_delta_f1"), default=float("nan"))
+            for row in rows
+            if str(row.get("hgbt_delta_f1")) != "n/a"
+        ]
+        support_flags = [str(row.get("test_positive_support_flag", "")).strip().lower() for row in rows]
+        support_ok_count = sum(1 for flag in support_flags if flag == "ok")
+        support_low_count = sum(1 for flag in support_flags if flag == "low")
+        support_na_count = len(rows) - support_ok_count - support_low_count
+        out_of_domain_summary_rows.append(
+            {
+                "evidence_type": evidence_type,
+                "split": split,
+                "row_count": len(rows),
+                "region_count": len({str(row.get("region", "")) for row in rows}),
+                "hgbt_f1_mean": f"{(sum(f1_values) / len(f1_values)):.4f}" if f1_values else "n/a",
+                "hgbt_f1_min": f"{min(f1_values):.4f}" if f1_values else "n/a",
+                "hgbt_f1_max": f"{max(f1_values):.4f}" if f1_values else "n/a",
+                "hgbt_minus_logreg_f1_mean": f"{(sum(compare_values) / len(compare_values)):+.4f}" if compare_values else "n/a",
+                "negative_delta_count": sum(1 for value in delta_values if value < 0.0),
+                "positive_delta_count": sum(1 for value in delta_values if value > 0.0),
+                "support_ok_count": support_ok_count,
+                "support_low_count": support_low_count,
+                "support_na_count": support_na_count,
+            }
+        )
+
     utility_profile_label = "miss_sensitive_fn5_fp1"
     utility_fn_weight = 5.0
     utility_fp_weight = 1.0
@@ -1478,6 +1592,8 @@ def run_manuscript_enhancement_pack(
     transfer_csv_path = output_root / "transfer_core_summary.csv"
     transfer_uncertainty_csv_path = output_root / "transfer_uncertainty_summary.csv"
     transfer_significance_csv_path = output_root / "transfer_route_significance_summary.csv"
+    out_of_domain_detail_csv_path = output_root / "out_of_domain_validation_detail_summary.csv"
+    out_of_domain_summary_csv_path = output_root / "out_of_domain_validation_summary.csv"
     ablation_csv_path = output_root / "ablation_tabular_vs_cnn_summary.csv"
     significance_csv_path = output_root / "model_family_significance_summary.csv"
     threshold_utility_curve_csv_path = output_root / "threshold_utility_curve_summary.csv"
@@ -1550,6 +1666,46 @@ def run_manuscript_enhancement_pack(
             "direction_probability",
             "n_bootstrap",
             "interpretation",
+        ],
+    )
+    _write_csv(
+        out_of_domain_detail_csv_path,
+        out_of_domain_detail_rows,
+        [
+            "evidence_type",
+            "scope",
+            "region",
+            "split",
+            "direction",
+            "row_count",
+            "test_rows",
+            "test_positive_count",
+            "test_positive_support_flag",
+            "hgbt_f1",
+            "hgbt_f1_ci95",
+            "hgbt_minus_logreg_f1",
+            "hgbt_delta_f1",
+            "hgbt_threshold",
+            "ci_method",
+        ],
+    )
+    _write_csv(
+        out_of_domain_summary_csv_path,
+        out_of_domain_summary_rows,
+        [
+            "evidence_type",
+            "split",
+            "row_count",
+            "region_count",
+            "hgbt_f1_mean",
+            "hgbt_f1_min",
+            "hgbt_f1_max",
+            "hgbt_minus_logreg_f1_mean",
+            "negative_delta_count",
+            "positive_delta_count",
+            "support_ok_count",
+            "support_low_count",
+            "support_na_count",
         ],
     )
     _write_csv(
@@ -1695,6 +1851,8 @@ def run_manuscript_enhancement_pack(
                 f"  - `./{recommended_csv_path.name}`",
                 f"  - `./{transfer_csv_path.name}`",
                 f"  - `./{transfer_uncertainty_csv_path.name}`",
+                f"  - `./{out_of_domain_detail_csv_path.name}`",
+                f"  - `./{out_of_domain_summary_csv_path.name}`",
                 f"  - `./{ablation_csv_path.name}`",
                 "- Submission-readiness artifacts:",
                 "  - `./manuscript_submission_template_v0.2_2026-04-09.tex`",
@@ -1748,6 +1906,43 @@ def run_manuscript_enhancement_pack(
         transfer_uncertainty_rows,
         ["source_region", "target_region", "recommended_model", "source_f1_ci95", "target_f1_ci95", "delta_f1_ci95", "ci_method"],
     )
+    out_of_domain_summary_md_table = _markdown_table(
+        out_of_domain_summary_rows,
+        [
+            "evidence_type",
+            "split",
+            "row_count",
+            "region_count",
+            "hgbt_f1_mean",
+            "hgbt_f1_min",
+            "hgbt_f1_max",
+            "hgbt_minus_logreg_f1_mean",
+            "negative_delta_count",
+            "support_low_count",
+        ],
+    )
+    out_of_domain_detail_md_table = _markdown_table(
+        out_of_domain_detail_rows,
+        [
+            "evidence_type",
+            "region",
+            "split",
+            "direction",
+            "hgbt_f1",
+            "hgbt_f1_ci95",
+            "hgbt_minus_logreg_f1",
+            "hgbt_delta_f1",
+            "test_positive_support_flag",
+        ],
+    )
+    out_of_domain_summary_source_note = "summary source unavailable"
+    if out_of_domain_summary_source_rows:
+        source_row = out_of_domain_summary_source_rows[0]
+        out_of_domain_summary_source_note = (
+            f"true_area_row_count={int(_to_float(source_row.get('true_area_row_count'), default=0.0))}, "
+            f"transfer_row_count={int(_to_float(source_row.get('transfer_row_count'), default=0.0))}, "
+            f"true_area_low_support_count={int(_to_float(source_row.get('true_area_low_support_count'), default=0.0))}"
+        )
     ablation_md_table = _markdown_table(
         ablation_rows,
         [
@@ -1823,6 +2018,21 @@ def run_manuscript_enhancement_pack(
         f"cost_reduction={row['cost_reduction_pct']}%, F1_delta={row['f1_delta_opt_minus_governed']}"
         for row in threshold_utility_operating_rows
     ]
+    out_of_domain_ko_lines = [
+        f"- {row['evidence_type']} / {row['split']}: 평균 F1={row['hgbt_f1_mean']}, "
+        f"모델간 평균Δ={row['hgbt_minus_logreg_f1_mean']}, 음수Δ 건수={row['negative_delta_count']}, "
+        f"low-support={row['support_low_count']}"
+        for row in out_of_domain_summary_rows
+    ]
+    out_of_domain_en_lines = [
+        f"- {row['evidence_type']} / {row['split']}: mean F1={row['hgbt_f1_mean']}, "
+        f"mean model gap={row['hgbt_minus_logreg_f1_mean']}, negative Δ count={row['negative_delta_count']}, "
+        f"low-support={row['support_low_count']}"
+        for row in out_of_domain_summary_rows
+    ]
+    if not out_of_domain_ko_lines:
+        out_of_domain_ko_lines = ["- out-of-domain 상세 행을 찾지 못해 요약을 생성하지 못했다."]
+        out_of_domain_en_lines = ["- Out-of-domain detail rows were unavailable, so no summary line was generated."]
 
     # Consistency checks for manuscript claims and artifact linkage.
     recommended_by_region = {
@@ -1868,6 +2078,8 @@ def run_manuscript_enhancement_pack(
             transfer_csv_path,
             transfer_uncertainty_csv_path,
             transfer_significance_csv_path,
+            out_of_domain_detail_csv_path,
+            out_of_domain_summary_csv_path,
             ablation_csv_path,
             significance_csv_path,
             threshold_utility_curve_csv_path,
@@ -1941,6 +2153,7 @@ def run_manuscript_enhancement_pack(
     significance_appendix_path = output_root / "statistical_significance_appendix_v0.2_2026-04-09.md"
     transfer_significance_appendix_path = output_root / "transfer_route_significance_appendix_v0.2_2026-04-09.md"
     threshold_utility_appendix_path = output_root / "threshold_utility_appendix_v0.2_2026-04-09.md"
+    out_of_domain_validation_appendix_path = output_root / "out_of_domain_validation_appendix_v0.2_2026-04-09.md"
     bilingual_parity_report_path = output_root / "bilingual_parity_report_v0.2_2026-04-09.md"
 
     terminology_rows = [
@@ -2253,6 +2466,16 @@ def run_manuscript_enhancement_pack(
             "- 해석 주의: transfer CI는 source/target prediction CSV 기반 bootstrap 추정치다.",
             f"- 추가 주의(고불확실성 경로): {transfer_uncertainty_note_ko}",
             "",
+            "### 4.2 Out-of-domain 검증 확장 (추가 해역/연도 전이)",
+            f"- 상세 CSV: `{out_of_domain_detail_csv_path.name}`",
+            f"- 요약 CSV: `{out_of_domain_summary_csv_path.name}`",
+            "",
+            out_of_domain_summary_md_table,
+            "",
+            "핵심 해석:",
+            *out_of_domain_ko_lines,
+            f"- 원본 요약 교차점검: {out_of_domain_summary_source_note}",
+            "",
             "## 5. 절제분석: tabular vs raster-CNN",
             "",
             ablation_md_table,
@@ -2288,6 +2511,7 @@ def run_manuscript_enhancement_pack(
             f"- LaTeX 제출 템플릿: `{submission_template_tex_path.name}`",
             f"- 정합성 점검 리포트: `{consistency_report_path.name}`",
             f"- 이중언어 패리티 리포트: `{bilingual_parity_report_path.name}`",
+            f"- Out-of-domain 검증 부록: `{out_of_domain_validation_appendix_path.name}`",
             f"- 정합성 자동 점검 결과: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
             "",
             "## 12. 선행연구 근거 매트릭스",
@@ -2383,6 +2607,16 @@ def run_manuscript_enhancement_pack(
             "- Note: transfer CIs are bootstrap estimates from source/target prediction CSVs.",
             f"- Additional caution (high-uncertainty routes): {transfer_uncertainty_note_en}",
             "",
+            "### 4.2 Out-of-Domain Validation Expansion (Additional Area/Year Transfer)",
+            f"- Detail CSV: `{out_of_domain_detail_csv_path.name}`",
+            f"- Summary CSV: `{out_of_domain_summary_csv_path.name}`",
+            "",
+            out_of_domain_summary_md_table,
+            "",
+            "Key interpretation:",
+            *out_of_domain_en_lines,
+            f"- Source-summary cross-check: {out_of_domain_summary_source_note}",
+            "",
             "## 5. Ablation: tabular vs raster-CNN",
             "",
             ablation_md_table,
@@ -2418,6 +2652,7 @@ def run_manuscript_enhancement_pack(
             f"- LaTeX venue template draft: `{submission_template_tex_path.name}`",
             f"- Consistency audit report: `{consistency_report_path.name}`",
             f"- Bilingual parity report: `{bilingual_parity_report_path.name}`",
+            f"- Out-of-domain validation appendix: `{out_of_domain_validation_appendix_path.name}`",
             f"- Automated consistency status: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
             "",
             "## 12. Prior-Work Evidence Matrix",
@@ -2574,6 +2809,8 @@ def run_manuscript_enhancement_pack(
                 rf"\item \texttt{{{_escape_latex(transfer_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(transfer_uncertainty_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(transfer_significance_csv_path.name)}}}",
+                rf"\item \texttt{{{_escape_latex(out_of_domain_detail_csv_path.name)}}}",
+                rf"\item \texttt{{{_escape_latex(out_of_domain_summary_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(ablation_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(significance_csv_path.name)}}}",
                 rf"\item \texttt{{{_escape_latex(threshold_utility_operating_csv_path.name)}}}",
@@ -2604,6 +2841,7 @@ def run_manuscript_enhancement_pack(
                 "- Transfer CI is computed from source/target prediction CSV via bootstrap.",
                 "- Houston-source transfer is negative with narrow CI in this run, supporting domain-shift caution.",
                 "- Seattle transfer routes include zero in CI, so the claim is limited to near-neutral/weak-positive behavior.",
+                f"- Out-of-domain expansion artifacts are attached (`{out_of_domain_detail_csv_path.name}`, `{out_of_domain_summary_csv_path.name}`).",
                 "",
             ]
         ),
@@ -2705,6 +2943,33 @@ def run_manuscript_enhancement_pack(
         ),
         encoding="utf-8",
     )
+    out_of_domain_validation_appendix_path.write_text(
+        "\n".join(
+            [
+                "# Out-of-Domain Validation Appendix v0.2 (2026-04-09)",
+                "",
+                "This appendix expands robustness evidence with true-unseen-area and cross-year transfer slices.",
+                f"Detail source path: `{out_of_domain_detail_source_path}`",
+                f"Summary source path: `{out_of_domain_summary_source_path}`",
+                f"Source summary snapshot: `{out_of_domain_summary_source_note}`",
+                "",
+                "## Aggregated Summary",
+                out_of_domain_summary_md_table,
+                "",
+                "## Row-Level Detail",
+                out_of_domain_detail_md_table,
+                "",
+                "## Interpretation Notes",
+                *out_of_domain_en_lines,
+                "",
+                "## Limitations",
+                "- This appendix depends on currently available true-unseen/cross-year artifacts.",
+                "- Additional external regimes are still needed for stronger global validity claims.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
     examiner_review_todo_path.write_text(
         "\n".join(
             [
@@ -2726,7 +2991,7 @@ def run_manuscript_enhancement_pack(
                 "  - Acceptance: route-level table includes CI95, two-sided p-value, and direction probability.",
                 "- [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.",
                 "  - Acceptance: route-level significance table includes repeated runs and corrected p-values.",
-                "- [ ] Add one additional out-of-domain test split (new area/year) for robustness.",
+                f"- [x] Add one additional out-of-domain test split (new area/year) for robustness (`{out_of_domain_validation_appendix_path.name}`).",
                 "  - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.",
                 f"- [x] Add threshold utility analysis (`{threshold_utility_appendix_path.name}`) for false-alarm vs miss-risk tradeoff.",
                 "  - Acceptance: operating-point table + curve-based figure are attached with explicit cost profile.",
@@ -2766,7 +3031,7 @@ def run_manuscript_enhancement_pack(
                 f"- [x] Add formal significance testing for model-family comparison (`{significance_appendix_path.name}`, Holm-corrected p-values).",
                 f"- [x] Add bootstrap-based transfer-route significance summary (`{transfer_significance_appendix_path.name}`).",
                 "- [ ] Extend formal significance testing to repeated-randomization transfer-route comparisons.",
-                "- [ ] Expand out-of-domain validation scope (at least one additional area or time regime).",
+                f"- [x] Expand out-of-domain validation scope (at least one additional area or time regime) (`{out_of_domain_validation_appendix_path.name}`).",
                 f"- [x] Add threshold utility analysis for operational decision tradeoff (`{threshold_utility_appendix_path.name}`).",
                 f"- [{'x' if bilingual_parity_status == 'PASS' else ' '}] Run final bilingual publication parity check (Korean/English) (`{bilingual_parity_report_path.name}` = {bilingual_parity_status}).",
                 "",
@@ -2781,6 +3046,8 @@ def run_manuscript_enhancement_pack(
         "transfer_summary_csv_path": str(transfer_csv_path),
         "transfer_uncertainty_summary_csv_path": str(transfer_uncertainty_csv_path),
         "transfer_route_significance_csv_path": str(transfer_significance_csv_path),
+        "out_of_domain_validation_detail_csv_path": str(out_of_domain_detail_csv_path),
+        "out_of_domain_validation_summary_csv_path": str(out_of_domain_summary_csv_path),
         "threshold_utility_curve_csv_path": str(threshold_utility_curve_csv_path),
         "threshold_utility_operating_points_csv_path": str(threshold_utility_operating_csv_path),
         "ablation_tabular_vs_cnn_csv_path": str(ablation_csv_path),
@@ -2804,4 +3071,5 @@ def run_manuscript_enhancement_pack(
         "statistical_significance_appendix_md_path": str(significance_appendix_path),
         "transfer_route_significance_appendix_md_path": str(transfer_significance_appendix_path),
         "threshold_utility_appendix_md_path": str(threshold_utility_appendix_path),
+        "out_of_domain_validation_appendix_md_path": str(out_of_domain_validation_appendix_path),
     }

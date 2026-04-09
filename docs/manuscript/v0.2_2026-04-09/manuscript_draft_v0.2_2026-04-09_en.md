@@ -71,6 +71,22 @@ Interpretation: Houston as source shows negative ΔF1 (domain-shift stress), whi
 - Note: transfer CIs are bootstrap estimates from source/target prediction CSVs.
 - Additional caution (high-uncertainty routes): No high-uncertainty transfer route detected.
 
+### 4.2 Out-of-Domain Validation Expansion (Additional Area/Year Transfer)
+- Detail CSV: `out_of_domain_validation_detail_summary.csv`
+- Summary CSV: `out_of_domain_validation_summary.csv`
+
+| evidence_type | split | row_count | region_count | hgbt_f1_mean | hgbt_f1_min | hgbt_f1_max | hgbt_minus_logreg_f1_mean | negative_delta_count | support_low_count |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| cross_year_transfer | own_ship | 6 | 3 | 0.7479 | 0.6281 | 0.8830 | +0.1378 | 1 | 0 |
+| true_unseen_area | own_ship | 4 | 4 | 0.7293 | 0.6667 | 0.7789 | +0.1460 | 0 | 0 |
+| true_unseen_area | timestamp | 4 | 4 | 0.6357 | 0.3333 | 0.8462 | -0.0521 | 0 | 0 |
+
+Key interpretation:
+- cross_year_transfer / own_ship: mean F1=0.7479, mean model gap=+0.1378, negative Δ count=1, low-support=0
+- true_unseen_area / own_ship: mean F1=0.7293, mean model gap=+0.1460, negative Δ count=0, low-support=0
+- true_unseen_area / timestamp: mean F1=0.6357, mean model gap=-0.0521, negative Δ count=0, low-support=0
+- Source-summary cross-check: true_area_row_count=8, transfer_row_count=6, true_area_low_support_count=0
+
 ## 5. Ablation: tabular vs raster-CNN
 
 | region | tabular_model | tabular_f1 | raster_cnn_model | raster_cnn_f1 | delta_f1_tabular_minus_cnn | tabular_ece | raster_cnn_ece | delta_ece_tabular_minus_cnn | interpretation |
@@ -121,6 +137,7 @@ Detailed terminology guidance is provided in `terminology_mapping_v0.2_2026-04-0
 - LaTeX venue template draft: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - Consistency audit report: `manuscript_consistency_report_v0.2_2026-04-09.md`
 - Bilingual parity report: `bilingual_parity_report_v0.2_2026-04-09.md`
+- Out-of-domain validation appendix: `out_of_domain_validation_appendix_v0.2_2026-04-09.md`
 - Automated consistency status: `PASS` (6/6)
 
 ## 12. Prior-Work Evidence Matrix
