@@ -128,3 +128,19 @@ Detailed terminology guidance is provided in `terminology_mapping_v0.2_2026-04-0
 ## 13. Examiner-Priority TODO
 - Detailed TODO: `examiner_critical_todo_v0.2_2026-04-09.md`
 - This TODO prioritizes novelty framing, statistical testing, external validation scope, and operational threshold interpretation.
+
+## 14. Statistical Significance Appendix
+- Significance summary CSV: `model_family_significance_summary.csv`
+- Appendix document: `statistical_significance_appendix_v0.2_2026-04-09.md`
+- Test configuration: Paired exact sign test + paired exact permutation test with Holm correction (p<0.05).
+
+| region | tabular_model | raster_cnn_model | n_pairs | f1_delta_mean_tabular_minus_cnn | f1_permutation_p_holm | ece_delta_mean_tabular_minus_cnn | ece_permutation_p_holm | interpretation |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| houston | hgbt | cnn_weighted | 10 | +0.0089 | 0.3359 | -0.1446 | 0.0060 | no significant F1 difference; tabular significantly lower ECE |
+| nola | hgbt | cnn_weighted | 10 | +0.1559 | 0.0117 | -0.0870 | 0.0060 | tabular significantly higher F1; tabular significantly lower ECE |
+| seattle | logreg | cnn_weighted | 10 | +0.0136 | 0.0117 | -0.2572 | 0.0060 | tabular significantly higher F1; tabular significantly lower ECE |
+
+Key interpretation:
+- houston: ΔF1=+0.0089 (Holm p=0.3359), ΔECE=-0.1446 (Holm p=0.0060)
+- nola: ΔF1=+0.1559 (Holm p=0.0117), ΔECE=-0.0870 (Holm p=0.0060)
+- seattle: ΔF1=+0.0136 (Holm p=0.0117), ΔECE=-0.2572 (Holm p=0.0060)

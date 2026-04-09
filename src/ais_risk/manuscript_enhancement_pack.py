@@ -566,6 +566,235 @@ def _estimate_transfer_delta_ci95(
     }
 
 
+def _load_seed_sweep_raw_rows(results_root: Path) -> list[dict[str, str]]:
+    summary_path = results_root / "all_models_seed_sweep_summary.json"
+    default_raw_path = results_root / "all_models_seed_sweep_raw_rows.csv"
+    candidate_paths: list[Path] = []
+    if summary_path.exists():
+        try:
+            summary_json = json.loads(summary_path.read_text(encoding="utf-8"))
+            raw_value = str(summary_json.get("raw_rows_csv_path", "")).strip()
+            if raw_value:
+                candidate_paths.append(Path(raw_value))
+        except (json.JSONDecodeError, OSError):
+            pass
+    candidate_paths.append(default_raw_path)
+    for candidate in candidate_paths:
+        if candidate.exists():
+            return _read_csv(candidate)
+    return []
+
+
+def _best_model_for_family(
+    raw_rows: list[dict[str, str]],
+    *,
+    region: str,
+    family: str,
+) -> str | None:
+    model_to_values: dict[str, list[float]] = {}
+    for row in raw_rows:
+        if str(row.get("region", "")).strip() != region:
+            continue
+        if str(row.get("model_family", "")).strip() != family:
+            continue
+        if str(row.get("status", "")).strip() != "completed":
+            continue
+        model_name = str(row.get("model_name", "")).strip()
+        if not model_name:
+            continue
+        model_to_values.setdefault(model_name, []).append(_to_float(row.get("f1"), default=float("nan")))
+    best_model = None
+    best_score = float("-inf")
+    for model_name, values in model_to_values.items():
+        clean = [value for value in values if not math.isnan(value)]
+        if not clean:
+            continue
+        mean_f1 = sum(clean) / len(clean)
+        if mean_f1 > best_score:
+            best_score = mean_f1
+            best_model = model_name
+    return best_model
+
+
+def _paired_values_by_seed(
+    raw_rows: list[dict[str, str]],
+    *,
+    region: str,
+    model_name_a: str,
+    model_name_b: str,
+    metric_key: str,
+) -> list[tuple[float, float]]:
+    by_seed_a: dict[str, float] = {}
+    by_seed_b: dict[str, float] = {}
+    for row in raw_rows:
+        if str(row.get("region", "")).strip() != region:
+            continue
+        if str(row.get("status", "")).strip() != "completed":
+            continue
+        seed = str(row.get("seed", "")).strip()
+        if not seed:
+            continue
+        value = _to_float(row.get(metric_key), default=float("nan"))
+        if math.isnan(value):
+            continue
+        model_name = str(row.get("model_name", "")).strip()
+        if model_name == model_name_a:
+            by_seed_a[seed] = value
+        elif model_name == model_name_b:
+            by_seed_b[seed] = value
+    shared_seeds = sorted(set(by_seed_a) & set(by_seed_b))
+    return [(by_seed_a[seed], by_seed_b[seed]) for seed in shared_seeds]
+
+
+def _sign_test_two_sided_pvalue(deltas: list[float]) -> float:
+    non_zero = [value for value in deltas if abs(value) > 1e-12]
+    n = len(non_zero)
+    if n == 0:
+        return 1.0
+    wins = sum(1 for value in non_zero if value > 0)
+    losses = n - wins
+    k = min(wins, losses)
+    tail = sum(math.comb(n, i) for i in range(0, k + 1)) / (2**n)
+    return min(1.0, 2.0 * tail)
+
+
+def _paired_permutation_two_sided_pvalue(deltas: list[float]) -> float:
+    if not deltas:
+        return 1.0
+    n = len(deltas)
+    observed = abs(sum(deltas) / n)
+    total = 1 << n
+    exceed = 0
+    for mask in range(total):
+        signed_sum = 0.0
+        for i, value in enumerate(deltas):
+            signed_sum += value if ((mask >> i) & 1) else -value
+        candidate = abs(signed_sum / n)
+        if candidate >= observed - 1e-12:
+            exceed += 1
+    return exceed / total
+
+
+def _bootstrap_mean_ci95(values: list[float], *, n_bootstrap: int = 5000, seed: int = 42) -> tuple[float, float]:
+    if not values:
+        return 0.0, 0.0
+    if len(values) == 1:
+        return values[0], values[0]
+    rng = random.Random(seed)
+    samples: list[float] = []
+    n = len(values)
+    for _ in range(n_bootstrap):
+        sampled = [values[rng.randrange(n)] for _ in range(n)]
+        samples.append(sum(sampled) / n)
+    samples.sort()
+    return _quantile(samples, 0.025), _quantile(samples, 0.975)
+
+
+def _holm_adjusted(pvalues: list[float]) -> list[float]:
+    if not pvalues:
+        return []
+    indexed = sorted([(value, idx) for idx, value in enumerate(pvalues)], key=lambda item: item[0])
+    m = len(pvalues)
+    adjusted_sorted: list[float] = [0.0] * m
+    running = 0.0
+    for rank, (value, _) in enumerate(indexed):
+        candidate = min(1.0, (m - rank) * value)
+        running = max(running, candidate)
+        adjusted_sorted[rank] = running
+    adjusted = [1.0] * m
+    for rank, (_, original_idx) in enumerate(indexed):
+        adjusted[original_idx] = adjusted_sorted[rank]
+    return adjusted
+
+
+def _build_family_significance_rows(raw_rows: list[dict[str, str]]) -> list[dict[str, object]]:
+    regions = sorted({str(row.get("region", "")).strip() for row in raw_rows if str(row.get("region", "")).strip()})
+    rows: list[dict[str, object]] = []
+    for region in regions:
+        tabular_model = _best_model_for_family(raw_rows, region=region, family="tabular")
+        cnn_model = _best_model_for_family(raw_rows, region=region, family="regional_raster_cnn")
+        if tabular_model is None or cnn_model is None:
+            continue
+
+        paired_f1 = _paired_values_by_seed(
+            raw_rows,
+            region=region,
+            model_name_a=tabular_model,
+            model_name_b=cnn_model,
+            metric_key="f1",
+        )
+        paired_ece = _paired_values_by_seed(
+            raw_rows,
+            region=region,
+            model_name_a=tabular_model,
+            model_name_b=cnn_model,
+            metric_key="ece",
+        )
+        if not paired_f1 or not paired_ece:
+            continue
+
+        f1_deltas = [tab - cnn for tab, cnn in paired_f1]
+        ece_deltas = [tab - cnn for tab, cnn in paired_ece]
+        f1_mean = sum(f1_deltas) / len(f1_deltas)
+        ece_mean = sum(ece_deltas) / len(ece_deltas)
+        f1_ci_low, f1_ci_high = _bootstrap_mean_ci95(f1_deltas, seed=41)
+        ece_ci_low, ece_ci_high = _bootstrap_mean_ci95(ece_deltas, seed=42)
+        f1_sign_p = _sign_test_two_sided_pvalue(f1_deltas)
+        ece_sign_p = _sign_test_two_sided_pvalue(ece_deltas)
+        f1_perm_p = _paired_permutation_two_sided_pvalue(f1_deltas)
+        ece_perm_p = _paired_permutation_two_sided_pvalue(ece_deltas)
+        f1_wins_tabular = sum(1 for value in f1_deltas if value > 0)
+        f1_wins_cnn = sum(1 for value in f1_deltas if value < 0)
+        f1_ties = len(f1_deltas) - f1_wins_tabular - f1_wins_cnn
+        ece_wins_tabular = sum(1 for value in ece_deltas if value < 0)
+        ece_wins_cnn = sum(1 for value in ece_deltas if value > 0)
+        ece_ties = len(ece_deltas) - ece_wins_tabular - ece_wins_cnn
+
+        rows.append(
+            {
+                "region": region,
+                "tabular_model": tabular_model,
+                "raster_cnn_model": cnn_model,
+                "n_pairs": len(f1_deltas),
+                "f1_delta_mean_tabular_minus_cnn": f"{f1_mean:+.4f}",
+                "f1_delta_ci95": f"[{f1_ci_low:+.4f}, {f1_ci_high:+.4f}]",
+                "f1_sign_test_p": f"{f1_sign_p:.4f}",
+                "f1_permutation_p": f"{f1_perm_p:.4f}",
+                "f1_wins_tabular": f1_wins_tabular,
+                "f1_wins_cnn": f1_wins_cnn,
+                "f1_ties": f1_ties,
+                "ece_delta_mean_tabular_minus_cnn": f"{ece_mean:+.4f}",
+                "ece_delta_ci95": f"[{ece_ci_low:+.4f}, {ece_ci_high:+.4f}]",
+                "ece_sign_test_p": f"{ece_sign_p:.4f}",
+                "ece_permutation_p": f"{ece_perm_p:.4f}",
+                "ece_wins_tabular_lower": ece_wins_tabular,
+                "ece_wins_cnn_lower": ece_wins_cnn,
+                "ece_ties": ece_ties,
+            }
+        )
+
+    if rows:
+        f1_holm = _holm_adjusted([_to_float(row.get("f1_permutation_p"), default=1.0) for row in rows])
+        ece_holm = _holm_adjusted([_to_float(row.get("ece_permutation_p"), default=1.0) for row in rows])
+        for idx, row in enumerate(rows):
+            row["f1_permutation_p_holm"] = f"{f1_holm[idx]:.4f}"
+            row["ece_permutation_p_holm"] = f"{ece_holm[idx]:.4f}"
+            f1_delta = _to_float(row.get("f1_delta_mean_tabular_minus_cnn"))
+            ece_delta = _to_float(row.get("ece_delta_mean_tabular_minus_cnn"))
+            f1_sig = f1_holm[idx] < 0.05
+            ece_sig = ece_holm[idx] < 0.05
+            if f1_sig:
+                f1_note = "tabular significantly higher F1" if f1_delta > 0 else "raster-CNN significantly higher F1"
+            else:
+                f1_note = "no significant F1 difference"
+            if ece_sig:
+                ece_note = "tabular significantly lower ECE" if ece_delta < 0 else "raster-CNN significantly lower ECE"
+            else:
+                ece_note = "no significant ECE difference"
+            row["interpretation"] = f"{f1_note}; {ece_note}"
+    return rows
+
+
 def _interval_width(interval_text: str) -> float | None:
     value = interval_text.strip()
     if not value.startswith("[") or not value.endswith("]"):
@@ -728,6 +957,9 @@ def run_manuscript_enhancement_pack(
             }
         )
 
+    seed_raw_rows = _load_seed_sweep_raw_rows(results_root)
+    significance_rows = _build_family_significance_rows(seed_raw_rows)
+
     output_root.mkdir(parents=True, exist_ok=True)
 
     recommended_csv_path = output_root / "recommended_models_summary.csv"
@@ -735,6 +967,7 @@ def run_manuscript_enhancement_pack(
     transfer_csv_path = output_root / "transfer_core_summary.csv"
     transfer_uncertainty_csv_path = output_root / "transfer_uncertainty_summary.csv"
     ablation_csv_path = output_root / "ablation_tabular_vs_cnn_summary.csv"
+    significance_csv_path = output_root / "model_family_significance_summary.csv"
 
     _write_csv(
         recommended_csv_path,
@@ -802,6 +1035,33 @@ def run_manuscript_enhancement_pack(
             "raster_cnn_ece",
             "delta_f1_tabular_minus_cnn",
             "delta_ece_tabular_minus_cnn",
+            "interpretation",
+        ],
+    )
+    _write_csv(
+        significance_csv_path,
+        significance_rows,
+        [
+            "region",
+            "tabular_model",
+            "raster_cnn_model",
+            "n_pairs",
+            "f1_delta_mean_tabular_minus_cnn",
+            "f1_delta_ci95",
+            "f1_sign_test_p",
+            "f1_permutation_p",
+            "f1_permutation_p_holm",
+            "f1_wins_tabular",
+            "f1_wins_cnn",
+            "f1_ties",
+            "ece_delta_mean_tabular_minus_cnn",
+            "ece_delta_ci95",
+            "ece_sign_test_p",
+            "ece_permutation_p",
+            "ece_permutation_p_holm",
+            "ece_wins_tabular_lower",
+            "ece_wins_cnn_lower",
+            "ece_ties",
             "interpretation",
         ],
     )
@@ -1038,6 +1298,7 @@ def run_manuscript_enhancement_pack(
     consistency_report_path = output_root / "manuscript_consistency_report_v0.2_2026-04-09.md"
     prior_work_matrix_path = output_root / "prior_work_evidence_matrix_v0.2_2026-04-09.md"
     examiner_review_todo_path = output_root / "examiner_critical_todo_v0.2_2026-04-09.md"
+    significance_appendix_path = output_root / "statistical_significance_appendix_v0.2_2026-04-09.md"
 
     terminology_rows = [
         {
@@ -1219,6 +1480,48 @@ def run_manuscript_enhancement_pack(
             "gap_to_close",
         ],
     )
+    if significance_rows:
+        significance_md_table = _markdown_table(
+            significance_rows,
+            [
+                "region",
+                "tabular_model",
+                "raster_cnn_model",
+                "n_pairs",
+                "f1_delta_mean_tabular_minus_cnn",
+                "f1_permutation_p_holm",
+                "ece_delta_mean_tabular_minus_cnn",
+                "ece_permutation_p_holm",
+                "interpretation",
+            ],
+        )
+        significance_ko_lines = [
+            f"- {row['region']}: ΔF1={row['f1_delta_mean_tabular_minus_cnn']} (Holm p={row['f1_permutation_p_holm']}), "
+            f"ΔECE={row['ece_delta_mean_tabular_minus_cnn']} (Holm p={row['ece_permutation_p_holm']})"
+            for row in significance_rows
+        ]
+        significance_en_lines = [
+            f"- {row['region']}: ΔF1={row['f1_delta_mean_tabular_minus_cnn']} (Holm p={row['f1_permutation_p_holm']}), "
+            f"ΔECE={row['ece_delta_mean_tabular_minus_cnn']} (Holm p={row['ece_permutation_p_holm']})"
+            for row in significance_rows
+        ]
+        significance_generation_note_ko = (
+            "paired exact sign test + paired exact permutation test, Holm 보정(p<0.05)으로 다중비교를 제어했다."
+        )
+        significance_generation_note_en = (
+            "Paired exact sign test + paired exact permutation test with Holm correction (p<0.05)."
+        )
+    else:
+        significance_md_table = (
+            "| region | tabular_model | raster_cnn_model | n_pairs | f1_delta_mean_tabular_minus_cnn | "
+            "f1_permutation_p_holm | ece_delta_mean_tabular_minus_cnn | ece_permutation_p_holm | interpretation |\n"
+            "| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n"
+            "| n/a | n/a | n/a | 0 | n/a | n/a | n/a | n/a | raw seed rows unavailable |"
+        )
+        significance_ko_lines = ["- raw seed rows를 찾지 못해 유의성 검정 산출물을 생성하지 못했다."]
+        significance_en_lines = ["- Significance rows were not generated because raw seed rows were unavailable."]
+        significance_generation_note_ko = "raw seed rows unavailable"
+        significance_generation_note_en = "raw seed rows unavailable"
 
     ko_text = "\n".join(
         [
@@ -1315,6 +1618,16 @@ def run_manuscript_enhancement_pack(
             "## 13. 심사관 관점 우선 TODO",
             f"- 상세 TODO: `{examiner_review_todo_path.name}`",
             "- 이 TODO는 novelty 서술, 통계 검정, 외부 검증 범위, 운영 임계값 해석을 우선 보완 대상으로 정의한다.",
+            "",
+            "## 14. 통계 유의성 부록",
+            f"- 유의성 요약 CSV: `{significance_csv_path.name}`",
+            f"- 부록 문서: `{significance_appendix_path.name}`",
+            f"- 검정 구성: {significance_generation_note_ko}",
+            "",
+            significance_md_table,
+            "",
+            "핵심 해석:",
+            *significance_ko_lines,
             "",
         ]
     )
@@ -1414,6 +1727,16 @@ def run_manuscript_enhancement_pack(
             "## 13. Examiner-Priority TODO",
             f"- Detailed TODO: `{examiner_review_todo_path.name}`",
             "- This TODO prioritizes novelty framing, statistical testing, external validation scope, and operational threshold interpretation.",
+            "",
+            "## 14. Statistical Significance Appendix",
+            f"- Significance summary CSV: `{significance_csv_path.name}`",
+            f"- Appendix document: `{significance_appendix_path.name}`",
+            f"- Test configuration: {significance_generation_note_en}",
+            "",
+            significance_md_table,
+            "",
+            "Key interpretation:",
+            *significance_en_lines,
             "",
         ]
     )
@@ -1570,6 +1893,35 @@ def run_manuscript_enhancement_pack(
         ),
         encoding="utf-8",
     )
+    significance_appendix_path.write_text(
+        "\n".join(
+            [
+                "# Statistical Significance Appendix v0.2 (2026-04-09)",
+                "",
+                "This appendix reports seed-matched statistical tests for tabular vs raster-CNN comparisons.",
+                f"Data source: `{results_root}` (raw seed rows resolved from `all_models_seed_sweep_summary.json`).",
+                "",
+                "## Test Design",
+                "- Unit of analysis: seed-matched paired metric values by region.",
+                "- Metrics: F1 and ECE (delta = tabular - raster-CNN).",
+                "- Primary test: exact paired permutation test.",
+                "- Secondary test: exact sign test (two-sided).",
+                "- Multiple-comparison control: Holm correction across regions (per metric family).",
+                "",
+                "## Region-wise Results",
+                significance_md_table,
+                "",
+                "## Interpretation Notes",
+                *significance_en_lines,
+                "",
+                "## Limitations",
+                "- Region-level sample size is limited to 10 seeds.",
+                "- Transfer-route significance remains CI-based in the current manuscript; route-level repeated randomization is a next-step item.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
     examiner_review_todo_path.write_text(
         "\n".join(
             [
@@ -1577,7 +1929,7 @@ def run_manuscript_enhancement_pack(
                 "",
                 "## Critical Findings (Objective Reviewer View)",
                 "1. **Novelty framing risk (high)**: the manuscript currently lacks an explicit related-work differential table.",
-                "2. **Statistical evidence risk (high)**: model-family comparison is reported, but formal significance testing is not yet attached.",
+                "2. **Statistical evidence risk (medium)**: family-level significance appendix is now attached, but transfer-route repeated-randomization testing is still pending.",
                 "3. **External validity risk (medium)**: transfer analysis is strong across three regions, but global regime diversity is still limited.",
                 "4. **Operational interpretation risk (medium)**: threshold governance is defined, but cost-sensitive operational tradeoff analysis is missing.",
                 "5. **Labeling protocol clarity risk (medium)**: near-miss/collision-proxy linkage is implied but not fully formalized against prior literature.",
@@ -1585,8 +1937,10 @@ def run_manuscript_enhancement_pack(
                 "## Detailed TODO with Acceptance Criteria",
                 "- [ ] Add `Related Work Differential` subsection (5-8 key papers + one-line novelty delta for each).",
                 "  - Acceptance: manuscript includes a compact table that references `prior_work_evidence_matrix_v0.2_2026-04-09.md` IDs (`RW-01`~`RW-13`).",
-                "- [ ] Add significance test appendix for tabular vs raster-CNN and transfer deltas.",
-                "  - Acceptance: report p-values (or bootstrap superiority probability) with multiple-comparison control and effect-size note.",
+                f"- [x] Add significance test appendix for tabular vs raster-CNN (`{significance_appendix_path.name}`).",
+                "  - Acceptance: report p-values with multiple-comparison control and effect-size-oriented interpretation notes.",
+                "- [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.",
+                "  - Acceptance: route-level significance table includes repeated runs and corrected p-values.",
                 "- [ ] Add one additional out-of-domain test split (new area/year) for robustness.",
                 "  - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.",
                 "- [ ] Add threshold utility analysis (false-alarm vs miss-risk tradeoff).",
@@ -1622,9 +1976,10 @@ def run_manuscript_enhancement_pack(
                 f"- [x] Final consistency pass between tables, figures, and manuscript claims (`{consistency_report_path.name}` = {consistency_status}).",
                 "",
                 "## D. Reviewer-Critical Upgrades (Next Iteration)",
-                f"- [ ] Build claim-to-citation matrix and connect it to manuscript narrative (`{prior_work_matrix_path.name}`).",
+                f"- [x] Build claim-to-citation matrix and connect it to manuscript narrative (`{prior_work_matrix_path.name}`).",
                 f"- [ ] Close examiner-critical gaps with acceptance criteria (`{examiner_review_todo_path.name}`).",
-                "- [ ] Add formal significance testing for family/transfer comparisons (appendix-level evidence).",
+                f"- [x] Add formal significance testing for model-family comparison (`{significance_appendix_path.name}`, Holm-corrected p-values).",
+                "- [ ] Extend formal significance testing to transfer-route comparisons.",
                 "- [ ] Expand out-of-domain validation scope (at least one additional area or time regime).",
                 "- [ ] Add threshold utility analysis for operational decision tradeoff.",
                 "- [ ] Run final bilingual publication parity check (Korean/English).",
@@ -1640,6 +1995,7 @@ def run_manuscript_enhancement_pack(
         "transfer_summary_csv_path": str(transfer_csv_path),
         "transfer_uncertainty_summary_csv_path": str(transfer_uncertainty_csv_path),
         "ablation_tabular_vs_cnn_csv_path": str(ablation_csv_path),
+        "model_family_significance_csv_path": str(significance_csv_path),
         "figure_1_model_family_comparison_svg_path": str(fig_model_family),
         "figure_2_transfer_delta_f1_heatmap_svg_path": str(fig_transfer_heatmap),
         "figure_3_pipeline_overview_svg_path": str(fig_pipeline),
@@ -1654,4 +2010,5 @@ def run_manuscript_enhancement_pack(
         "consistency_report_md_path": str(consistency_report_path),
         "prior_work_evidence_matrix_md_path": str(prior_work_matrix_path),
         "examiner_critical_todo_md_path": str(examiner_review_todo_path),
+        "statistical_significance_appendix_md_path": str(significance_appendix_path),
     }

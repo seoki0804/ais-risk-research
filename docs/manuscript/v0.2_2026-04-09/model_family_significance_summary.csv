@@ -1,0 +1,4 @@
+region,tabular_model,raster_cnn_model,n_pairs,f1_delta_mean_tabular_minus_cnn,f1_delta_ci95,f1_sign_test_p,f1_permutation_p,f1_permutation_p_holm,f1_wins_tabular,f1_wins_cnn,f1_ties,ece_delta_mean_tabular_minus_cnn,ece_delta_ci95,ece_sign_test_p,ece_permutation_p,ece_permutation_p_holm,ece_wins_tabular_lower,ece_wins_cnn_lower,ece_ties,interpretation
+houston,hgbt,cnn_weighted,10,+0.0089,"[-0.0091, +0.0227]",0.0215,0.3359,0.3359,9,1,0,-0.1446,"[-0.1618, -0.1298]",0.0020,0.0020,0.0060,10,0,0,no significant F1 difference; tabular significantly lower ECE
+nola,hgbt,cnn_weighted,10,+0.1559,"[+0.1159, +0.1828]",0.0215,0.0039,0.0117,9,1,0,-0.0870,"[-0.0934, -0.0808]",0.0020,0.0020,0.0060,10,0,0,tabular significantly higher F1; tabular significantly lower ECE
+seattle,logreg,cnn_weighted,10,+0.0136,"[+0.0083, +0.0183]",0.0215,0.0039,0.0117,9,1,0,-0.2572,"[-0.2745, -0.2405]",0.0020,0.0020,0.0060,10,0,0,tabular significantly higher F1; tabular significantly lower ECE

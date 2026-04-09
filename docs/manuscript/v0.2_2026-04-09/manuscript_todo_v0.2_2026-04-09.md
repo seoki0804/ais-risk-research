@@ -16,9 +16,10 @@
 - [x] Final consistency pass between tables, figures, and manuscript claims (`manuscript_consistency_report_v0.2_2026-04-09.md` = PASS).
 
 ## D. Reviewer-Critical Upgrades (Next Iteration)
-- [ ] Build claim-to-citation matrix and connect it to manuscript narrative (`prior_work_evidence_matrix_v0.2_2026-04-09.md`).
+- [x] Build claim-to-citation matrix and connect it to manuscript narrative (`prior_work_evidence_matrix_v0.2_2026-04-09.md`).
 - [ ] Close examiner-critical gaps with acceptance criteria (`examiner_critical_todo_v0.2_2026-04-09.md`).
-- [ ] Add formal significance testing for family/transfer comparisons (appendix-level evidence).
+- [x] Add formal significance testing for model-family comparison (`statistical_significance_appendix_v0.2_2026-04-09.md`, Holm-corrected p-values).
+- [ ] Extend formal significance testing to transfer-route comparisons.
 - [ ] Expand out-of-domain validation scope (at least one additional area or time regime).
 - [ ] Add threshold utility analysis for operational decision tradeoff.
 - [ ] Run final bilingual publication parity check (Korean/English).

@@ -2,7 +2,7 @@
 
 ## Critical Findings (Objective Reviewer View)
 1. **Novelty framing risk (high)**: the manuscript currently lacks an explicit related-work differential table.
-2. **Statistical evidence risk (high)**: model-family comparison is reported, but formal significance testing is not yet attached.
+2. **Statistical evidence risk (medium)**: family-level significance appendix is now attached, but transfer-route repeated-randomization testing is still pending.
 3. **External validity risk (medium)**: transfer analysis is strong across three regions, but global regime diversity is still limited.
 4. **Operational interpretation risk (medium)**: threshold governance is defined, but cost-sensitive operational tradeoff analysis is missing.
 5. **Labeling protocol clarity risk (medium)**: near-miss/collision-proxy linkage is implied but not fully formalized against prior literature.
@@ -10,8 +10,10 @@
 ## Detailed TODO with Acceptance Criteria
 - [ ] Add `Related Work Differential` subsection (5-8 key papers + one-line novelty delta for each).
   - Acceptance: manuscript includes a compact table that references `prior_work_evidence_matrix_v0.2_2026-04-09.md` IDs (`RW-01`~`RW-13`).
-- [ ] Add significance test appendix for tabular vs raster-CNN and transfer deltas.
-  - Acceptance: report p-values (or bootstrap superiority probability) with multiple-comparison control and effect-size note.
+- [x] Add significance test appendix for tabular vs raster-CNN (`statistical_significance_appendix_v0.2_2026-04-09.md`).
+  - Acceptance: report p-values with multiple-comparison control and effect-size-oriented interpretation notes.
+- [ ] Extend significance testing to transfer deltas with repeated-randomization protocol.
+  - Acceptance: route-level significance table includes repeated runs and corrected p-values.
 - [ ] Add one additional out-of-domain test split (new area/year) for robustness.
   - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.
 - [ ] Add threshold utility analysis (false-alarm vs miss-risk tradeoff).

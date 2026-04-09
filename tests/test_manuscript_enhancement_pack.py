@@ -136,6 +136,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "transfer_summary_csv_path",
                 "transfer_uncertainty_summary_csv_path",
                 "ablation_tabular_vs_cnn_csv_path",
+                "model_family_significance_csv_path",
                 "figure_1_model_family_comparison_svg_path",
                 "figure_2_transfer_delta_f1_heatmap_svg_path",
                 "figure_3_pipeline_overview_svg_path",
@@ -150,6 +151,7 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "consistency_report_md_path",
                 "prior_work_evidence_matrix_md_path",
                 "examiner_critical_todo_md_path",
+                "statistical_significance_appendix_md_path",
             }
             self.assertEqual(expected_keys, set(summary.keys()))
 
@@ -174,6 +176,10 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             examiner_text = Path(summary["examiner_critical_todo_md_path"]).read_text(encoding="utf-8")
             self.assertIn("Critical Findings", examiner_text)
             self.assertIn("Detailed TODO with Acceptance Criteria", examiner_text)
+
+            significance_text = Path(summary["statistical_significance_appendix_md_path"]).read_text(encoding="utf-8")
+            self.assertIn("Statistical Significance Appendix", significance_text)
+            self.assertIn("Test Design", significance_text)
 
 
 if __name__ == "__main__":
