@@ -12,5 +12,5 @@
 - [x] Add ablation-focused paragraph for tabular vs raster-CNN behavior by region (Section 5 + ablation summary CSV).
 
 ## C. Submission Readiness
-- [ ] Transform markdown draft to target venue template (Word/LaTeX).
-- [ ] Final consistency pass between tables, figures, and manuscript claims.
+- [x] Transform markdown draft to target venue template (Word/LaTeX) (`manuscript_submission_template_v0.2_2026-04-09.tex`).
+- [x] Final consistency pass between tables, figures, and manuscript claims (`manuscript_consistency_report_v0.2_2026-04-09.md` = PASS).

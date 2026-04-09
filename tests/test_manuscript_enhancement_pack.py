@@ -146,6 +146,8 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "manuscript_todo_md_path",
                 "terminology_mapping_md_path",
                 "figure_captions_bilingual_md_path",
+                "submission_template_tex_path",
+                "consistency_report_md_path",
             }
             self.assertEqual(expected_keys, set(summary.keys()))
 
@@ -157,6 +159,9 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             self.assertIn("- [x] Expand Methods section", todo_text)
             self.assertIn("- [x] Add explicit uncertainty/confidence interval sentences", todo_text)
             self.assertIn("- [x] Add ablation-focused paragraph", todo_text)
+            self.assertIn("## C. Submission Readiness", todo_text)
+            self.assertIn("- [x] Transform markdown draft to target venue template", todo_text)
+            self.assertIn("- [x] Final consistency pass between tables, figures, and manuscript claims", todo_text)
 
 
 if __name__ == "__main__":

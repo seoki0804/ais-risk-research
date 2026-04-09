@@ -115,3 +115,8 @@ Detailed terminology guidance is provided in `terminology_mapping_v0.2_2026-04-0
 ## 10. Submission Format Note
 - At this stage, authoring in `docs` is practical and reproducible.
 - For venue submission, convert to the target template (Word/LaTeX) while keeping `docs/manuscript` as the single source of truth.
+
+## 11. Submission-Readiness Artifacts
+- LaTeX venue template draft: `manuscript_submission_template_v0.2_2026-04-09.tex`
+- Consistency audit report: `manuscript_consistency_report_v0.2_2026-04-09.md`
+- Automated consistency status: `PASS` (5/5)

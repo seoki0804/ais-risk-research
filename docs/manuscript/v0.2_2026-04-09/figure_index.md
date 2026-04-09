@@ -8,6 +8,9 @@
   - `./transfer_core_summary.csv`
   - `./transfer_uncertainty_summary.csv`
   - `./ablation_tabular_vs_cnn_summary.csv`
+- Submission-readiness artifacts:
+  - `./manuscript_submission_template_v0.2_2026-04-09.tex`
+  - `./manuscript_consistency_report_v0.2_2026-04-09.md`
 - Existing scenario visuals:
   - `../../results/2026-04-04-expanded-10seed/houston_report_figure.svg`
   - `../../results/2026-04-04-expanded-10seed/nola_report_figure.svg`

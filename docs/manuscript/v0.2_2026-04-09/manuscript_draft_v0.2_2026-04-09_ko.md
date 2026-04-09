@@ -115,3 +115,8 @@
 ## 10. 제출 포맷 메모
 - 현 단계에서는 `docs`에 원고를 작성/버전관리하는 방식이 적합하다.
 - 최종 제출은 저널/학회 템플릿(Word/LaTeX)으로 변환하되, 내용 원천은 `docs/manuscript`를 single source로 유지한다.
+
+## 11. 제출 준비 산출물
+- LaTeX 제출 템플릿: `manuscript_submission_template_v0.2_2026-04-09.tex`
+- 정합성 점검 리포트: `manuscript_consistency_report_v0.2_2026-04-09.md`
+- 정합성 자동 점검 결과: `PASS` (5/5)
