@@ -26,6 +26,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .
           python -m pip install pytest numpy scikit-learn
+          sudo apt-get update
+          sudo apt-get install -y pandoc
 
       - name: Run targeted validation tests
         env:
@@ -45,4 +47,11 @@ jobs:
             tests/test_multisource_transfer_model_scan_summary.py \
             tests/test_external_validity_manuscript_assets.py \
             tests/test_transfer_override_seed_stress_test.py \
-            tests/test_transfer_policy_governance_lock.py
+            tests/test_transfer_policy_governance_lock.py \
+            tests/test_manuscript_enhancement_pack.py \
+            tests/test_submission_bundle_verify_script.py
+
+      - name: Build and verify manuscript submission bundle
+        run: |
+          ./examples/run_manuscript_submission_bundle_2026-04-09.sh
+          ./examples/run_manuscript_submission_verify_2026-04-09.sh
