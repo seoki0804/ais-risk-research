@@ -120,3 +120,11 @@ Detailed terminology guidance is provided in `terminology_mapping_v0.2_2026-04-0
 - LaTeX venue template draft: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - Consistency audit report: `manuscript_consistency_report_v0.2_2026-04-09.md`
 - Automated consistency status: `PASS` (5/5)
+
+## 12. Prior-Work Evidence Matrix
+- Evidence matrix: `prior_work_evidence_matrix_v0.2_2026-04-09.md`
+- It maps each core claim to supporting literature and explicitly documents residual gaps.
+
+## 13. Examiner-Priority TODO
+- Detailed TODO: `examiner_critical_todo_v0.2_2026-04-09.md`
+- This TODO prioritizes novelty framing, statistical testing, external validation scope, and operational threshold interpretation.

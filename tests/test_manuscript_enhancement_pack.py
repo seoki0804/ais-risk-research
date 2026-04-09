@@ -148,6 +148,8 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
                 "figure_captions_bilingual_md_path",
                 "submission_template_tex_path",
                 "consistency_report_md_path",
+                "prior_work_evidence_matrix_md_path",
+                "examiner_critical_todo_md_path",
             }
             self.assertEqual(expected_keys, set(summary.keys()))
 
@@ -162,6 +164,16 @@ class ManuscriptEnhancementPackTest(unittest.TestCase):
             self.assertIn("## C. Submission Readiness", todo_text)
             self.assertIn("- [x] Transform markdown draft to target venue template", todo_text)
             self.assertIn("- [x] Final consistency pass between tables, figures, and manuscript claims", todo_text)
+            self.assertIn("## D. Reviewer-Critical Upgrades (Next Iteration)", todo_text)
+
+            prior_work_text = Path(summary["prior_work_evidence_matrix_md_path"]).read_text(encoding="utf-8")
+            self.assertIn("RW-01", prior_work_text)
+            self.assertIn("RW-13", prior_work_text)
+            self.assertIn("Crossref", prior_work_text)
+
+            examiner_text = Path(summary["examiner_critical_todo_md_path"]).read_text(encoding="utf-8")
+            self.assertIn("Critical Findings", examiner_text)
+            self.assertIn("Detailed TODO with Acceptance Criteria", examiner_text)
 
 
 if __name__ == "__main__":

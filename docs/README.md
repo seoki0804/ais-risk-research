@@ -48,6 +48,8 @@
 - tabular vs CNN 절제요약(CSV): [ablation_tabular_vs_cnn_summary.csv](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/ablation_tabular_vs_cnn_summary.csv)
 - LaTeX 제출 템플릿: [manuscript_submission_template_v0.2_2026-04-09.tex](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_submission_template_v0.2_2026-04-09.tex)
 - 정합성 점검 리포트: [manuscript_consistency_report_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_consistency_report_v0.2_2026-04-09.md)
+- 선행연구 근거 매트릭스: [prior_work_evidence_matrix_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/prior_work_evidence_matrix_v0.2_2026-04-09.md)
+- 심사관 관점 TODO: [examiner_critical_todo_v0.2_2026-04-09.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/examiner_critical_todo_v0.2_2026-04-09.md)
 - 영문 원고 DOCX: [manuscript_draft_v0.2_2026-04-09_en.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_en.docx)
 - 국문 원고 DOCX: [manuscript_draft_v0.2_2026-04-09_ko.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_ko.docx)
 - 정합성 리포트 DOCX: [manuscript_consistency_report_v0.2_2026-04-09.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_consistency_report_v0.2_2026-04-09.docx)

@@ -1036,6 +1036,8 @@ def run_manuscript_enhancement_pack(
     figure_captions_path = output_root / "figure_captions_bilingual_v0.2_2026-04-09.md"
     submission_template_tex_path = output_root / "manuscript_submission_template_v0.2_2026-04-09.tex"
     consistency_report_path = output_root / "manuscript_consistency_report_v0.2_2026-04-09.md"
+    prior_work_matrix_path = output_root / "prior_work_evidence_matrix_v0.2_2026-04-09.md"
+    examiner_review_todo_path = output_root / "examiner_critical_todo_v0.2_2026-04-09.md"
 
     terminology_rows = [
         {
@@ -1098,6 +1100,124 @@ def run_manuscript_enhancement_pack(
     terminology_md_table = _markdown_table(
         terminology_rows,
         ["concept", "korean_term", "english_term", "usage_note_ko", "usage_note_en"],
+    )
+
+    prior_work_rows = [
+        {
+            "id": "RW-01",
+            "reference": "[IMO COLREGs (1972/1977)](https://www.imo.org/en/about/conventions/pages/colreg.aspx)",
+            "what_it_supports": "Operational collision-avoidance behavior must be interpreted under explicit navigation rules.",
+            "relevance_to_this_study": "Supports rule-aware interpretation for heatmap/contour-based decision support.",
+            "current_coverage": "medium",
+            "gap_to_close": "Add one paragraph mapping model outputs to COLREG-aware operational cautions.",
+        },
+        {
+            "id": "RW-02",
+            "reference": "[ITU-R M.1371-6 (2026)](https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.1371-6-202602-I!!PDF-E.pdf)",
+            "what_it_supports": "AIS message characteristics and limitations should be explicitly acknowledged.",
+            "relevance_to_this_study": "Grounds data-quality assumptions for AIS-only modelling.",
+            "current_coverage": "medium",
+            "gap_to_close": "Add AIS technical limitation note in Methods and Threats-to-Validity.",
+        },
+        {
+            "id": "RW-03",
+            "reference": "[Zhang et al., 2016, Ocean Engineering](https://doi.org/10.1016/j.oceaneng.2016.07.059)",
+            "what_it_supports": "Near-miss detection from AIS trajectories is a practical collision-risk proxy.",
+            "relevance_to_this_study": "Aligns with event construction and risk-labeling rationale.",
+            "current_coverage": "low",
+            "gap_to_close": "Clarify how positive labels relate to near-miss style event definitions.",
+        },
+        {
+            "id": "RW-04",
+            "reference": "[Zhen et al., 2017, Ocean Engineering](https://doi.org/10.1016/j.oceaneng.2017.09.015)",
+            "what_it_supports": "Real-time multi-vessel collision-risk analytics can be structured for surveillance.",
+            "relevance_to_this_study": "Supports end-to-end framing from AIS ingest to risk surface output.",
+            "current_coverage": "medium",
+            "gap_to_close": "Add explicit novelty statement versus prior real-time surveillance frameworks.",
+        },
+        {
+            "id": "RW-05",
+            "reference": "[Chen et al., 2018, Ocean Engineering](https://doi.org/10.1016/j.oceaneng.2018.10.023)",
+            "what_it_supports": "Velocity-obstacle-based candidate detection is a strong geometry baseline.",
+            "relevance_to_this_study": "Useful comparator for model-based heatmap decisions.",
+            "current_coverage": "low",
+            "gap_to_close": "Add a baseline-comparison discussion versus VO-style geometric methods.",
+        },
+        {
+            "id": "RW-06",
+            "reference": "[Huang & van Gelder, 2019, Risk Analysis](https://doi.org/10.1111/risa.13293)",
+            "what_it_supports": "Collision risk is time-varying and should be measured dynamically.",
+            "relevance_to_this_study": "Supports scenario-specific heatmap update logic.",
+            "current_coverage": "medium",
+            "gap_to_close": "Add temporal dynamics interpretation in Discussion section.",
+        },
+        {
+            "id": "RW-07",
+            "reference": "[Tritsarolis et al., 2022, IEEE MDM](https://doi.org/10.1109/MDM55031.2022.00093)",
+            "what_it_supports": "AIS-driven ML risk prediction is feasible with practical feature pipelines.",
+            "relevance_to_this_study": "Directly aligns with AIS-based supervised model track.",
+            "current_coverage": "medium",
+            "gap_to_close": "Add side-by-side positioning versus existing ML-on-AIS workflows.",
+        },
+        {
+            "id": "RW-08",
+            "reference": "[Liu et al., 2023, Ocean Engineering](https://doi.org/10.1016/j.oceaneng.2023.113906)",
+            "what_it_supports": "Quantitative AIS risk-analysis methods can provide interpretable regional diagnostics.",
+            "relevance_to_this_study": "Supports regional comparison and transfer framing.",
+            "current_coverage": "medium",
+            "gap_to_close": "Add citation in transfer-risk interpretation paragraph.",
+        },
+        {
+            "id": "RW-09",
+            "reference": "[Kim, 2023, JMSE](https://doi.org/10.3390/jmse11071355)",
+            "what_it_supports": "Collision-risk assessment method taxonomy and limitations overview.",
+            "relevance_to_this_study": "Helps justify model-family design choices and limits.",
+            "current_coverage": "low",
+            "gap_to_close": "Add a compact related-work taxonomy table in manuscript.",
+        },
+        {
+            "id": "RW-10",
+            "reference": "[Ding & Weng, 2024, Ocean Engineering](https://doi.org/10.1016/j.oceaneng.2024.118242)",
+            "what_it_supports": "AIS + visual fusion improves robustness under data-quality gaps.",
+            "relevance_to_this_study": "Defines clear future direction beyond AIS-only setup.",
+            "current_coverage": "medium",
+            "gap_to_close": "State AIS-only boundary and planned multimodal extension explicitly.",
+        },
+        {
+            "id": "RW-11",
+            "reference": "[Guo et al., 2017, ICML/PMLR](https://proceedings.mlr.press/v70/guo17a.html)",
+            "what_it_supports": "Modern models can be miscalibrated; probability calibration is essential.",
+            "relevance_to_this_study": "Supports explicit ECE-gate governance.",
+            "current_coverage": "high",
+            "gap_to_close": "Add one sentence connecting ECE gate choice to calibration literature.",
+        },
+        {
+            "id": "RW-12",
+            "reference": "[Ben-David et al., 2010, Machine Learning](https://doi.org/10.1007/s10994-009-5152-4)",
+            "what_it_supports": "Source-target distribution divergence bounds transfer performance.",
+            "relevance_to_this_study": "Theoretical support for cross-region transfer caution.",
+            "current_coverage": "high",
+            "gap_to_close": "Link domain-shift findings to source-target divergence interpretation.",
+        },
+        {
+            "id": "RW-13",
+            "reference": "[Efron, 1979, Annals of Statistics](https://doi.org/10.1214/aos/1176344552)",
+            "what_it_supports": "Bootstrap intervals are a valid nonparametric uncertainty tool.",
+            "relevance_to_this_study": "Supports transfer CI protocol in Section 4.1.",
+            "current_coverage": "high",
+            "gap_to_close": "None (already integrated in uncertainty reporting).",
+        },
+    ]
+    prior_work_md_table = _markdown_table(
+        prior_work_rows,
+        [
+            "id",
+            "reference",
+            "what_it_supports",
+            "relevance_to_this_study",
+            "current_coverage",
+            "gap_to_close",
+        ],
     )
 
     ko_text = "\n".join(
@@ -1187,6 +1307,14 @@ def run_manuscript_enhancement_pack(
             f"- LaTeX 제출 템플릿: `{submission_template_tex_path.name}`",
             f"- 정합성 점검 리포트: `{consistency_report_path.name}`",
             f"- 정합성 자동 점검 결과: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
+            "",
+            "## 12. 선행연구 근거 매트릭스",
+            f"- 근거 매트릭스: `{prior_work_matrix_path.name}`",
+            "- 심사관 관점에서 핵심 claim별 문헌 근거/빈틈/보완 action을 연결했다.",
+            "",
+            "## 13. 심사관 관점 우선 TODO",
+            f"- 상세 TODO: `{examiner_review_todo_path.name}`",
+            "- 이 TODO는 novelty 서술, 통계 검정, 외부 검증 범위, 운영 임계값 해석을 우선 보완 대상으로 정의한다.",
             "",
         ]
     )
@@ -1278,6 +1406,14 @@ def run_manuscript_enhancement_pack(
             f"- LaTeX venue template draft: `{submission_template_tex_path.name}`",
             f"- Consistency audit report: `{consistency_report_path.name}`",
             f"- Automated consistency status: `{consistency_status}` ({consistency_pass_count}/{consistency_total_count})",
+            "",
+            "## 12. Prior-Work Evidence Matrix",
+            f"- Evidence matrix: `{prior_work_matrix_path.name}`",
+            "- It maps each core claim to supporting literature and explicitly documents residual gaps.",
+            "",
+            "## 13. Examiner-Priority TODO",
+            f"- Detailed TODO: `{examiner_review_todo_path.name}`",
+            "- This TODO prioritizes novelty framing, statistical testing, external validation scope, and operational threshold interpretation.",
             "",
         ]
     )
@@ -1420,6 +1556,50 @@ def run_manuscript_enhancement_pack(
         ),
         encoding="utf-8",
     )
+    prior_work_matrix_path.write_text(
+        "\n".join(
+            [
+                "# Prior Work Evidence Matrix v0.2 (2026-04-09)",
+                "",
+                "This matrix connects manuscript claims to external evidence and records examiner-facing closure gaps.",
+                "Bibliographic metadata for paywalled papers was normalized via DOI/Crossref records.",
+                "",
+                prior_work_md_table,
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    examiner_review_todo_path.write_text(
+        "\n".join(
+            [
+                "# Examiner-Critical TODO v0.2 (2026-04-09)",
+                "",
+                "## Critical Findings (Objective Reviewer View)",
+                "1. **Novelty framing risk (high)**: the manuscript currently lacks an explicit related-work differential table.",
+                "2. **Statistical evidence risk (high)**: model-family comparison is reported, but formal significance testing is not yet attached.",
+                "3. **External validity risk (medium)**: transfer analysis is strong across three regions, but global regime diversity is still limited.",
+                "4. **Operational interpretation risk (medium)**: threshold governance is defined, but cost-sensitive operational tradeoff analysis is missing.",
+                "5. **Labeling protocol clarity risk (medium)**: near-miss/collision-proxy linkage is implied but not fully formalized against prior literature.",
+                "",
+                "## Detailed TODO with Acceptance Criteria",
+                "- [ ] Add `Related Work Differential` subsection (5-8 key papers + one-line novelty delta for each).",
+                "  - Acceptance: manuscript includes a compact table that references `prior_work_evidence_matrix_v0.2_2026-04-09.md` IDs (`RW-01`~`RW-13`).",
+                "- [ ] Add significance test appendix for tabular vs raster-CNN and transfer deltas.",
+                "  - Acceptance: report p-values (or bootstrap superiority probability) with multiple-comparison control and effect-size note.",
+                "- [ ] Add one additional out-of-domain test split (new area/year) for robustness.",
+                "  - Acceptance: report includes same KPIs (`F1`, `ECE`, `ΔF1`, CI95) and explicitly states pass/fail gates.",
+                "- [ ] Add threshold utility analysis (false-alarm vs miss-risk tradeoff).",
+                "  - Acceptance: include one operating-point table and one curve-based figure aligned with deployment profile.",
+                "- [ ] Clarify label-generation policy with near-miss proxy grounding.",
+                "  - Acceptance: Methods section provides deterministic event rule and cites at least one AIS near-miss paper (`RW-03`).",
+                "- [ ] Final bilingual publication pass (Korean + English).",
+                "  - Acceptance: KO/EN drafts have section/figure/table parity and terminology consistency check log.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
 
     manuscript_todo_path.write_text(
         "\n".join(
@@ -1440,6 +1620,14 @@ def run_manuscript_enhancement_pack(
                 "## C. Submission Readiness",
                 f"- [x] Transform markdown draft to target venue template (Word/LaTeX) (`{submission_template_tex_path.name}`).",
                 f"- [x] Final consistency pass between tables, figures, and manuscript claims (`{consistency_report_path.name}` = {consistency_status}).",
+                "",
+                "## D. Reviewer-Critical Upgrades (Next Iteration)",
+                f"- [ ] Build claim-to-citation matrix and connect it to manuscript narrative (`{prior_work_matrix_path.name}`).",
+                f"- [ ] Close examiner-critical gaps with acceptance criteria (`{examiner_review_todo_path.name}`).",
+                "- [ ] Add formal significance testing for family/transfer comparisons (appendix-level evidence).",
+                "- [ ] Expand out-of-domain validation scope (at least one additional area or time regime).",
+                "- [ ] Add threshold utility analysis for operational decision tradeoff.",
+                "- [ ] Run final bilingual publication parity check (Korean/English).",
                 "",
             ]
         ),
@@ -1464,4 +1652,6 @@ def run_manuscript_enhancement_pack(
         "figure_captions_bilingual_md_path": str(figure_captions_path),
         "submission_template_tex_path": str(submission_template_tex_path),
         "consistency_report_md_path": str(consistency_report_path),
+        "prior_work_evidence_matrix_md_path": str(prior_work_matrix_path),
+        "examiner_critical_todo_md_path": str(examiner_review_todo_path),
     }

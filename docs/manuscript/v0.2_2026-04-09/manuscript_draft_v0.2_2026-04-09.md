@@ -120,3 +120,11 @@
 - LaTeX 제출 템플릿: `manuscript_submission_template_v0.2_2026-04-09.tex`
 - 정합성 점검 리포트: `manuscript_consistency_report_v0.2_2026-04-09.md`
 - 정합성 자동 점검 결과: `PASS` (5/5)
+
+## 12. 선행연구 근거 매트릭스
+- 근거 매트릭스: `prior_work_evidence_matrix_v0.2_2026-04-09.md`
+- 심사관 관점에서 핵심 claim별 문헌 근거/빈틈/보완 action을 연결했다.
+
+## 13. 심사관 관점 우선 TODO
+- 상세 TODO: `examiner_critical_todo_v0.2_2026-04-09.md`
+- 이 TODO는 novelty 서술, 통계 검정, 외부 검증 범위, 운영 임계값 해석을 우선 보완 대상으로 정의한다.
