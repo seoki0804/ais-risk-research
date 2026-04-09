@@ -60,6 +60,7 @@
 - 생성 명령: `examples/run_manuscript_enhancement_pack_2026-04-09.sh`
 - DOCX 변환 명령: `examples/run_manuscript_docx_export_2026-04-09.sh`
 - 제출 번들 생성 명령: `examples/run_manuscript_submission_bundle_2026-04-09.sh`
+- 제출 번들 검증 명령: `examples/run_manuscript_submission_verify_2026-04-09.sh`
 
 ## 사용 순서
 

@@ -76,3 +76,8 @@ echo "submission_bundle_manifest_path=docs/manuscript/v0.2_2026-04-09/$MANIFEST_
 
 BUNDLE_SHA="$("${SHA256_CMD[@]}" "$BUNDLE_PATH" | awk '{print $1}')"
 echo "submission_bundle_zip_sha256=$BUNDLE_SHA"
+
+python "$ROOT_DIR/examples/verify_manuscript_submission_bundle_2026-04-09.py" \
+  --manuscript-dir "$MANUSCRIPT_DIR" \
+  --bundle-name "$BUNDLE_NAME" \
+  --manifest-name "$MANIFEST_NAME"
