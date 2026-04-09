@@ -17,7 +17,7 @@
 
 ## D. Reviewer-Critical Upgrades (Next Iteration)
 - [x] Build claim-to-citation matrix and connect it to manuscript narrative (`prior_work_evidence_matrix_v0.2_2026-04-09.md`).
-- [ ] Close examiner-critical gaps with acceptance criteria (`examiner_critical_todo_v0.2_2026-04-09.md`).
+- [x] Close examiner-critical gaps with acceptance criteria (`examiner_critical_todo_v0.2_2026-04-09.md`).
 - [x] Add formal significance testing for model-family comparison (`statistical_significance_appendix_v0.2_2026-04-09.md`, Holm-corrected p-values).
 - [x] Add bootstrap-based transfer-route significance summary (`transfer_route_significance_appendix_v0.2_2026-04-09.md`).
 - [x] Extend formal significance testing to repeated-randomization transfer-route comparisons (`transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`).

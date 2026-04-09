@@ -26,6 +26,12 @@
 - transfer 평가는 source에서 고정된 threshold를 target에 그대로 적용한다.
 - threshold 변경 시 변경 근거, 승인, 영향(성능/보정)을 실험 로그에 함께 기록한다.
 
+### 2.4 라벨 생성 정책 (Near-Miss Proxy Grounding)
+- 결정적 라벨 규칙: `label_future_conflict = 1` iff `future_min_distance_nm <= label_distance_nm`.
+- 기본 설정: `label_distance_nm=0.5 NM`, `horizon=15분`, `future_points_used >= 2`를 만족할 때만 라벨 계산.
+- 즉, reconstructed trajectory 기반 `near-miss proxy`를 학습 타겟으로 사용하며 실제 충돌 정답으로 해석하지 않는다(`RW-03`).
+- 운영 해석 원칙: 본 라벨은 위험 조기경보 proxy이며 법적/규제상 충돌 판정 근거가 아니다.
+
 ## 3. 모델 선택 결과 (10-seed 기준)
 
 | region | model_family | model_name | f1_mean_10seed | ece_mean_10seed | f1_single_eval | ece_single_eval |
@@ -144,6 +150,19 @@
 ## 12. 선행연구 근거 매트릭스
 - 근거 매트릭스: `prior_work_evidence_matrix_v0.2_2026-04-09.md`
 - 심사관 관점에서 핵심 claim별 문헌 근거/빈틈/보완 action을 연결했다.
+
+### 12.1 Related Work Differential (핵심 8편)
+- 아래 표는 `RW` 식별자로 선행연구 대비 본 연구의 차별점을 1행 요약으로 정리한다.
+| rw_id | prior_focus | prior_gap | this_study_delta |
+| --- | --- | --- | --- |
+| RW-03 | AIS near-miss detection proxy from realized trajectory proximity. | Limited linkage to calibration-governed operational thresholding. | Combines near-miss proxy labeling with ECE-gated model/threshold governance. |
+| RW-04 | Real-time multi-vessel collision-risk surveillance architecture. | Less emphasis on cross-region transfer uncertainty and significance control. | Adds cross-region transfer CI + repeated-randomization significance appendices. |
+| RW-05 | Velocity-obstacle geometry baseline for risk candidate detection. | Geometry-first approach lacks ML calibration comparison protocol. | Presents tabular/raster ML ablation with calibration constraints and utility analysis. |
+| RW-07 | AIS feature pipeline with ML-based risk prediction feasibility. | Weak emphasis on reviewer-ready uncertainty artifact packaging. | Provides manuscript-grade uncertainty/significance/consistency artifact bundle. |
+| RW-08 | Regional quantitative AIS risk diagnostics. | Transfer-route directionality and route-specific statistical robustness underreported. | Reports route-level delta direction probability and Holm-adjusted repeated tests. |
+| RW-09 | Method taxonomy and limitation overview for maritime collision risk. | Taxonomy not tied to concrete acceptance-gated manuscript workflow. | Converts taxonomy into examiner-acceptance TODO closure matrix. |
+| RW-11 | Calibration necessity for modern predictive models. | No maritime-specific ECE governance instantiation. | Operationalizes ECE<=0.1 gate for model and threshold decision flow. |
+| RW-12 | Theoretical source-target divergence bound for transfer learning. | Theory-to-route evidence bridge is often qualitative only. | Connects divergence caution to route-level empirical transfer significance outcomes. |
 
 ## 13. 심사관 관점 우선 TODO
 - 상세 TODO: `examiner_critical_todo_v0.2_2026-04-09.md`

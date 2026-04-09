@@ -26,6 +26,12 @@ This study evaluates whether AIS-based model training can estimate area-level co
 - Transfer evaluation applies the source-selected threshold unchanged on target region.
 - Every threshold change is logged with rationale, approval, and performance/calibration impact.
 
+### 2.4 Label-Generation Policy (Near-Miss Proxy Grounding)
+- Deterministic label rule: `label_future_conflict = 1` iff `future_min_distance_nm <= label_distance_nm`.
+- Default configuration: `label_distance_nm=0.5 NM`, `horizon=15 minutes`, and `future_points_used >= 2`.
+- The learning target is therefore a reconstructed-trajectory near-miss proxy, not an actual collision ground truth (`RW-03`).
+- Operational interpretation: this label supports early-warning prioritization, not legal collision adjudication.
+
 ## 3. Final Model Selection (10-seed)
 
 | region | model_family | model_name | f1_mean_10seed | ece_mean_10seed | f1_single_eval | ece_single_eval |
@@ -144,6 +150,19 @@ Detailed terminology guidance is provided in `terminology_mapping_v0.2_2026-04-0
 ## 12. Prior-Work Evidence Matrix
 - Evidence matrix: `prior_work_evidence_matrix_v0.2_2026-04-09.md`
 - It maps each core claim to supporting literature and explicitly documents residual gaps.
+
+### 12.1 Related Work Differential (Core 8 Studies)
+- The table below summarizes one-line novelty deltas against key prior references using `RW` IDs.
+| rw_id | prior_focus | prior_gap | this_study_delta |
+| --- | --- | --- | --- |
+| RW-03 | AIS near-miss detection proxy from realized trajectory proximity. | Limited linkage to calibration-governed operational thresholding. | Combines near-miss proxy labeling with ECE-gated model/threshold governance. |
+| RW-04 | Real-time multi-vessel collision-risk surveillance architecture. | Less emphasis on cross-region transfer uncertainty and significance control. | Adds cross-region transfer CI + repeated-randomization significance appendices. |
+| RW-05 | Velocity-obstacle geometry baseline for risk candidate detection. | Geometry-first approach lacks ML calibration comparison protocol. | Presents tabular/raster ML ablation with calibration constraints and utility analysis. |
+| RW-07 | AIS feature pipeline with ML-based risk prediction feasibility. | Weak emphasis on reviewer-ready uncertainty artifact packaging. | Provides manuscript-grade uncertainty/significance/consistency artifact bundle. |
+| RW-08 | Regional quantitative AIS risk diagnostics. | Transfer-route directionality and route-specific statistical robustness underreported. | Reports route-level delta direction probability and Holm-adjusted repeated tests. |
+| RW-09 | Method taxonomy and limitation overview for maritime collision risk. | Taxonomy not tied to concrete acceptance-gated manuscript workflow. | Converts taxonomy into examiner-acceptance TODO closure matrix. |
+| RW-11 | Calibration necessity for modern predictive models. | No maritime-specific ECE governance instantiation. | Operationalizes ECE<=0.1 gate for model and threshold decision flow. |
+| RW-12 | Theoretical source-target divergence bound for transfer learning. | Theory-to-route evidence bridge is often qualitative only. | Connects divergence caution to route-level empirical transfer significance outcomes. |
 
 ## 13. Examiner-Priority TODO
 - Detailed TODO: `examiner_critical_todo_v0.2_2026-04-09.md`

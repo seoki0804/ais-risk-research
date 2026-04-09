@@ -24,4 +24,4 @@ Data source: `docs/results/2026-04-04-expanded-10seed` (raw seed rows resolved f
 
 ## Limitations
 - Region-level sample size is limited to 10 seeds.
-- Transfer-route significance remains CI-based in the current manuscript; route-level repeated randomization is a next-step item.
+- Route-level repeated-randomization companion is reported in `transfer_route_repeated_randomization_appendix_v0.2_2026-04-09.md`.
