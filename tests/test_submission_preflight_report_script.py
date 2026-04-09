@@ -50,6 +50,23 @@ class SubmissionPreflightReportScriptTest(unittest.TestCase):
                 archive.write(file_b, arcname="b.txt")
                 archive.write(manifest, arcname="manifest.txt")
 
+            scorecard = manuscript_dir / "manuscript_completion_scorecard_v0.2_2026-04-09.md"
+            scorecard.write_text(
+                "\n".join(
+                    [
+                        "# Manuscript Completion Scorecard v0.2 (2026-04-09)",
+                        "",
+                        "- Completion score: **100%** (9/9)",
+                        "- Status: **READY_FOR_SUBMISSION**",
+                        "- Consistency: `PASS`",
+                        "- Bilingual parity: `PASS`",
+                        "- Unchecked TODO count: `0`",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
             preflight_script = (
                 Path(__file__).resolve().parent.parent
                 / "examples"
@@ -83,6 +100,8 @@ class SubmissionPreflightReportScriptTest(unittest.TestCase):
             text = report.read_text(encoding="utf-8")
             self.assertIn("status: **PASS**", text)
             self.assertIn("bundle_sha256", text)
+            self.assertIn("Completion Scorecard Gate", text)
+            self.assertIn("readiness_gate: `PASS`", text)
 
 
 if __name__ == "__main__":

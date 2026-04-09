@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import subprocess
 import sys
 import zipfile
@@ -69,6 +70,47 @@ def _run_verify_script(
     )
 
 
+def _parse_completion_scorecard(path: Path) -> dict[str, object]:
+    if not path.exists():
+        return {
+            "exists": False,
+            "completion_score_pct": None,
+            "status": "MISSING",
+            "consistency": "n/a",
+            "bilingual_parity": "n/a",
+            "unchecked_todo_count": None,
+            "readiness_ok": False,
+        }
+    text = path.read_text(encoding="utf-8")
+    score_match = re.search(r"- Completion score:\s+\*\*(\d+)%\*\*", text)
+    status_match = re.search(r"- Status:\s+\*\*([A-Z_]+)\*\*", text)
+    consistency_match = re.search(r"- Consistency:\s+`([^`]+)`", text)
+    parity_match = re.search(r"- Bilingual parity:\s+`([^`]+)`", text)
+    unchecked_match = re.search(r"- Unchecked TODO count:\s+`(\d+)`", text)
+    score_value = int(score_match.group(1)) if score_match else None
+    status_value = status_match.group(1) if status_match else "UNKNOWN"
+    consistency_value = consistency_match.group(1) if consistency_match else "n/a"
+    parity_value = parity_match.group(1) if parity_match else "n/a"
+    unchecked_value = int(unchecked_match.group(1)) if unchecked_match else None
+    readiness_ok = (
+        score_value is not None
+        and score_value >= 95
+        and status_value == "READY_FOR_SUBMISSION"
+        and consistency_value == "PASS"
+        and parity_value == "PASS"
+        and unchecked_value == 0
+    )
+    return {
+        "exists": True,
+        "completion_score_pct": score_value,
+        "status": status_value,
+        "consistency": consistency_value,
+        "bilingual_parity": parity_value,
+        "unchecked_todo_count": unchecked_value,
+        "readiness_ok": readiness_ok,
+    }
+
+
 def _build_report(
     *,
     manuscript_dir: Path,
@@ -77,13 +119,17 @@ def _build_report(
     report_name: str,
     verify_proc: subprocess.CompletedProcess[str],
     root_dir: Path,
-) -> Path:
+) -> tuple[Path, bool]:
     bundle_path = manuscript_dir / bundle_name
     manifest_path = manuscript_dir / manifest_name
     report_path = manuscript_dir / report_name
+    completion_scorecard_path = manuscript_dir / "manuscript_completion_scorecard_v0.2_2026-04-09.md"
+    scorecard = _parse_completion_scorecard(completion_scorecard_path)
 
     generated_at_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    status = "PASS" if verify_proc.returncode == 0 else "FAIL"
+    readiness_ok = bool(scorecard["readiness_ok"])
+    verify_ok = verify_proc.returncode == 0
+    status = "PASS" if verify_ok and readiness_ok else "FAIL"
     bundle_sha = _sha256_file(bundle_path) if bundle_path.exists() else "missing"
     bundle_size = bundle_path.stat().st_size if bundle_path.exists() else 0
     manifest_header = _parse_manifest_header(manifest_path) if manifest_path.exists() else {}
@@ -111,6 +157,16 @@ def _build_report(
         f"- manifest_generated_at_utc: `{manifest_header.get('generated_at_utc', 'n/a')}`",
         f"- manifest_file_count: `{manifest_header.get('file_count', 'n/a')}`",
         "",
+        "## Completion Scorecard Gate",
+        f"- scorecard_path: `{completion_scorecard_path}`",
+        f"- scorecard_exists: `{scorecard['exists']}`",
+        f"- completion_score_pct: `{scorecard['completion_score_pct']}`",
+        f"- scorecard_status: `{scorecard['status']}`",
+        f"- scorecard_consistency: `{scorecard['consistency']}`",
+        f"- scorecard_bilingual_parity: `{scorecard['bilingual_parity']}`",
+        f"- scorecard_unchecked_todo_count: `{scorecard['unchecked_todo_count']}`",
+        f"- readiness_gate: `{'PASS' if readiness_ok else 'FAIL'}`",
+        "",
         "## Verification Output",
         "```text",
         verify_proc.stdout.strip(),
@@ -119,7 +175,7 @@ def _build_report(
         "",
     ]
     report_path.write_text("\n".join(report_lines), encoding="utf-8")
-    return report_path
+    return report_path, status == "PASS"
 
 
 def main() -> None:
@@ -172,7 +228,7 @@ def main() -> None:
     if verify_proc.stderr:
         print(verify_proc.stderr.rstrip(), file=sys.stderr)
 
-    report_path = _build_report(
+    report_path, overall_ok = _build_report(
         manuscript_dir=manuscript_dir,
         bundle_name=args.bundle_name,
         manifest_name=args.manifest_name,
@@ -181,7 +237,7 @@ def main() -> None:
         root_dir=root_dir,
     )
     print(f"preflight_report_path={report_path}")
-    sys.exit(verify_proc.returncode)
+    sys.exit(0 if overall_ok else 1)
 
 
 if __name__ == "__main__":
