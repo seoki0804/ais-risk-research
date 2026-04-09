@@ -62,6 +62,7 @@
 - DOCX 변환 명령: `examples/run_manuscript_docx_export_2026-04-09.sh`
 - 제출 번들 생성 명령: `examples/run_manuscript_submission_bundle_2026-04-09.sh`
 - 제출 번들 검증 명령: `examples/run_manuscript_submission_verify_2026-04-09.sh`
+- 제출 스냅샷 보관 명령: `examples/run_manuscript_submission_snapshot_2026-04-09.sh`
 - CI: `Research Validation Gate` 워크플로에서 제출 번들을 검증 후 artifact(`manuscript-submission-bundle-v0.2-2026-04-09`)로 업로드
 
 ## 사용 순서
