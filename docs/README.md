@@ -51,12 +51,14 @@
 - 영문 원고 DOCX: [manuscript_draft_v0.2_2026-04-09_en.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_en.docx)
 - 국문 원고 DOCX: [manuscript_draft_v0.2_2026-04-09_ko.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_draft_v0.2_2026-04-09_ko.docx)
 - 정합성 리포트 DOCX: [manuscript_consistency_report_v0.2_2026-04-09.docx](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/manuscript_consistency_report_v0.2_2026-04-09.docx)
+- 제출 번들 ZIP: [submission_bundle_v0.2_2026-04-09.zip](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/submission_bundle_v0.2_2026-04-09.zip)
 - 그림 인덱스: [figure_index.md](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_index.md)
 - 모델 패밀리 비교 도식(SVG): [figure_1_model_family_comparison.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_1_model_family_comparison.svg)
 - 전이 성능 히트맵(SVG): [figure_2_transfer_delta_f1_heatmap.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_2_transfer_delta_f1_heatmap.svg)
 - 연구 파이프라인 도식(SVG): [figure_3_pipeline_overview.svg](/Users/seoki/Desktop/research/docs/manuscript/v0.2_2026-04-09/figure_3_pipeline_overview.svg)
 - 생성 명령: `examples/run_manuscript_enhancement_pack_2026-04-09.sh`
 - DOCX 변환 명령: `examples/run_manuscript_docx_export_2026-04-09.sh`
+- 제출 번들 생성 명령: `examples/run_manuscript_submission_bundle_2026-04-09.sh`
 
 ## 사용 순서
 
